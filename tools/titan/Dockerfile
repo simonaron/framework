@@ -1,5 +1,7 @@
 FROM ubuntu
 
+ARG TITAN_BIN
+
 # Install dependencies
 RUN apt-get update
 RUN apt-get install curl expect g++ make -y
@@ -11,19 +13,10 @@ RUN apt-get install automake perl -y
 ENV TTCN3_DIR /home/TITAN/
 RUN mkdir $TTCN3_DIR
 
-COPY ./titan_x64.tar.gz $TTCN3_DIR/titan.tar.gz
+COPY ${TITAN_BIN} $TTCN3_DIR/titan.tar.gz
 RUN tar zxvf $TTCN3_DIR/titan.tar.gz -C $TTCN3_DIR/
 
 ENV LD_LIBRARY_PATH=/usr/lib/
 ENV PATH=$PATH:$TTCN3_DIR/bin/
 ENV OPENSSL_DIR=/usr/
 
-# Setup Project
-# COPY ./src/ /home/project/
-
-#ADD ./src/ /home/src/
-#CMD cp /home/src/ /home/project/
-#    cd /home/project/ && \
- #   ttcn3_makefilegen MyExample.ttcn PCOType.cc PCOType.hh -f && \
-  #  make && \
-   # ttcn3_start MyExample MyExample.cfg

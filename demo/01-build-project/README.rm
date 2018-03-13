@@ -1,0 +1,7 @@
+## README
+
+# BUILD
+sudo docker build . -t titan_project
+
+# RUN
+sudo docker run titan_project

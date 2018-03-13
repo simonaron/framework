@@ -1,0 +1,2 @@
+# CREATE DOCKER IMAGE WITH ARCH POSTFIX
+sudo docker build . --build-arg TITAN_BIN=titan_`arch`.tar.gz -t titan_`arch`
