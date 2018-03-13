@@ -1,7 +1,7 @@
 ## README
 
 # BUILD
-sudo docker build . -t titan_project
+sudo docker build . --build-arg ARCH=`arch` -t project_`arch`
 
 # RUN
-sudo docker run titan_project
+sudo docker run project_`arch`
