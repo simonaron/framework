@@ -5,6 +5,6 @@ FROM titan_${ARCH}
 COPY ./src/ /home/project/
 
 CMD  cd /home/project/ && \
-     ttcn3_makefilegen MyExample.ttcn PCOType.cc PCOType.hh -f && \
+     ttcn3_makefilegen MyExample.ttcn -f && \
      make && \
      ttcn3_start MyExample MyExample.cfg

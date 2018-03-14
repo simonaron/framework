@@ -1,52 +1,48 @@
-/******************************************************************************
-* Copyright (c) 2000-2017 Ericsson Telecom AB
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*   Balasko, Jeno
-*   Lovassy, Arpad
-*   Szabo, Janos Zoltan – initial implementation
-*
-******************************************************************************/
-// TTCN-3 version of "Hello, world!"
 module MyExample
 {
-type port PCOType message
-{
-  inout charstring;
-}
 
-type component MTCType
-{
-  port PCOType MyPCO;
-}
+type port MyPortType message
+{ inout charstring; } with { extension "internal" }
 
-testcase HelloW() runs on MTCType system MTCType
-{
-  map(mtc:MyPCO, system:MyPCO);
-  MyPCO.send("KISCICA!");
-  setverdict(pass);
-}
+type component MTCType { }
 
-testcase HelloW2() runs on MTCType system MTCType
-{
+type component PTCType
+{ port MyPortType MyPort; }
+
+function PeerFunction(charstring name, boolean negative) runs on PTCType {
+  log(name, " started.");
+
   timer T := 1.0;
-  map(mtc:MyPCO, system:MyPCO);
-  MyPCO.send("Hello, world!");
   T.start;
-  alt {
-    [] MyPCO.receive("Hello, TTCN-3!") { T.stop; setverdict(pass); }
-    [] T.timeout { setverdict(pass); }
-    [] MyPCO.receive { T.stop; setverdict(fail); }
+  if (negative) {
+    alt {
+      [] MyPort.receive("MESSAGE") { T.stop; setverdict(pass); }
+      [] T.timeout { setverdict(inconc); }
+      [] MyPort.receive { T.stop; setverdict(fail); }
+    }
+  } else {
+    MyPort.send("MESSAGE");
   }
+}
+
+testcase PlayCallflow() runs on MTCType system MTCType
+{
+  var PTCType A; A := PTCType.create;
+  var PTCType B; B := PTCType.create;
+  
+  connect(A:MyPort, B:MyPort);
+
+  A.start(PeerFunction("A", false));
+  B.start(PeerFunction("B", true));
+  
+  all component.done;
+  //map(mtc:MyPCO, system:MyPCO);
+  //MyPCO.send("KISCICA!");
+  //setverdict(pass);
 }
 
 control
 {
-  execute(HelloW());
-  execute(HelloW2());
+  execute(PlayCallflow());
 }
 }
