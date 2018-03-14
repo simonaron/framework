@@ -8,7 +8,5 @@ sudo docker build . --build-arg ARCH=`arch` -t project_`arch`
 sudo docker run project_`arch`
 
 # TODO
-- add simple config with callflow
 - use activate deactivate feature of TTCN-3
-- make a simple callflow
 - make some parametrized part of sended and received msg
