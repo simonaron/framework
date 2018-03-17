@@ -1,0 +1,41 @@
+version: "3"
+services:
+  mc:
+    build:
+      context: .
+      dockerfile: Dockerfile_MC
+      args:
+        ARCH: x86_64
+    networks:
+      mynetwork:
+        ipv4_address: 172.18.0.2
+  hc1:
+    build:
+      context: .
+      dockerfile: Dockerfile_HC
+      args:
+        ARCH: x86_64
+    networks:
+      mynetwork:
+        ipv4_address: 172.18.0.3
+    depends_on:
+      - mc
+  hc2:
+    build:
+      context: .
+      dockerfile: Dockerfile_HC
+      args:
+        ARCH: x86_64
+    networks:
+      mynetwork:
+        ipv4_address: 172.18.0.4
+    depends_on:
+      - hc1
+
+networks:
+  mynetwork:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.18.0.0/16
