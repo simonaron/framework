@@ -41,14 +41,14 @@ Create image store on swarm
 Enable insecure connection on hosts
   - /etc/docker/daemon.json
   - {
-      "insecure-registries" : ["192.168.50.100:5000"]
+      "insecure-registries" : ["<registry>:5000"]
     }
   - service docker restart
 
 Create HC (MC is same)
   - docker build . --build-arg ARCH=`arch` -t project_hc -f Dockerfile_HC
-  - sudo docker tag project_hc 192.168.50.100:5000/project_hc
-  - sudo docker push 192.168.50.100:5000/project_hc
+  - sudo docker tag project_hc <registry>:5000/project_hc
+  - sudo docker push <registry>:5000/project_hc
 
 ## RUN
 sudo docker stack deploy --compose-file docker-compose.yml demo
@@ -61,7 +61,7 @@ Create titan image both arch
 
 Create hc
   - docker build . --build-arg ARCH=`arch` -t project_hc -f Dockerfile_HC
-  - sudo docker tag project_hc 192.168.50.100:5000/project_hc
+  - sudo docker tag project_hc <registry>:5000/project_hc
   
 
 ## BUILD

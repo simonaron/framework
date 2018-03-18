@@ -9,4 +9,4 @@ RUN  cd /home/project/ && \
      make
 
 CMD  cd /home/project/ && \
-     ./MyExample 172.18.0.2 3000
+     ./MyExample mc 3000

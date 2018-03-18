@@ -2,36 +2,24 @@ version: "3"
 services:
   mc:
     image: 192.168.50.100:5000/project_mc
-    networks:
-      mynetwork:
-        ipv4_address: 172.18.0.2
     deploy:
       placement:
         constraints: [node.role == manager]
-    depends_on:
-      - hc1
-      - hc2
+      restart_policy:
+        condition: none
   hc1:
     image: 192.168.50.100:5000/project_hc
-    networks:
-      mynetwork:
-        ipv4_address: 172.18.0.3
-    depends_on:
-      - mc
     deploy:
       placement:
         constraints: [node.role != manager]
+      restart_policy:
+        condition: none
   hc2:
     image: 192.168.50.100:5000/project_hc
-    networks:
-      mynetwork:
-        ipv4_address: 172.18.0.4
-    depends_on:
-      - mc
     deploy:
       placement:
         constraints: [node.role != manager]
+      restart_policy:
+        condition: none
 
-networks:
-  mynetwork:
     
