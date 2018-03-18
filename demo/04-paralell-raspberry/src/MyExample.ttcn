@@ -39,8 +39,8 @@ testcase PlayCallflow() runs on MTCType system MTCType
 {
   log(tsp_callFlow);
 
-  var PTCType A; A := PTCType.create(-,"172.18.0.3");
-  var PTCType B; B := PTCType.create(-,"172.18.0.4");
+  var PTCType A; A := PTCType.create("hc1");
+  var PTCType B; B := PTCType.create("hc2");
   
   connect(A:MyPort, B:MyPort);
 

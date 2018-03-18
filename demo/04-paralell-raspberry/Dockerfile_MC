@@ -8,5 +8,9 @@ RUN  cd /home/project/ && \
      ttcn3_makefilegen MyExample.ttcn -f && \
      make
 
+#RUN apt-get install iputils-ping -y
+
+#CMD ping -c 4 hc1 && ping -c 4 hc2
 CMD  cd /home/project/ && \
      mctr MyExample.cfg
+

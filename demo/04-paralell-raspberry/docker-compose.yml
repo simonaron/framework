@@ -1,41 +1,37 @@
 version: "3"
 services:
   mc:
-    build:
-      context: .
-      dockerfile: Dockerfile_MC
-      args:
-        ARCH: x86_64
+    image: 192.168.50.100:5000/project_mc
     networks:
       mynetwork:
         ipv4_address: 172.18.0.2
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+    depends_on:
+      - hc1
+      - hc2
   hc1:
-    build:
-      context: .
-      dockerfile: Dockerfile_HC
-      args:
-        ARCH: x86_64
+    image: 192.168.50.100:5000/project_hc
     networks:
       mynetwork:
         ipv4_address: 172.18.0.3
     depends_on:
       - mc
+    deploy:
+      placement:
+        constraints: [node.role != manager]
   hc2:
-    build:
-      context: .
-      dockerfile: Dockerfile_HC
-      args:
-        ARCH: x86_64
+    image: 192.168.50.100:5000/project_hc
     networks:
       mynetwork:
         ipv4_address: 172.18.0.4
     depends_on:
-      - hc1
+      - mc
+    deploy:
+      placement:
+        constraints: [node.role != manager]
 
 networks:
   mynetwork:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.18.0.0/16
+    

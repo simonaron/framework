@@ -1,7 +1,7 @@
-## README
+# README
 Run Titan with 2 HCs (on 2 raspberry) over docker
 
-# SETTING UP DEVICES
+## SETTING UP DEVICES
 Download Raspbian Lite
   from https://www.raspberrypi.org/downloads/raspbian/
 
@@ -35,10 +35,39 @@ Create swarm
   - join the pi-s
   - check with: docker node ls
 
-# BUILD
+Create image store on swarm
+  - docker service create --with-registry-auth --name registry --publish published=5000,target=5000 registry:2
+
+Enable insecure connection on hosts
+  - /etc/docker/daemon.json
+  - {
+      "insecure-registries" : ["192.168.50.100:5000"]
+    }
+  - service docker restart
+
+Create HC (MC is same)
+  - docker build . --build-arg ARCH=`arch` -t project_hc -f Dockerfile_HC
+  - sudo docker tag project_hc 192.168.50.100:5000/project_hc
+  - sudo docker push 192.168.50.100:5000/project_hc
+
+## RUN
+sudo docker stack deploy --compose-file docker-compose.yml demo
+
+## LOG MC (uofmirvprs8w)
+sudo docker service logs uofmirvprs8w
+
+Create titan image both arch
+  - build from tools/titan (use README)
+
+Create hc
+  - docker build . --build-arg ARCH=`arch` -t project_hc -f Dockerfile_HC
+  - sudo docker tag project_hc 192.168.50.100:5000/project_hc
+  
+
+## BUILD
 Must build by hand or bash file the images on different architecture.
 
-# RUN
+## RUN
 TODO
 
-# TODO
+## TODO
