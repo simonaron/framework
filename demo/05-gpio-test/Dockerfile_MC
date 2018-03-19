@@ -5,7 +5,7 @@ FROM titan_${ARCH}
 COPY ./src/ /home/project/
 
 RUN  cd /home/project/ && \
-     ttcn3_makefilegen MyExample.ttcn -f && \
+     ttcn3_makefilegen MyExample.ttcn GPIO_Pin_Port.cc GPIO_Pin_Port.hh GPIOPinPort.ttcn -f && \
      make
 
 CMD  cd /home/project/ && \

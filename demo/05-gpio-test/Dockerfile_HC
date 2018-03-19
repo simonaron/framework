@@ -9,4 +9,5 @@ RUN  cd /home/project/ && \
      make
 
 CMD  cd /home/project/ && \
-     ttcn3_start MyExample MyExample.cfg
+#     ttcn3_start MyExample MyExample.cfg
+     ./MyExample mc 3000

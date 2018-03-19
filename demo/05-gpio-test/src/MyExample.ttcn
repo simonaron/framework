@@ -3,40 +3,47 @@ module MyExample
 import from GPIOPinPort all;
 
 
-type component GPIO {
+type component MTC { }
+
+
+type component PTCType {
 	port GPIO_Pin_Port gpio4; //single port declaration
-	//port GPIO_Pin_Port gpio[2..26]; //port array declaration
 	timer t_short;
 }
 
-testcase TC_GPIOPinTests_all_off() runs on GPIO {
-	log("Starting GPIO PIN port tests");
+function PeerFunction(charstring name, boolean negative) runs on PTCType {
+        log("Starting GPIO PIN port tests");
 	log("Mapping port");
 	
-	////Map the port, this will export the gpio	
-	//map(self:gpio[11], system:gpio[11]);
+	if(negative){
+		t_short.start(1.0);
+	        t_short.timeout;
+        }
+
 	map(self:gpio4, system:gpio4);
-	//map(self:gpio[26], system:gpio[26]);
 	t_short.start(0.1);
 	t_short.timeout;
 
-
-	
 	//Set direction on the gpio to OUT
 	var GPIO_PIN_DIRECTION gpio4_direction := OUT;
 	gpio4.send(gpio4_direction);
 
+	for(var integer i := 0; i<5; i := i + 1) {
+	
+		var GPIO_PIN_VALUE gpio4_value := HIGH;
+		gpio4.send(gpio4_value);
 
-	var GPIO_PIN_VALUE gpio4_value := HIGH;
-	gpio4.send(gpio4_value);
+		t_short.start(1.0); //send a pulse of 1 second duration ; if a lED is connected, it will flash shortly
+		t_short.timeout;
 
-	t_short.start(1.0); //send a pulse of 1 second duration ; if a lED is connected, it will flash shortly
-	t_short.timeout;
+		gpio4_value := LOW;
+		gpio4.send(gpio4_value);
 
-	gpio4_value := LOW;
-	gpio4.send(gpio4_value);
-
+		t_short.start(1.0); //send a pulse of 1 second duration ; if a lED is connected, it will flash shortly
+		t_short.timeout;
 		
+	}
+
 	//Unmap the port, this will unexport the gpio
 	log("Unmapping ports");
 	
@@ -46,10 +53,18 @@ testcase TC_GPIOPinTests_all_off() runs on GPIO {
 	
 	
 	unmap(self:gpio4, system:gpio4);
-	//unmap(self:gpio[11], system:gpio[11]);
-        //unmap(self:gpio[26], system:gpio[26]);
 	
 	setverdict(pass);
+}
+
+testcase TC_GPIOPinTests_all_off() runs on MTC {
+	  var PTCType A; A := PTCType.create("hc1");
+	  var PTCType B; B := PTCType.create("hc2");
+
+	  A.start(PeerFunction("A", false));
+	  B.start(PeerFunction("B", true));
+	  
+	  all component.done;
 }
 
 control {
