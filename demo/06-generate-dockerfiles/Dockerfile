@@ -9,6 +9,4 @@ RUN  cd /home/project/ && \
      cd ./bin/ && \
      make
 
-CMD  cd /home/project/bin/ && \
-#     ttcn3_start MyExample MyExample.cfg
-     ./MyExample mc 3000
+WORKDIR /home/project/bin/
