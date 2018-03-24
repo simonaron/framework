@@ -1,0 +1,20 @@
+version: "3"
+services:
+{% for service in services -%}
+# Service: {{service.name}}
+  {{service.name}}:
+    image: {{service.repository}}/{{service.image_name}}_{{service.arch}}
+    deploy:
+      placement:
+        constraints: [node.hostname == {{service.device}}]
+      restart_policy:
+        condition: none
+    command: {{service.command}}
+    {% if service.volumes -%}
+    volumes:
+      {% for volume in service.volumes -%}
+      - {{volume.source}}:{{volume.target}}
+      {%- endfor -%}
+    {%- endif %}
+
+{% endfor %}
