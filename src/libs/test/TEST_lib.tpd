@@ -10,10 +10,16 @@
   <ProjectName>TEST_lib</ProjectName>
   <Folders>
     <FolderResource projectRelativePath="src" relativeURI="src"/>
+    <FolderResource projectRelativePath="test" relativeURI="test"/>
   </Folders>
   <Files>
-    <FileResource projectRelativePath="src/TEST_Test.cfg" relativeURI="src/TEST_Test.cfg"/>
-    <FileResource projectRelativePath="src/TEST_Test.ttcn" relativeURI="src/TEST_Test.ttcn"/>
+    <FileResource projectRelativePath="TEST_lib.tpd" relativeURI="TEST_lib.tpd"/>
+    <FileResource projectRelativePath="src/TEST_API_Definitions.ttcn" relativeURI="src/TEST_API_Definitions.ttcn"/>
+    <FileResource projectRelativePath="src/TEST_API_Functions.ttcn" relativeURI="src/TEST_API_Functions.ttcn"/>
+    <FileResource projectRelativePath="src/TEST_Definitions.ttcn" relativeURI="src/TEST_Definitions.ttcn"/>
+    <FileResource projectRelativePath="src/TEST_Functions.ttcn" relativeURI="src/TEST_Functions.ttcn"/>
+    <FileResource projectRelativePath="test/TEST_Test.cfg" relativeURI="test/TEST_Test.cfg"/>
+    <FileResource projectRelativePath="test/TEST_Test.ttcn" relativeURI="test/TEST_Test.ttcn"/>
   </Files>
   <ActiveConfiguration>Default</ActiveConfiguration>
   <Configurations>

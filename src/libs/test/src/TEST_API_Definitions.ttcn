@@ -1,0 +1,8 @@
+module TEST_API_Definitions {
+	import from TEST_Definitions all;
+	
+	type RT_TEST_Verdict RT_TEST_API_Verdict;
+	
+	type CT_TEST_Subject CT_TEST_API_Subject;
+	type CT_TEST_Watcher CT_TEST_API_Watcher;
+}

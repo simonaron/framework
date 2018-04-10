@@ -1,0 +1,37 @@
+module TEST_API_Functions {
+	import from TEST_API_Definitions all;
+	import from TEST_Functions all;
+	
+	function f_TEST_API_watch(CT_TEST_API_Subject new_subject) runs on CT_TEST_API_Watcher {
+		f_TEST_watch(new_subject);
+	}
+	
+	function f_TEST_API_setverdict(verdicttype new_verdict, charstring new_reason) runs on CT_TEST_API_Subject {
+	  	f_TEST_setverdict(new_verdict, new_reason);
+	}
+	
+	function f_TEST_API_getverdict(verdicttype expected_verdict, charstring expected_reason) runs on CT_TEST_API_Watcher {
+	  	f_TEST_getverdict(expected_verdict, expected_reason);
+	}
+	
+	function f_TEST_API_Watcher(float new_watchTimeout := 5.0) runs on CT_TEST_API_Watcher {
+	 	f_TEST_Watcher(new_watchTimeout);
+	}
+	
+	function f_TEST_API_UnitTest_Start(charstring testcase_name) {
+	  log("");
+	  log("#############################################################################################");
+	  log("# UNIT (",testcase_name,") TEST STARTED");
+	  log("---------------------------------------------------------------------------------------------");
+	  log("");
+	}
+	
+	function f_TEST_API_UnitTest_Finished() {
+	  log("");
+	  log("---------------------------------------------------------------------------------------------");
+	  log("# UNIT TEST FINISHED");
+	  log("---------------------------------------------------------------------------------------------");
+	  log("#### SUMMARY ################################################################################");
+	  log("");
+	}
+}
