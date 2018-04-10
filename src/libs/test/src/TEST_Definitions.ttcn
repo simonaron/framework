@@ -1,0 +1,24 @@
+module TEST_Definitions {
+	type record RT_TEST_Verdict {
+	  verdicttype verdict,
+	  charstring reason
+	}
+	
+	type port PT_TEST_VerdictOut message { out RT_TEST_Verdict } with { extension "internal" }
+	type port PT_TEST_VerdictIn message { in RT_TEST_Verdict } with { extension "internal" }
+	
+	type enumerated CT_TEST_SubjectMode {
+		TEST,
+		LIVE
+	}
+	
+	type component CT_TEST_Subject {
+		var CT_TEST_SubjectMode mode := LIVE;
+	  	port PT_TEST_VerdictOut watcher;
+	}
+	
+	type component CT_TEST_Watcher extends CT_TEST_Subject {
+	  	timer watchTimeout;
+	  	port PT_TEST_VerdictIn subject;
+	}
+}
