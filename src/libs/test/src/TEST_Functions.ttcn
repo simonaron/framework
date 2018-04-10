@@ -1,17 +1,17 @@
 module TEST_Functions {
 	import from TEST_Definitions all;
 
-	function f_TEST_subscribeWatcher(CT_TEST_Watcher new_watcher) runs on CT_TEST_Subject {
+	function f_TEST_Subject_subscribeWatcher(CT_TEST_Watcher new_watcher) runs on CT_TEST_Subject {
 	    connect(self:watcher, new_watcher:subject);
 	    mode := TEST;
 	}
 	
-	function f_TEST_watch(CT_TEST_Subject new_subject) runs on CT_TEST_Watcher {
-	   new_subject.start(f_TEST_subscribeWatcher(self));
+	function f_TEST_Watcher_watch(CT_TEST_Subject new_subject) runs on CT_TEST_Watcher {
+	   new_subject.start(f_TEST_Subject_subscribeWatcher(self));
 	   new_subject.done;
 	}
 	
-	function f_TEST_setverdict(verdicttype new_verdict, charstring new_reason) runs on CT_TEST_Subject {
+	function f_TEST_Subject_setverdict(verdicttype new_verdict, charstring new_reason) runs on CT_TEST_Subject {
 	  	if (mode == TEST) {
 	  	  watcher.send({verdict:= new_verdict, reason:= new_reason});
 	  	} else if (mode == LIVE) {
@@ -20,28 +20,28 @@ module TEST_Functions {
 	  	}
 	}
 	
-	function f_TEST_getverdict(verdicttype expected_verdict, charstring expected_reason) runs on CT_TEST_Watcher {
+	function f_TEST_Watcher_getverdict(verdicttype expected_verdict, charstring expected_reason) runs on CT_TEST_Watcher {
 	  	var RT_TEST_Verdict receivedVerdict;
 	  	var RT_TEST_Verdict expectedVerdict := {verdict:= expected_verdict, reason:= expected_reason};
 
 	  	alt {
 	  	  	[] subject.receive(expectedVerdict) -> value receivedVerdict {
-	  	  		f_TEST_setverdict(pass, log2str("( pass )  Expected verdict received: ", receivedVerdict));
+	  	  		f_TEST_Subject_setverdict(pass, log2str("( pass )  Expected verdict received: ", receivedVerdict));
 	  	  	}
 	  	  	[] subject.receive(RT_TEST_Verdict: ?) -> value receivedVerdict {
-	  	  	    f_TEST_setverdict(fail, log2str("( fail )  Unexpected verdict received: ", receivedVerdict, " - Expected: ", expectedVerdict));
+	  	  	    f_TEST_Subject_setverdict(fail, log2str("( fail )  Unexpected verdict received: ", receivedVerdict, " - Expected: ", expectedVerdict));
 	  	  	}
 	  	}
 	}
 	
-	altstep f_TEST_timeout() runs on CT_TEST_Watcher {
+	altstep f_TEST_Watcher_timeout() runs on CT_TEST_Watcher {
 		[] watchTimeout.timeout {
 		  action("timeout");
 		}
 	}
 	
-	function f_TEST_Watcher(float new_watchTimeout := 5.0) runs on CT_TEST_Watcher {
+	function f_TEST_Watcher_watcher(float new_watchTimeout := 5.0) runs on CT_TEST_Watcher {
 	 	watchTimeout.start(new_watchTimeout);
-	  	activate(f_TEST_timeout());
+	  	activate(f_TEST_Watcher_timeout());
 	}
 }

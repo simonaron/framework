@@ -12,7 +12,7 @@ module TEST_Test {
 	  var CT_TEST_Subject ct_subject := CT_TEST_Subject.create alive;
 	  f_TEST_API_watch(ct_subject);
 	  
-	  ct_subject.start(f_TEST_setverdict(pass, "OK"));
+	  ct_subject.start(f_TEST_Subject_setverdict(pass, "OK"));
 	  ct_subject.done;
 	  f_TEST_API_getverdict(pass, "OK");
 	  
@@ -26,7 +26,7 @@ module TEST_Test {
 	  var CT_TEST_Subject ct_subject := CT_TEST_Subject.create alive;
 	  f_TEST_API_watch(ct_subject);
 	  
-	  ct_subject.start(f_TEST_setverdict(inconc, "OK"));
+	  ct_subject.start(f_TEST_Subject_setverdict(inconc, "OK"));
 	  ct_subject.done;
 	  f_TEST_API_getverdict(inconc, "OK");
 	  
@@ -40,7 +40,7 @@ module TEST_Test {
 	  var CT_TEST_Subject ct_subject := CT_TEST_Subject.create alive;
 	  f_TEST_API_watch(ct_subject);
 	  
-	  ct_subject.start(f_TEST_setverdict(fail, "NOT OK"));
+	  ct_subject.start(f_TEST_Subject_setverdict(fail, "NOT OK"));
 	  ct_subject.done;
 	  f_TEST_API_getverdict(fail, "NOT OK");
 	  
@@ -54,15 +54,15 @@ module TEST_Test {
 	  var CT_TEST_Subject ct_subject := CT_TEST_Subject.create alive;
 	  f_TEST_API_watch(ct_subject);
 	  
-	  ct_subject.start(f_TEST_setverdict(fail, "NOT OK"));
+	  ct_subject.start(f_TEST_Subject_setverdict(fail, "NOT OK"));
 	  ct_subject.done;
 	  f_TEST_API_getverdict(fail, "NOT OK");
 	  
-	  ct_subject.start(f_TEST_setverdict(inconc, "OK"));
+	  ct_subject.start(f_TEST_Subject_setverdict(inconc, "OK"));
 	  ct_subject.done;
 	  f_TEST_API_getverdict(inconc, "OK");
 	  
-	  ct_subject.start(f_TEST_setverdict(fail, "NOT OK"));
+	  ct_subject.start(f_TEST_Subject_setverdict(fail, "NOT OK"));
 	  ct_subject.done;
 	  f_TEST_API_getverdict(fail, "NOT OK");
 	  
@@ -77,11 +77,11 @@ module TEST_Test {
 	  f_TEST_API_watch(ct_watcher);
 	  
 	  var CT_TEST_Subject ct_subject := CT_TEST_Subject.create alive;
-	  ct_watcher.start(f_TEST_watch(ct_subject));
+	  ct_watcher.start(f_TEST_Watcher_watch(ct_subject));
 	  ct_watcher.done;
-	  ct_subject.start(f_TEST_setverdict(fail, "NOT OK"));
+	  ct_subject.start(f_TEST_Subject_setverdict(fail, "NOT OK"));
 	  ct_subject.done;
-	  ct_watcher.start(f_TEST_getverdict(pass, "OK"));
+	  ct_watcher.start(f_TEST_Watcher_getverdict(pass, "OK"));
 	  ct_watcher.done;
 	  f_TEST_API_getverdict(
 	  	fail, log2str(
@@ -101,11 +101,11 @@ module TEST_Test {
 	  f_TEST_API_watch(ct_watcher);
 	  
 	  var CT_TEST_Subject ct_subject := CT_TEST_Subject.create alive;
-	  ct_watcher.start(f_TEST_watch(ct_subject));
+	  ct_watcher.start(f_TEST_Watcher_watch(ct_subject));
 	  ct_watcher.done;
-	  ct_subject.start(f_TEST_setverdict(fail, "NOT OK"));
+	  ct_subject.start(f_TEST_Subject_setverdict(fail, "NOT OK"));
 	  ct_subject.done;
-	  ct_watcher.start(f_TEST_getverdict(fail, "NOT OK"));
+	  ct_watcher.start(f_TEST_Watcher_getverdict(fail, "NOT OK"));
 	  ct_watcher.done;
 	  f_TEST_API_getverdict(
 	  	pass, log2str(
