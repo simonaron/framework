@@ -1,14 +1,11 @@
 module TEST_Functions {
 	import from TEST_Definitions all;
 
+	// SUBJECT FUNCTIONS
+	
 	function f_TEST_Subject_subscribeWatcher(CT_TEST_Watcher new_watcher) runs on CT_TEST_Subject {
 	    connect(self:watcher, new_watcher:subject);
 	    mode := TEST;
-	}
-	
-	function f_TEST_Watcher_watch(CT_TEST_Subject new_subject) runs on CT_TEST_Watcher {
-	   new_subject.start(f_TEST_Subject_subscribeWatcher(self));
-	   new_subject.done;
 	}
 	
 	function f_TEST_Subject_setverdict(verdicttype new_verdict, charstring new_reason) runs on CT_TEST_Subject {
@@ -20,10 +17,19 @@ module TEST_Functions {
 	  	}
 	}
 	
-	function f_TEST_Watcher_getverdict(verdicttype expected_verdict, charstring expected_reason) runs on CT_TEST_Watcher {
+	// WATCHER FUNCTIONS
+	
+	function f_TEST_Watcher_watch(CT_TEST_Subject new_subject) runs on CT_TEST_Watcher {
+	   new_subject.start(f_TEST_Subject_subscribeWatcher(self));
+	   new_subject.done;
+	}
+	
+	function f_TEST_Watcher_getverdict(verdicttype expected_verdict, charstring expected_reason, float new_timeout := 1.0) runs on CT_TEST_Watcher {
 	  	var RT_TEST_Verdict receivedVerdict;
 	  	var RT_TEST_Verdict expectedVerdict := {verdict:= expected_verdict, reason:= expected_reason};
 
+		timer receive_timer := new_timeout;
+		receive_timer.start;
 	  	alt {
 	  	  	[] subject.receive(expectedVerdict) -> value receivedVerdict {
 	  	  		f_TEST_Subject_setverdict(pass, log2str("( pass )  Expected verdict received: ", receivedVerdict));
@@ -31,17 +37,9 @@ module TEST_Functions {
 	  	  	[] subject.receive(RT_TEST_Verdict: ?) -> value receivedVerdict {
 	  	  	    f_TEST_Subject_setverdict(fail, log2str("( fail )  Unexpected verdict received: ", receivedVerdict, " - Expected: ", expectedVerdict));
 	  	  	}
+	  	  	[] receive_timer.timeout {
+	  	  	  	f_TEST_Subject_setverdict(inconc, "( inconc )  Receive verdict timeout.");
+	  	  	}
 	  	}
-	}
-	
-	altstep f_TEST_Watcher_timeout() runs on CT_TEST_Watcher {
-		[] watchTimeout.timeout {
-		  action("timeout");
-		}
-	}
-	
-	function f_TEST_Watcher_watcher(float new_watchTimeout := 5.0) runs on CT_TEST_Watcher {
-	 	watchTimeout.start(new_watchTimeout);
-	  	activate(f_TEST_Watcher_timeout());
 	}
 }

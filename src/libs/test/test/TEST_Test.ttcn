@@ -7,74 +7,69 @@ module TEST_Test {
 		
 	testcase tc_TEST_UnitTest__Subject__expexted_pass__receive_pass() runs on CT_TEST_API_Watcher {
 	  f_TEST_API_UnitTest_Start("tc_TEST_UnitTest__Subject__expexted_pass__receive_pass");
-	  f_TEST_API_Watcher();
 	  
 	  var CT_TEST_Subject ct_subject := CT_TEST_Subject.create alive;
-	  f_TEST_API_watch(ct_subject);
+	  f_TEST_API_Watcher_watch(ct_subject);
 	  
 	  ct_subject.start(f_TEST_Subject_setverdict(pass, "OK"));
 	  ct_subject.done;
-	  f_TEST_API_getverdict(pass, "OK");
+	  f_TEST_API_Watcher_getverdict(pass, "OK");
 	  
 	  f_TEST_API_UnitTest_Finished();
 	}
 	
 	testcase tc_TEST_UnitTest__Subject__expexted_inconc__receive_inconc() runs on CT_TEST_API_Watcher {
 	  f_TEST_API_UnitTest_Start("tc_TEST_UnitTest__Subject__expexted_inconc__receive_inconc");
-	  f_TEST_API_Watcher();
 	  
 	  var CT_TEST_Subject ct_subject := CT_TEST_Subject.create alive;
-	  f_TEST_API_watch(ct_subject);
+	  f_TEST_API_Watcher_watch(ct_subject);
 	  
 	  ct_subject.start(f_TEST_Subject_setverdict(inconc, "OK"));
 	  ct_subject.done;
-	  f_TEST_API_getverdict(inconc, "OK");
+	  f_TEST_API_Watcher_getverdict(inconc, "OK");
 	  
 	  f_TEST_API_UnitTest_Finished();
 	}
 	
 	testcase tc_TEST_UnitTest__Subject__expexted_fail__receive_fail() runs on CT_TEST_API_Watcher {
 	  f_TEST_API_UnitTest_Start("tc_TEST_UnitTest__Subject__expexted_fail__receive_fail");
-	  f_TEST_API_Watcher();
 	  
 	  var CT_TEST_Subject ct_subject := CT_TEST_Subject.create alive;
-	  f_TEST_API_watch(ct_subject);
+	  f_TEST_API_Watcher_watch(ct_subject);
 	  
 	  ct_subject.start(f_TEST_Subject_setverdict(fail, "NOT OK"));
 	  ct_subject.done;
-	  f_TEST_API_getverdict(fail, "NOT OK");
+	  f_TEST_API_Watcher_getverdict(fail, "NOT OK");
 	  
 	  f_TEST_API_UnitTest_Finished();
 	}
 	
 	testcase tc_TEST_UnitTest__Subject__receive_more_expected() runs on CT_TEST_API_Watcher {
 	  f_TEST_API_UnitTest_Start("tc_TEST_UnitTest__Subject__receive_more_expected");
-	  f_TEST_API_Watcher();
 	  
 	  var CT_TEST_Subject ct_subject := CT_TEST_Subject.create alive;
-	  f_TEST_API_watch(ct_subject);
+	  f_TEST_API_Watcher_watch(ct_subject);
 	  
 	  ct_subject.start(f_TEST_Subject_setverdict(fail, "NOT OK"));
 	  ct_subject.done;
-	  f_TEST_API_getverdict(fail, "NOT OK");
+	  f_TEST_API_Watcher_getverdict(fail, "NOT OK");
 	  
 	  ct_subject.start(f_TEST_Subject_setverdict(inconc, "OK"));
 	  ct_subject.done;
-	  f_TEST_API_getverdict(inconc, "OK");
+	  f_TEST_API_Watcher_getverdict(inconc, "OK");
 	  
 	  ct_subject.start(f_TEST_Subject_setverdict(fail, "NOT OK"));
 	  ct_subject.done;
-	  f_TEST_API_getverdict(fail, "NOT OK");
+	  f_TEST_API_Watcher_getverdict(fail, "NOT OK");
 	  
 	  f_TEST_API_UnitTest_Finished();
 	}
 	
 	testcase tc_TEST_UnitTest__Watcher__not_expected_receive() runs on CT_TEST_API_Watcher {
-	  f_TEST_API_UnitTest_Start("tc_TEST_UnitTest__Watcher__not_expected_receive")
-	  f_TEST_API_Watcher();
+	  f_TEST_API_UnitTest_Start("tc_TEST_UnitTest__Watcher__not_expected_receive");
 	  
 	  var CT_TEST_Watcher ct_watcher := CT_TEST_Watcher.create alive;
-	  f_TEST_API_watch(ct_watcher);
+	  f_TEST_API_Watcher_watch(ct_watcher);
 	  
 	  var CT_TEST_Subject ct_subject := CT_TEST_Subject.create alive;
 	  ct_watcher.start(f_TEST_Watcher_watch(ct_subject));
@@ -83,7 +78,7 @@ module TEST_Test {
 	  ct_subject.done;
 	  ct_watcher.start(f_TEST_Watcher_getverdict(pass, "OK"));
 	  ct_watcher.done;
-	  f_TEST_API_getverdict(
+	  f_TEST_API_Watcher_getverdict(
 	  	fail, log2str(
 	  		"( fail )  Unexpected verdict received: ", RT_TEST_Verdict:{verdict:= fail, reason:= "NOT OK"},
 	  			   " - Expected: ", 				   RT_TEST_Verdict:{verdict:= pass, reason:= "OK"}
@@ -94,11 +89,10 @@ module TEST_Test {
 	}
 	
 	testcase tc_TEST_UnitTest__Watcher__expected_receive() runs on CT_TEST_API_Watcher {
-	  f_TEST_API_UnitTest_Start("tc_TEST_UnitTest__Watcher__expected_receive")
-	  f_TEST_API_Watcher();
+	  f_TEST_API_UnitTest_Start("tc_TEST_UnitTest__Watcher__expected_receive");
 	  
 	  var CT_TEST_Watcher ct_watcher := CT_TEST_Watcher.create alive;
-	  f_TEST_API_watch(ct_watcher);
+	  f_TEST_API_Watcher_watch(ct_watcher);
 	  
 	  var CT_TEST_Subject ct_subject := CT_TEST_Subject.create alive;
 	  ct_watcher.start(f_TEST_Watcher_watch(ct_subject));
@@ -107,10 +101,28 @@ module TEST_Test {
 	  ct_subject.done;
 	  ct_watcher.start(f_TEST_Watcher_getverdict(fail, "NOT OK"));
 	  ct_watcher.done;
-	  f_TEST_API_getverdict(
+	  f_TEST_API_Watcher_getverdict(
 	  	pass, log2str(
 	  		"( pass )  Expected verdict received: ", RT_TEST_Verdict:{verdict:= fail, reason:= "NOT OK"}
 	  	)
+	  );
+	  
+	  f_TEST_API_UnitTest_Finished();
+	}
+	
+	testcase tc_TEST_UnitTest__Watcher__receive_timeout() runs on CT_TEST_API_Watcher {
+	  f_TEST_API_UnitTest_Start("tc_TEST_UnitTest__Watcher__receive_timeout");
+	  
+	  var CT_TEST_Watcher ct_watcher := CT_TEST_Watcher.create alive;
+	  f_TEST_API_Watcher_watch(ct_watcher);
+	  
+	  var CT_TEST_Subject ct_subject := CT_TEST_Subject.create alive;
+	  ct_watcher.start(f_TEST_Watcher_watch(ct_subject));
+	  ct_watcher.done;
+	  ct_watcher.start(f_TEST_Watcher_getverdict(fail, "NOT OK", 0.1));
+	  ct_watcher.done;
+	  f_TEST_API_Watcher_getverdict(
+	  	inconc, "( inconc )  Receive verdict timeout."
 	  );
 	  
 	  f_TEST_API_UnitTest_Finished();
@@ -124,6 +136,7 @@ module TEST_Test {
 	  
 	  execute(tc_TEST_UnitTest__Watcher__not_expected_receive())
 	  execute(tc_TEST_UnitTest__Watcher__expected_receive())
+	  execute(tc_TEST_UnitTest__Watcher__receive_timeout())
 	}
 	
 }
