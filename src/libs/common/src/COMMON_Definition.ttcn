@@ -3,8 +3,8 @@ module COMMON_Definition {
 
 	type component CT_COMMON_SHARED_Owner { }
 	type component CT_COMMON_SHARED_Member extends CT_TEST_API_Subject {
-	  var RT_COMMON_SHARED_OwnerSet killOwnerSet;
-	  var RT_COMMON_SHARED_OwnerSet doneOwnerSet;
+	  var RT_COMMON_SHARED_OwnerSet killOwnerSet := {};
+	  var RT_COMMON_SHARED_OwnerSet doneOwnerSet := {};
 	}
 	
 	type record RT_COMMON_SHARED_Owner {

@@ -1,10 +1,61 @@
 module COMMON_Test {
-	import from TEST_Definitions all;
+	import from TEST_API_Definitions all;
+	import from TEST_API_Functions all;
 	
 	import from COMMON_Definition all;
 	import from COMMON_Function all;
 	
-	control {
+	// DUMMIES
+	
+	type component CT_DUMMY extends CT_COMMON_SHARED_Owner { }
+	function f_dummy() runs on CT_DUMMY { }
+	function f_dummy_delay() runs on CT_COMMON_SHARED_Member { timer t; t.start(10.0); t.timeout; }
+	
+	// TEST CASES
+	
+	testcase tc_COMMON_SHARED_UnitTest__Member__doneOwner_done_then_member_done() runs on CT_TEST_API_Watcher {
+	  f_TEST_API_UnitTest_Start();
 	  
+	  var CT_COMMON_SHARED_Member ct_member := CT_COMMON_SHARED_Member.create alive;
+	  var CT_DUMMY ct_dummy_owner := CT_DUMMY.create;
+	  
+	  f_TEST_API_Watcher_watch(ct_member);
+	  ct_member.start(f_COMMON_SHARED_Member_addDoneOwner(ct_dummy_owner));
+	  ct_member.done;
+	  ct_member.start(f_dummy_delay());
+	  ct_dummy_owner.start(f_dummy());
+	  ct_dummy_owner.done;
+	  f_TEST_API_Watcher_getverdict(pass, "The last owner was left.", 1.0);
+	  
+	  f_TEST_API_UnitTest_Finished();
+	}
+	
+	testcase tc_COMMON_SHARED_UnitTest__Member__2_doneOwner() runs on CT_TEST_API_Watcher {
+	  f_TEST_API_UnitTest_Start();
+	  
+	  var CT_COMMON_SHARED_Member ct_member := CT_COMMON_SHARED_Member.create alive;
+	  var CT_DUMMY ct_dummy_owner1 := CT_DUMMY.create;
+	  var CT_DUMMY ct_dummy_owner2 := CT_DUMMY.create;
+	  
+	  f_TEST_API_Watcher_watch(ct_member);
+	  ct_member.start(f_COMMON_SHARED_Member_addDoneOwner(ct_dummy_owner1));
+	  ct_member.done;
+	  ct_member.start(f_COMMON_SHARED_Member_addDoneOwner(ct_dummy_owner2));
+	  ct_member.done;
+	  ct_member.start(f_dummy_delay());
+	  ct_dummy_owner1.start(f_dummy());
+	  ct_dummy_owner1.done;
+	  f_TEST_API_Watcher_getverdict(pass, "Still have owner.", 1.0);
+	  ct_dummy_owner2.start(f_dummy());
+	  ct_dummy_owner2.done;
+	  f_TEST_API_Watcher_getverdict(pass, "The last owner was left.", 1.0);
+	  
+	  f_TEST_API_UnitTest_Finished();
+	}
+	
+	control {
+	  	execute(tc_COMMON_SHARED_UnitTest__Member__doneOwner_done_then_member_done());
+	  	execute(tc_COMMON_SHARED_UnitTest__Member__2_doneOwner());
+	  	// TODO KILL AND KILL WITH DONE
 	}
 }

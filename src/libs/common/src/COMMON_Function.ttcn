@@ -67,6 +67,12 @@ module COMMON_Function {
 	function f_COMMON_SHARED_Member_addKillOwner (CT_COMMON_SHARED_Owner new_owner)
 	runs on CT_COMMON_SHARED_Member {
 	  	var default new_default := activate(a_COMMON_SHARED_Member_subscribeKillOwner(new_owner));
-	  	killOwnerSet := killOwnerSet & {{owner := new_owner, ownerDefault := new_default}}; 
+	  	killOwnerSet[sizeof(killOwnerSet)] := {owner := new_owner, ownerDefault := new_default}; 
+	}
+	
+	function f_COMMON_SHARED_Member_addDoneOwner (CT_COMMON_SHARED_Owner new_owner)
+	runs on CT_COMMON_SHARED_Member {
+	  	var default new_default := activate(a_COMMON_SHARED_Member_subscribeDoneOwner(new_owner));
+	  	doneOwnerSet[sizeof(doneOwnerSet)] := {owner := new_owner, ownerDefault := new_default}; 
 	}
 }
