@@ -1,0 +1,10 @@
+module COMMON_Test {
+	import from TEST_Definitions all;
+	
+	import from COMMON_Definition all;
+	import from COMMON_Function all;
+	
+	control {
+	  
+	}
+}

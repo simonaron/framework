@@ -1,0 +1,17 @@
+module COMMON_Definition {
+	import from TEST_API_Definitions all;
+
+	type component CT_COMMON_SHARED_Owner { }
+	type component CT_COMMON_SHARED_Member extends CT_TEST_API_Subject {
+	  var RT_COMMON_SHARED_OwnerSet killOwnerSet;
+	  var RT_COMMON_SHARED_OwnerSet doneOwnerSet;
+	}
+	
+	type record RT_COMMON_SHARED_Owner {
+	  CT_COMMON_SHARED_Owner owner,
+	  default ownerDefault
+	}
+	
+	type set of RT_COMMON_SHARED_Owner RT_COMMON_SHARED_OwnerSet;
+		
+}

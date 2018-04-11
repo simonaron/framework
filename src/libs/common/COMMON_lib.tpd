@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TITAN_Project_File_Information version="1.0">
+<!--
+ Copyright (c) 2000-2017 Ericsson Telecom AB
+ All rights reserved. This program and the accompanying materials
+ are made available under the terms of the Eclipse Public License v1.0
+ which accompanies this distribution, and is available at
+ http://www.eclipse.org/legal/epl-v10.html
+-->
+  <ProjectName>COMMON_lib</ProjectName>
+  <ReferencedProjects>
+    <ReferencedProject name="TEST_lib" projectLocationURI="../test/TEST_lib.tpd"/>
+  </ReferencedProjects>
+  <Folders>
+    <FolderResource projectRelativePath="src" relativeURI="src"/>
+    <FolderResource projectRelativePath="test" relativeURI="test"/>
+  </Folders>
+  <Files>
+    <FileResource projectRelativePath="COMMON_lib.tpd" relativeURI="COMMON_lib.tpd"/>
+    <FileResource projectRelativePath="src/COMMON_API_Definitions.ttcn" relativeURI="src/COMMON_API_Definitions.ttcn"/>
+    <FileResource projectRelativePath="src/COMMON_API_Functions.ttcn" relativeURI="src/COMMON_API_Functions.ttcn"/>
+    <FileResource projectRelativePath="src/COMMON_Definition.ttcn" relativeURI="src/COMMON_Definition.ttcn"/>
+    <FileResource projectRelativePath="src/COMMON_Function.ttcn" relativeURI="src/COMMON_Function.ttcn"/>
+    <FileResource projectRelativePath="test/COMMON_Test.cfg" relativeURI="test/COMMON_Test.cfg"/>
+    <FileResource projectRelativePath="test/COMMON_Test.ttcn" relativeURI="test/COMMON_Test.ttcn"/>
+  </Files>
+  <ActiveConfiguration>Default</ActiveConfiguration>
+  <Configurations>
+    <Configuration name="Default">
+      <ProjectProperties>
+        <MakefileSettings>
+          <generateInternalMakefile>false</generateInternalMakefile>
+          <symboliclinklessBuild>false</symboliclinklessBuild>
+          <GNUMake>false</GNUMake>
+          <incrementalDependencyRefresh>false</incrementalDependencyRefresh>
+          <targetExecutable>bin\COMMON_lib.exe</targetExecutable>
+        </MakefileSettings>
+        <LocalBuildSettings>
+          <workingDirectory>bin</workingDirectory>
+        </LocalBuildSettings>
+      </ProjectProperties>
+    </Configuration>
+  </Configurations>
+</TITAN_Project_File_Information>

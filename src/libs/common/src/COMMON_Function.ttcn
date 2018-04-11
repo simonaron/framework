@@ -1,0 +1,72 @@
+module COMMON_Function {
+	import from COMMON_Definition all;
+	import from TEST_API_Functions all;
+
+
+	function f_COMMON_SHARED_Member_getOwnerDefault(CT_COMMON_SHARED_Owner the_owner)
+	runs on CT_COMMON_SHARED_Member
+	return default {
+	  	for (var integer i := 0; i < sizeof(killOwnerSet); i := i + 1) {
+	    	if(killOwnerSet[i].owner == the_owner) {
+	      		return killOwnerSet[i].ownerDefault;
+	    	}
+	  	}
+	  	for (var integer i := 0; i < sizeof(doneOwnerSet); i := i + 1) {
+	   	 	if(doneOwnerSet[i].owner == the_owner) {
+	      		return doneOwnerSet[i].ownerDefault;
+	    	}
+	  	}
+	  	return null;
+	}
+	
+	function f_COMMON_SHARED_Member_isAnyActiveOwner()
+	runs on CT_COMMON_SHARED_Member
+	return boolean {
+	  	var boolean inAnyActiveOwner := false;
+	    for (var integer i := 0; i < sizeof(killOwnerSet); i := i + 1) {
+    	    if(killOwnerSet[i].owner.alive) {
+    	      	inAnyActiveOwner := true;
+    	    }
+    	}
+    	for (var integer i := 0; i < sizeof(doneOwnerSet); i := i + 1) {
+    	    if(doneOwnerSet[i].owner.alive) {
+    	      	inAnyActiveOwner := true;
+    	    }
+    	}
+    	return inAnyActiveOwner;
+	}
+	
+	altstep  a_COMMON_SHARED_Member_subscribeKillOwner (CT_COMMON_SHARED_Owner new_owner)
+	runs on CT_COMMON_SHARED_Member {
+	  	[] new_owner.killed {
+	    	deactivate(f_COMMON_SHARED_Member_getOwnerDefault(new_owner));
+    	
+    		if(f_COMMON_SHARED_Member_isAnyActiveOwner() == false) {
+    	  		f_TEST_API_Subject_setverdict(pass, "The last owner was left.");
+    		} else {
+    	  		f_TEST_API_Subject_setverdict(pass, "Still have owner.");
+    	  		repeat;
+    		}
+	  	}
+	}
+	
+	altstep  a_COMMON_SHARED_Member_subscribeDoneOwner (CT_COMMON_SHARED_Owner new_owner)
+	runs on CT_COMMON_SHARED_Member {
+	  	[] new_owner.done {
+	    	deactivate(f_COMMON_SHARED_Member_getOwnerDefault(new_owner));
+    	
+    		if(f_COMMON_SHARED_Member_isAnyActiveOwner() == false) {
+    	  		f_TEST_API_Subject_setverdict(pass, "The last owner was left.");
+    		} else {
+    	  		f_TEST_API_Subject_setverdict(pass, "Still have owner.");
+    	  		repeat;
+    		}
+	 	}
+	}
+	
+	function f_COMMON_SHARED_Member_addKillOwner (CT_COMMON_SHARED_Owner new_owner)
+	runs on CT_COMMON_SHARED_Member {
+	  	var default new_default := activate(a_COMMON_SHARED_Member_subscribeKillOwner(new_owner));
+	  	killOwnerSet := killOwnerSet & {{owner := new_owner, ownerDefault := new_default}}; 
+	}
+}
