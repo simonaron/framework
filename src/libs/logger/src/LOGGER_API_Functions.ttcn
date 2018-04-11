@@ -1,3 +1,24 @@
 module LOGGER_API_Functions {
+	import from LOGGER_API_Definitions all;
+	import from LOGGER_Functions all;
 
+	// CLIENT FUNCTIONS
+	
+	function f_LOGGER_API_Client_connectServer (CT_LOGGER_API_Server new_server)
+	runs on CT_LOGGER_API_Client {
+		f_LOGGER_Client_connectServer(new_server);
+	}
+	
+	// TEXT CLIENT FUNCTIONS
+	
+	function f_LOGGER_API_TextClient_send (charstring new_message)
+	runs on CT_LOGGER_API_TextClient {
+	 	f_LOGGER_TextClient_send(new_message);
+	}
+	
+	// ACTION TEXT SERVER FUNCTIONS
+	function f_LOGGER_API_ActionTextServer()
+	runs on CT_LOGGER_API_TextServer {
+	  	f_LOGGER_ActionTextServer();
+	} 
 }

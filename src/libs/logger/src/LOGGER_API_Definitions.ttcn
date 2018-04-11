@@ -1,3 +1,12 @@
 module LOGGER_API_Definitions {
-
+	import from LOGGER_Definitions all;
+	
+	type UT_LOGGER_Message UT_LOGGER_API_Message;
+	
+	type CT_LOGGER_Client CT_LOGGER_API_Client;
+	type CT_LOGGER_Server CT_LOGGER_API_Server;
+	
+	// TEXT LOGGER
+	type CT_LOGGER_TextClient CT_LOGGER_API_TextClient;
+	type CT_LOGGER_TextServer CT_LOGGER_API_TextServer;
 }

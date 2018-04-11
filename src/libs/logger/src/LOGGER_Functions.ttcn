@@ -37,20 +37,12 @@ module LOGGER_Functions {
 	
 	// ACTION TEXT SERVER FUNCTIONS
 	function f_LOGGER_ActionTextServer() runs on CT_LOGGER_TextServer {
-	  timer t := 1.0;
-	  t.start;
-	  	
 	  alt {
 	    [] client.check {
 	      var charstring textMessage := f_LOGGER_TextServer_reveive();
 	      action(textMessage);
 	      repeat;
 	    }
-	    [] t.timeout {
-		   	t.start(1.0); 
-		   	log("TICK")
-		   	repeat;
-		}
 	  }
 	} 
 	

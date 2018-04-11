@@ -17,6 +17,8 @@
   </Folders>
   <Files>
     <FileResource projectRelativePath="LOGGER_lib.tpd" relativeURI="LOGGER_lib.tpd"/>
+    <FileResource projectRelativePath="src/LOGGER_API_Definitions.ttcn" relativeURI="src/LOGGER_API_Definitions.ttcn"/>
+    <FileResource projectRelativePath="src/LOGGER_API_Functions.ttcn" relativeURI="src/LOGGER_API_Functions.ttcn"/>
     <FileResource projectRelativePath="src/LOGGER_Definitions.ttcn" relativeURI="src/LOGGER_Definitions.ttcn"/>
     <FileResource projectRelativePath="src/LOGGER_Functions.ttcn" relativeURI="src/LOGGER_Functions.ttcn"/>
     <FileResource projectRelativePath="test/LOGGER_Test.cfg" relativeURI="test/LOGGER_Test.cfg"/>
