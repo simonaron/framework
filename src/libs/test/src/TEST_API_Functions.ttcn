@@ -23,19 +23,16 @@ module TEST_API_Functions {
 	
 	// UNIT TEST FUNCTIONS
 	
-	function f_TEST_API_UnitTest_Start(charstring testcase_name) {
+	function f_TEST_API_UnitTest_Start() {
 	  log("");
-	  log("#############################################################################################");
-	  log("# UNIT (",testcase_name,") TEST STARTED");
+	  log("");
+	  log(" UNIT TEST ",testcasename()," STARTED");
 	  log("---------------------------------------------------------------------------------------------");
 	  log("");
 	}
 	
 	function f_TEST_API_UnitTest_Finished() {
 	  log("");
-	  log("---------------------------------------------------------------------------------------------");
-	  log("# UNIT TEST FINISHED");
-	  log("---------------------------------------------------------------------------------------------");
 	  log("#### SUMMARY ################################################################################");
 	  log("");
 	}
