@@ -6,7 +6,7 @@ module TEST_Test {
 	import from TEST_Functions all;
 		
 	testcase tc_TEST_UnitTest__Subject__expexted_pass__receive_pass() runs on CT_TEST_API_Watcher {
-	  f_TEST_API_UnitTest_Start("tc_TEST_UnitTest__Subject__expexted_pass__receive_pass");
+	  f_TEST_API_UnitTest_Start();
 	  
 	  var CT_TEST_Subject ct_subject := CT_TEST_Subject.create alive;
 	  f_TEST_API_Watcher_watch(ct_subject);
@@ -19,7 +19,7 @@ module TEST_Test {
 	}
 	
 	testcase tc_TEST_UnitTest__Subject__expexted_inconc__receive_inconc() runs on CT_TEST_API_Watcher {
-	  f_TEST_API_UnitTest_Start("tc_TEST_UnitTest__Subject__expexted_inconc__receive_inconc");
+	  f_TEST_API_UnitTest_Start();
 	  
 	  var CT_TEST_Subject ct_subject := CT_TEST_Subject.create alive;
 	  f_TEST_API_Watcher_watch(ct_subject);
@@ -32,7 +32,7 @@ module TEST_Test {
 	}
 	
 	testcase tc_TEST_UnitTest__Subject__expexted_fail__receive_fail() runs on CT_TEST_API_Watcher {
-	  f_TEST_API_UnitTest_Start("tc_TEST_UnitTest__Subject__expexted_fail__receive_fail");
+	  f_TEST_API_UnitTest_Start();
 	  
 	  var CT_TEST_Subject ct_subject := CT_TEST_Subject.create alive;
 	  f_TEST_API_Watcher_watch(ct_subject);
@@ -45,7 +45,7 @@ module TEST_Test {
 	}
 	
 	testcase tc_TEST_UnitTest__Subject__receive_more_expected() runs on CT_TEST_API_Watcher {
-	  f_TEST_API_UnitTest_Start("tc_TEST_UnitTest__Subject__receive_more_expected");
+	  f_TEST_API_UnitTest_Start();
 	  
 	  var CT_TEST_Subject ct_subject := CT_TEST_Subject.create alive;
 	  f_TEST_API_Watcher_watch(ct_subject);
@@ -66,7 +66,7 @@ module TEST_Test {
 	}
 	
 	testcase tc_TEST_UnitTest__Watcher__not_expected_receive() runs on CT_TEST_API_Watcher {
-	  f_TEST_API_UnitTest_Start("tc_TEST_UnitTest__Watcher__not_expected_receive");
+	  f_TEST_API_UnitTest_Start();
 	  
 	  var CT_TEST_Watcher ct_watcher := CT_TEST_Watcher.create alive;
 	  f_TEST_API_Watcher_watch(ct_watcher);
@@ -89,7 +89,7 @@ module TEST_Test {
 	}
 	
 	testcase tc_TEST_UnitTest__Watcher__expected_receive() runs on CT_TEST_API_Watcher {
-	  f_TEST_API_UnitTest_Start("tc_TEST_UnitTest__Watcher__expected_receive");
+	  f_TEST_API_UnitTest_Start();
 	  
 	  var CT_TEST_Watcher ct_watcher := CT_TEST_Watcher.create alive;
 	  f_TEST_API_Watcher_watch(ct_watcher);
@@ -111,7 +111,7 @@ module TEST_Test {
 	}
 	
 	testcase tc_TEST_UnitTest__Watcher__receive_timeout() runs on CT_TEST_API_Watcher {
-	  f_TEST_API_UnitTest_Start("tc_TEST_UnitTest__Watcher__receive_timeout");
+	  f_TEST_API_UnitTest_Start();
 	  
 	  var CT_TEST_Watcher ct_watcher := CT_TEST_Watcher.create alive;
 	  f_TEST_API_Watcher_watch(ct_watcher);
