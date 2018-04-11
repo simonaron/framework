@@ -1,0 +1,90 @@
+module LOGGER_Test {
+	import from TEST_API_Definitions all;
+	import from TEST_API_Functions all;
+	
+	import from LOGGER_Definitions all;
+	import from LOGGER_Functions all;
+	
+	testcase tc_LOGGER_UnitTest__TextServer__receive_expected_message() runs on CT_TEST_API_Watcher {
+	  f_TEST_API_UnitTest_Start();
+	  
+	  var CT_LOGGER_TextClient ct_textClient := CT_LOGGER_TextClient.create alive;
+	  var CT_LOGGER_TextServer ct_textServer := CT_LOGGER_TextServer.create alive;
+	  
+	  ct_textClient.start(f_LOGGER_Client_connectServer(ct_textServer));
+	  ct_textClient.done;
+	  f_TEST_API_Watcher_watch(ct_textServer);
+	  ct_textClient.start(f_LOGGER_TextClient_send("Message 1"));
+	  ct_textClient.done;
+	  ct_textServer.start(f_LOGGER_TextServer_reveive());
+	  ct_textServer.done;
+	  
+	  f_TEST_API_Watcher_getverdict(pass, "Text message received.");
+	  
+	  f_TEST_API_UnitTest_Finished();
+	}
+	
+	testcase tc_LOGGER_UnitTest__ActionTextServer__receive_more_message__at_the_time() runs on CT_TEST_API_Watcher {
+	  f_TEST_API_UnitTest_Start();
+	  
+	  var CT_LOGGER_TextClient ct_textClient := CT_LOGGER_TextClient.create alive;
+	  var CT_LOGGER_TextServer ct_textServer := CT_LOGGER_TextServer.create alive;
+	  
+	  // connect to the server
+	  ct_textClient.start(f_LOGGER_Client_connectServer(ct_textServer));
+	  ct_textClient.done;
+	  
+	  // watch the server verdict
+	  f_TEST_API_Watcher_watch(ct_textServer);
+	  
+	  // start listening
+	  ct_textServer.start(f_LOGGER_ActionTextServer());
+
+	  // send messages
+	  ct_textClient.start(f_LOGGER_TextClient_send("Message 1"));
+	  ct_textClient.done;
+	  ct_textClient.start(f_LOGGER_TextClient_send("Message 2"));
+	  ct_textClient.done;
+
+	  // check verdicts
+	  f_TEST_API_Watcher_getverdict(pass, "Text message received.");
+	  f_TEST_API_Watcher_getverdict(pass, "Text message received.");
+	  
+	  f_TEST_API_UnitTest_Finished();
+	}
+	
+	testcase tc_LOGGER_UnitTest__ActionTextServer__receive_more_message__from_queue() runs on CT_TEST_API_Watcher {
+	  f_TEST_API_UnitTest_Start();
+	  
+	  var CT_LOGGER_TextClient ct_textClient := CT_LOGGER_TextClient.create alive;
+	  var CT_LOGGER_TextServer ct_textServer := CT_LOGGER_TextServer.create alive;
+	  
+	  // connect to the server
+	  ct_textClient.start(f_LOGGER_Client_connectServer(ct_textServer));
+	  ct_textClient.done;
+	  
+	  // watch the server verdict
+	  f_TEST_API_Watcher_watch(ct_textServer);
+	  
+	  // send messages
+	  ct_textClient.start(f_LOGGER_TextClient_send("Message 1"));
+	  ct_textClient.done;
+	  ct_textClient.start(f_LOGGER_TextClient_send("Message 2"));
+	  ct_textClient.done;
+	  
+	  // start listening (read message from queue)
+	  ct_textServer.start(f_LOGGER_ActionTextServer());
+
+	  // check verdicts
+	  f_TEST_API_Watcher_getverdict(pass, "Text message received.");
+	  f_TEST_API_Watcher_getverdict(pass, "Text message received.");
+	  
+	  f_TEST_API_UnitTest_Finished();
+	}
+	
+	control {
+	  execute(tc_LOGGER_UnitTest__TextServer__receive_expected_message())
+	  execute(tc_LOGGER_UnitTest__ActionTextServer__receive_more_message__at_the_time())
+	  execute(tc_LOGGER_UnitTest__ActionTextServer__receive_more_message__from_queue())
+	}	
+}

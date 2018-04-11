@@ -1,0 +1,58 @@
+module LOGGER_Functions {
+	import from LOGGER_Definitions all;
+	import from TEST_API_Functions all;
+	
+	// CLIENT FUNCTIONS
+	
+	function f_LOGGER_Client_connectServer (CT_LOGGER_Server new_server)
+	runs on CT_LOGGER_Client {
+		connect(self:server, new_server:client);
+	}
+	
+	// TEXT CLIENT FUNCTIONS
+	
+	function f_LOGGER_TextClient_send (charstring new_message)
+	runs on CT_LOGGER_TextClient {
+	 	server.send({textMessage:= new_message});
+	}
+	
+	// TEXT SERVER FUNCTIONS
+	
+	function f_LOGGER_TextServer_reveive()
+	runs on CT_LOGGER_TextServer
+	return charstring {
+	  	var UT_LOGGER_Message receivedMessage;
+		alt {
+		  [] client.receive(UT_LOGGER_Message:{textMessage:=?}) -> value receivedMessage {
+		    f_TEST_API_Subject_setverdict(pass, "Text message received.");
+		    return receivedMessage.textMessage;
+		  }
+		  [] client.receive(UT_LOGGER_Message:?) {
+		    f_TEST_API_Subject_setverdict(error, "Invalid message received.");
+		    return "";
+		  }
+		}
+		return "";
+	}
+	
+	// ACTION TEXT SERVER FUNCTIONS
+	function f_LOGGER_ActionTextServer() runs on CT_LOGGER_TextServer {
+	  timer t := 1.0;
+	  t.start;
+	  	
+	  alt {
+	    [] client.check {
+	      var charstring textMessage := f_LOGGER_TextServer_reveive();
+	      action(textMessage);
+	      repeat;
+	    }
+	    [] t.timeout {
+		   	t.start(1.0); 
+		   	log("TICK")
+		   	repeat;
+		}
+	  }
+	} 
+	
+	
+}

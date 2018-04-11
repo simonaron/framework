@@ -1,0 +1,33 @@
+module LOGGER_Definitions {
+	import from TEST_API_Definitions all;
+
+	type union UT_LOGGER_Message {
+		charstring textMessage
+	}
+	
+	type port PT_LOGGER_MessageIn message { in UT_LOGGER_Message } with { extension "internal" }
+	type port PT_LOGGER_MessageOut message { out UT_LOGGER_Message } with { extension "internal" }
+	
+
+	type record ComponentEntity {
+	  charstring name,
+	  CT_LOGGER_Client component_entity
+	}
+	
+	type set of ComponentEntity ComponentSet;
+	
+	
+
+	type component CT_LOGGER_Client extends CT_TEST_API_Subject {
+	  port PT_LOGGER_MessageOut server;
+	}
+	
+	type component CT_LOGGER_Server extends CT_TEST_API_Subject {
+	  port PT_LOGGER_MessageIn client;
+	  var CT_LOGGER_Client cliesnt;
+	}
+	
+	// TEXT LOGGER
+	type component CT_LOGGER_TextClient extends CT_LOGGER_Client { }
+	type component CT_LOGGER_TextServer extends CT_LOGGER_Server { }
+}
