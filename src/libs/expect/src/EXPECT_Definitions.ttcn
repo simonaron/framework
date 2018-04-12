@@ -1,0 +1,22 @@
+module EXPECT_Definitions {
+	import from TEST_API_Definitions all;
+
+	type record RT_EXPECT_Status {
+		boolean expected,
+		boolean change
+	}
+
+	type port PT_EXPECT_Status message {
+	  inout RT_EXPECT_Status
+	} with { extension "internal" }
+
+	type component CT_EXPECT_Subject extends CT_TEST_API_Subject {
+	  	var boolean hasExpectWatcher;
+	  	port PT_EXPECT_Status expectWatcher;
+	}
+	
+	type component CT_EXPECT_Watcher extends CT_TEST_API_Subject {
+	  	var boolean hasExpectSubject;
+		port PT_EXPECT_Status expectSubject;
+	}
+}

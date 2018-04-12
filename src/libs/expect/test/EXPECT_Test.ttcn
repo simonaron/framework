@@ -1,0 +1,32 @@
+module EXPECT_Test {
+	import from TEST_API_Definitions all;
+	import from TEST_API_Functions all;
+
+	import from EXPECT_Definitions all;
+	import from EXPECT_Functions all;
+
+
+	testcase tc_EXPECT_UnitTest__Subject__subscribeWatcher_accepte() runs on CT_TEST_API_Watcher {
+	 
+	}
+	
+	testcase tc_EXPECT_UnitTest__Subject__subscribeWatcher_refuse() runs on CT_TEST_API_Watcher {
+	 
+	}
+	
+	testcase tc_EXPECT_UnitTest__Watcher__watch_accepte() runs on CT_TEST_API_Watcher {
+	 
+	}
+	
+	testcase tc_EXPECT_UnitTest__Watcher__watch_refuse() runs on CT_TEST_API_Watcher {
+	 
+	}
+
+	control {
+	  execute(tc_EXPECT_UnitTest__Subject__subscribeWatcher_accepte())
+	  execute(tc_EXPECT_UnitTest__Subject__subscribeWatcher_refuse())
+	  
+	  execute(tc_EXPECT_UnitTest__Watcher__watch_accepte())
+	  execute(tc_EXPECT_UnitTest__Watcher__watch_refuse())
+	}
+}

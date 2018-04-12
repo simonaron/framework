@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TITAN_Designer_Properties>
+  <ActiveConfiguration>Default</ActiveConfiguration>
+  <ProjectProperties>
+    <MakefileSettings>
+      <generateInternalMakefile>false</generateInternalMakefile>
+      <symboliclinklessBuild>false</symboliclinklessBuild>
+      <GNUMake>false</GNUMake>
+      <incrementalDependencyRefresh>false</incrementalDependencyRefresh>
+      <targetExecutable>bin\EXPECT_lib.exe</targetExecutable>
+    </MakefileSettings>
+    <LocalBuildSettings>
+      <MakefileScript/>
+      <workingDirectory>bin</workingDirectory>
+    </LocalBuildSettings>
+  </ProjectProperties>
+</TITAN_Designer_Properties>

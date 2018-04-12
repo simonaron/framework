@@ -1,0 +1,34 @@
+module EXPECT_Functions {
+	import from EXPECT_Definitions all;
+	import from TEST_API_Functions all;
+
+	function f_EXPECT_Subject_subscribeWatcher (CT_EXPECT_Watcher new_watcher)
+	runs on CT_EXPECT_Subject {
+	  	if (not hasExpectWatcher) {
+	  	  	hasExpectWatcher := true;
+	  		connect(self:expectWatcher, new_watcher:expectSubject);
+	  	  	f_TEST_API_Subject_setverdict(pass, "Watcher connected.");
+	  	}
+	  	else {
+	  	  	f_TEST_API_Subject_setverdict(fail, "A watcher already connected.");
+	  	}
+	}
+	
+	function f_EXPECT_Subject_sendStatus (RT_EXPECT_Status new_status)
+	runs on CT_EXPECT_Subject {
+		expectWatcher.send(new_status);
+	}
+	
+	function f_EXPECT_Watcher_watch (CT_EXPECT_Subject new_subject)
+	runs on CT_EXPECT_Watcher {
+	  	if (not hasExpectSubject) {
+	  	    hasExpectSubject := true;
+	  		new_subject.start(f_EXPECT_Subject_subscribeWatcher(self));
+	  		new_subject.done;
+	  		f_TEST_API_Subject_setverdict(pass, "Subject connected.");
+	  	} else {
+	  	  	f_TEST_API_Subject_setverdict(fail, "A subject already connected.");
+	  	}
+	}
+}
+
