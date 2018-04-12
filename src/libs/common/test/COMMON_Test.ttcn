@@ -8,8 +8,8 @@ module COMMON_Test {
 	// DUMMIES
 	
 	type component CT_DUMMY extends CT_COMMON_SHARED_Owner { }
-	function f_dummy() runs on CT_DUMMY { }
-	function f_dummy_delay() runs on CT_COMMON_SHARED_Member { timer t; t.start(10.0); t.timeout; }
+	function f_dummy_short_task() runs on CT_DUMMY { }
+	function f_dummy_long_task() runs on CT_COMMON_SHARED_Member { timer t; t.start(100.0); t.timeout; }
 	
 	// TEST CASES
 	
@@ -20,11 +20,19 @@ module COMMON_Test {
 	  var CT_DUMMY ct_dummy_owner := CT_DUMMY.create;
 	  
 	  f_TEST_API_Watcher_watch(ct_member);
+	  
+	  // add owner
 	  ct_member.start(f_COMMON_SHARED_Member_addDoneOwner(ct_dummy_owner));
 	  ct_member.done;
-	  ct_member.start(f_dummy_delay());
-	  ct_dummy_owner.start(f_dummy());
+	  
+	  // add a long task
+	  ct_member.start(f_dummy_long_task());
+	  
+	  // add a litle single shot task for owner
+	  ct_dummy_owner.start(f_dummy_short_task());
 	  ct_dummy_owner.done;
+	  
+	  // -> the member interrupted and stopped
 	  f_TEST_API_Watcher_getverdict(pass, "The last owner was left.", 1.0);
 	  
 	  f_TEST_API_UnitTest_Finished();
@@ -38,16 +46,26 @@ module COMMON_Test {
 	  var CT_DUMMY ct_dummy_owner2 := CT_DUMMY.create;
 	  
 	  f_TEST_API_Watcher_watch(ct_member);
+	  
+	  // add owners
 	  ct_member.start(f_COMMON_SHARED_Member_addDoneOwner(ct_dummy_owner1));
 	  ct_member.done;
 	  ct_member.start(f_COMMON_SHARED_Member_addDoneOwner(ct_dummy_owner2));
 	  ct_member.done;
-	  ct_member.start(f_dummy_delay());
-	  ct_dummy_owner1.start(f_dummy());
+	  
+	  // add a long task
+	  ct_member.start(f_dummy_long_task());
+	  
+	  // add a litle single shot task for owner1
+	  ct_dummy_owner1.start(f_dummy_short_task());
 	  ct_dummy_owner1.done;
+	  // -> the member interrupted but NOT stopped
 	  f_TEST_API_Watcher_getverdict(pass, "Still have owner.", 1.0);
-	  ct_dummy_owner2.start(f_dummy());
+	  
+	  // add a litle single shot task for owner2
+	  ct_dummy_owner2.start(f_dummy_short_task());
 	  ct_dummy_owner2.done;
+	  // -> the member interrupted and stopped
 	  f_TEST_API_Watcher_getverdict(pass, "The last owner was left.", 1.0);
 	  
 	  f_TEST_API_UnitTest_Finished();
@@ -56,6 +74,6 @@ module COMMON_Test {
 	control {
 	  	execute(tc_COMMON_SHARED_UnitTest__Member__doneOwner_done_then_member_done());
 	  	execute(tc_COMMON_SHARED_UnitTest__Member__2_doneOwner());
-	  	// TODO KILL AND KILL WITH DONE
+	  	// TODO KILL AND KILL WITH DONE AND RECURSIVE
 	}
 }
