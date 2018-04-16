@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>TEST_lib</name>
+	<name>lib_TEST</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -14,5 +14,6 @@
 	<natures>
 		<nature>org.eclipse.titan.designer.core.TITANNature</nature>
 		<nature>org.eclipse.titan.log.viewer.TitanLogProject</nature>
+		<nature>org.eclipse.linuxtools.tmf.project.nature</nature>
 	</natures>
 </projectDescription>

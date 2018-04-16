@@ -7,16 +7,15 @@
  which accompanies this distribution, and is available at
  http://www.eclipse.org/legal/epl-v10.html
 -->
-  <ProjectName>LOGGER_lib</ProjectName>
+  <ProjectName>lib_LOGGER</ProjectName>
   <ReferencedProjects>
-    <ReferencedProject name="TEST_lib" projectLocationURI="../test/TEST_lib.tpd"/>
+    <ReferencedProject name="lib_TEST" projectLocationURI="../test/TEST_lib.tpd"/>
   </ReferencedProjects>
   <Folders>
     <FolderResource projectRelativePath="src" relativeURI="src"/>
     <FolderResource projectRelativePath="test" relativeURI="test"/>
   </Folders>
   <Files>
-    <FileResource projectRelativePath="LOGGER_lib.tpd" relativeURI="LOGGER_lib.tpd"/>
     <FileResource projectRelativePath="src/LOGGER_API_Definitions.ttcn" relativeURI="src/LOGGER_API_Definitions.ttcn"/>
     <FileResource projectRelativePath="src/LOGGER_API_Functions.ttcn" relativeURI="src/LOGGER_API_Functions.ttcn"/>
     <FileResource projectRelativePath="src/LOGGER_Definitions.ttcn" relativeURI="src/LOGGER_Definitions.ttcn"/>

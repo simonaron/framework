@@ -7,9 +7,9 @@
  which accompanies this distribution, and is available at
  http://www.eclipse.org/legal/epl-v10.html
 -->
-  <ProjectName>COMMON_lib</ProjectName>
+  <ProjectName>lib_COMMON</ProjectName>
   <ReferencedProjects>
-    <ReferencedProject name="TEST_lib" projectLocationURI="../test/TEST_lib.tpd"/>
+    <ReferencedProject name="lib_TEST" projectLocationURI="../test/TEST_lib.tpd"/>
   </ReferencedProjects>
   <Folders>
     <FolderResource projectRelativePath="src" relativeURI="src"/>

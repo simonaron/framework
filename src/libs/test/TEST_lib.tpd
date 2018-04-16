@@ -7,13 +7,12 @@
  which accompanies this distribution, and is available at
  http://www.eclipse.org/legal/epl-v10.html
 -->
-  <ProjectName>TEST_lib</ProjectName>
+  <ProjectName>lib_TEST</ProjectName>
   <Folders>
     <FolderResource projectRelativePath="src" relativeURI="src"/>
     <FolderResource projectRelativePath="test" relativeURI="test"/>
   </Folders>
   <Files>
-    <FileResource projectRelativePath="TEST_lib.tpd" relativeURI="TEST_lib.tpd"/>
     <FileResource projectRelativePath="src/TEST_API_Definitions.ttcn" relativeURI="src/TEST_API_Definitions.ttcn"/>
     <FileResource projectRelativePath="src/TEST_API_Functions.ttcn" relativeURI="src/TEST_API_Functions.ttcn"/>
     <FileResource projectRelativePath="src/TEST_Definitions.ttcn" relativeURI="src/TEST_Definitions.ttcn"/>

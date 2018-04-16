@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>LOGGER_lib</name>
+	<name>lib_LOGGER</name>
 	<comment></comment>
 	<projects>
-		<project>TEST_lib</project>
+		<project>lib_TEST</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
@@ -15,5 +15,6 @@
 	<natures>
 		<nature>org.eclipse.titan.designer.core.TITANNature</nature>
 		<nature>org.eclipse.titan.log.viewer.TitanLogProject</nature>
+		<nature>org.eclipse.linuxtools.tmf.project.nature</nature>
 	</natures>
 </projectDescription>
