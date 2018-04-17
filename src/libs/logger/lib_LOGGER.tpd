@@ -9,7 +9,7 @@
 -->
   <ProjectName>lib_LOGGER</ProjectName>
   <ReferencedProjects>
-    <ReferencedProject name="lib_TEST" projectLocationURI="../test/TEST_lib.tpd"/>
+    <ReferencedProject name="lib_TEST" projectLocationURI="../test/lib_TEST.tpd"/>
   </ReferencedProjects>
   <Folders>
     <FolderResource projectRelativePath="src" relativeURI="src"/>
