@@ -13,6 +13,7 @@
     <FolderResource projectRelativePath="test" relativeURI="test"/>
   </Folders>
   <Files>
+    <FileResource projectRelativePath="lib_TEST.tpd" relativeURI="lib_TEST.tpd"/>
     <FileResource projectRelativePath="src/TEST_API_Definitions.ttcn" relativeURI="src/TEST_API_Definitions.ttcn"/>
     <FileResource projectRelativePath="src/TEST_API_Functions.ttcn" relativeURI="src/TEST_API_Functions.ttcn"/>
     <FileResource projectRelativePath="src/TEST_Definitions.ttcn" relativeURI="src/TEST_Definitions.ttcn"/>
