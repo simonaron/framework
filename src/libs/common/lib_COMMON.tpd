@@ -9,14 +9,13 @@
 -->
   <ProjectName>lib_COMMON</ProjectName>
   <ReferencedProjects>
-    <ReferencedProject name="lib_TEST" projectLocationURI="../test/TEST_lib.tpd"/>
+    <ReferencedProject name="lib_TEST" projectLocationURI="../test/lib_TEST.tpd"/>
   </ReferencedProjects>
   <Folders>
     <FolderResource projectRelativePath="src" relativeURI="src"/>
     <FolderResource projectRelativePath="test" relativeURI="test"/>
   </Folders>
   <Files>
-    <FileResource projectRelativePath="COMMON_lib.tpd" relativeURI="COMMON_lib.tpd"/>
     <FileResource projectRelativePath="src/COMMON_API_Definitions.ttcn" relativeURI="src/COMMON_API_Definitions.ttcn"/>
     <FileResource projectRelativePath="src/COMMON_API_Functions.ttcn" relativeURI="src/COMMON_API_Functions.ttcn"/>
     <FileResource projectRelativePath="src/COMMON_Definition.ttcn" relativeURI="src/COMMON_Definition.ttcn"/>
