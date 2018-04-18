@@ -14,14 +14,20 @@ module TASK {
 	}
 	
 	type port
-	PT_TASK_Control message {
+	PT_TASK_TaskPort message {
 		in 	ET_TASK_ControlIncomingMessage;
 		out ET_TASK_ControlOutcomingMessage;
 	} with { extension "internal" }
 	
+	type port
+	PT_TASK_TaskExecutorPort message {
+		out ET_TASK_ControlIncomingMessage;
+		in  ET_TASK_ControlOutcomingMessage;
+	} with { extension "internal" }
+	
 	type component
 	CT_TASK_Task {
-		port PT_TASK_Control p_control
+		port PT_TASK_TaskPort p_taskPort
 	}
 	
 	function f_TASK_Task() {
