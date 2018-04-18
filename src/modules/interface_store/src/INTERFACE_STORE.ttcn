@@ -1,0 +1,93 @@
+module INTERFACE_STORE {
+	import from TEST_API_Definitions all;
+	import from TEST_API_Functions all;
+	
+	import from GPIO all;
+
+	type union
+	UT_INTERFACE_STORE_Device {
+		CT_GPIO_Device UV_GPIO
+	}
+	
+	type union
+	UT_INTERFACE_STORE_Controller {
+		CT_GPIO_Controller UV_GPIO
+	}
+	
+	type record
+	RT_INTERFACE_STORE_InterfaceElement {
+		charstring 					  Name,
+		UT_INTERFACE_STORE_Device 	  Device optional,
+		UT_INTERFACE_STORE_Controller Controller optional
+	}
+	
+	type record of RT_INTERFACE_STORE_InterfaceElement
+	RT_INTERFACE_STORE_InterfaceElements;
+	
+	type port
+	PT_INTERFACE_STORE_InterfaceStorePort message {
+		inout RT_INTERFACE_STORE_InterfaceElement
+	} with { extension "internal" }
+	
+	type component
+	CT_INTERFACE_STORE_InterfaceStore extends CT_TEST_API_Subject {
+		var RT_INTERFACE_STORE_InterfaceElements StoredElement := {};
+		port PT_INTERFACE_STORE_InterfaceStorePort InterfaceStorePort;
+	}
+	
+	function f_INTERFACE_STORE_InterfaceStore_getElement
+		(in charstring name, out RT_INTERFACE_STORE_InterfaceElement element, out integer indexOfElement)
+	runs on CT_INTERFACE_STORE_InterfaceStore {
+		indexOfElement := -1;
+		// search for existing element
+	  	for (var integer i := 0; i < sizeof(StoredElement); i := i + 1 ) {
+	  	  	if (name == StoredElement[i].Name) {
+	  	  	  	element := StoredElement[i];
+	  	  	  	indexOfElement := i;
+	  	  	  	break;
+	  	  	}
+	  	}
+	} 
+	
+	function f_INTERFACE_STORE_InterfaceStore() 
+	runs on CT_INTERFACE_STORE_InterfaceStore {
+	  	var RT_INTERFACE_STORE_InterfaceElement receivedElement;
+	  	alt {
+	  	  	// get interface
+	  	  	[] InterfaceStorePort.receive(RT_INTERFACE_STORE_InterfaceElement:{Name := ?, Device := omit, Controller := omit })
+	  	  	-> value receivedElement {
+	  	  	  	var RT_INTERFACE_STORE_InterfaceElement existingElement;
+	  	  	  	var integer indexOfExistingElement;
+	  	  	  	
+	  	  		f_INTERFACE_STORE_InterfaceStore_getElement(receivedElement.Name, existingElement, indexOfExistingElement);
+	  	  		
+	  	  		if (indexOfExistingElement == -1) {
+	  	  			f_TEST_API_Subject_setverdict(fail, "No element found!");
+	  	  		} else {
+	  	  			f_TEST_API_Subject_setverdict(pass, "Element found!");
+	  	  			InterfaceStorePort.send(existingElement);
+	  	  			repeat;
+	  	  		}
+	  	  	}
+	  	  	// create or override interface
+	  	  	[] InterfaceStorePort.receive(RT_INTERFACE_STORE_InterfaceElement:?)
+	  	  	-> value receivedElement {
+	  	  	  	var RT_INTERFACE_STORE_InterfaceElement existingElement;
+	  	  	  	var integer indexOfExistingElement;
+	  	  	  	
+	  	  	  	f_INTERFACE_STORE_InterfaceStore_getElement(receivedElement.Name, existingElement, indexOfExistingElement);
+	  	  		
+	  	  		if ( indexOfExistingElement != -1 ) {	// in case of exist
+	  	  		  	// simple overwrite
+	  	  			f_TEST_API_Subject_setverdict(pass, "Element overwrite!");
+	  	  			StoredElement[indexOfExistingElement] := receivedElement;
+	  	  		} else {								// in case of not exist
+	  	  		  	// simple add
+	  	  			f_TEST_API_Subject_setverdict(pass, "Element create!");
+	  	  		  	StoredElement[sizeof(StoredElement)] := receivedElement;
+	  	  		}
+	  	  		repeat;
+	  	  	}
+	  	}
+	}
+}
