@@ -1,32 +1,5 @@
 module GPIO {
-	// MESSAGES
-	import from GPIOPinPort all;
-	// TODO create api for imported module (for name convention)
-	
-	// PORTS
-	type port
-	PT_GPIO_Device message {
-	  	in 	GPIO_PIN_DIRECTION, GPIO_PIN_VALUE, GPIO_PIN_STATUS;
-		out	GPIO_PIN_VALUE, GPIO_PIN_STATUS;
-	} with { extension "internal" }
-	
-	// like GPIO_Pin_Port, but it's internal
-	type port
-	PT_GPIO_Controller message {
-		in 	GPIO_PIN_VALUE, GPIO_PIN_STATUS;
-	  	out GPIO_PIN_DIRECTION, GPIO_PIN_VALUE, GPIO_PIN_STATUS;
-	} with { extension "internal" }
-	
-	
-	// COMPONENTS
-	type component
-	CT_GPIO_Device 
-	{
-		port PT_GPIO_Device controller;
-	}
-	type component
-	CT_GPIO_Controller 
-	{
-		port PT_GPIO_Controller device;
-	}
+	public import from GPIO_TaskBuilder all;
+	public import from GPIO_Functions all;
+	public import from GPIO_Definitions all;	
 }

@@ -1,0 +1,42 @@
+module GPIO_Functions {
+	import from GPIOPinPort all;
+	import from GPIO_Definitions all;
+	
+	import from TEST_API_Functions all;
+
+	function f_GPIO_Device_sendValue(GPIO_PIN_VALUE newValue) 
+	runs on CT_GPIO_Device {
+		controller.send(newValue);
+	}
+	
+	function f_GPIO_Device_receiveValue() 
+	runs on CT_GPIO_Device
+	return GPIO_PIN_VALUE {
+	  	var GPIO_PIN_VALUE receivedValue;
+	  	alt {
+	  	  	[] controller.receive(GPIO_PIN_VALUE:?) -> value receivedValue {
+	  	 		f_TEST_API_Subject_setverdict(pass, "Value received!");
+	  	 		return receivedValue;
+	  	  	}
+	  	}
+	  	return LOW;
+	}
+	
+	function f_GPIO_Controller_sendValue(GPIO_PIN_VALUE newValue) 
+	runs on CT_GPIO_Controller {
+		device.send(newValue);
+	}
+	
+	function f_GPIO_Controller_receiveValue() 
+	runs on CT_GPIO_Controller 
+	return GPIO_PIN_VALUE {
+		var GPIO_PIN_VALUE receivedValue;
+	  	alt {
+	  	  	[] device.receive(GPIO_PIN_VALUE:?) -> value receivedValue {
+	  	 		f_TEST_API_Subject_setverdict(pass, "Value received!");
+	  	 		return receivedValue;
+	  	  	}
+	  	}
+	    return LOW;
+	}
+}

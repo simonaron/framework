@@ -3,6 +3,9 @@
 	<name>interface_GPIO</name>
 	<comment></comment>
 	<projects>
+		<project>lib_TASK</project>
+		<project>lib_TEST</project>
+		<project>module_TASK_BUILDER</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

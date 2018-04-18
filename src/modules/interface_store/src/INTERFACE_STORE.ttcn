@@ -1,8 +1,8 @@
 module INTERFACE_STORE {
 	import from TEST_API_Definitions all;
 	import from TEST_API_Functions all;
-	
-	import from GPIO all;
+
+	import from GPIO {import all};
 
 	type union
 	UT_INTERFACE_STORE_Device {

@@ -3,7 +3,7 @@ module INTERFACE_STORE_Test {
 	import from TEST_API_Functions all;
 	
 	import from INTERFACE_STORE all;
-	import from GPIO all;
+	import from GPIO {import all};
 	
 	type component
 	CT_TEST_InterfaceStore extends CT_TEST_API_Watcher {

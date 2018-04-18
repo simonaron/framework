@@ -8,6 +8,11 @@
  http://www.eclipse.org/legal/epl-v10.html
 -->
   <ProjectName>interface_GPIO</ProjectName>
+  <ReferencedProjects>
+    <ReferencedProject name="lib_TASK" projectLocationURI="../../libs/task/lib_TASK.tpd"/>
+    <ReferencedProject name="lib_TEST" projectLocationURI="../../libs/test/lib_TEST.tpd"/>
+    <ReferencedProject name="module_TASK_BUILDER" projectLocationURI="../../modules/task_builder/module_TASK_BUILDER.tpd"/>
+  </ReferencedProjects>
   <Folders>
     <FolderResource projectRelativePath="imports" relativeURI="imports"/>
     <FolderResource projectRelativePath="src" relativeURI="src"/>
@@ -17,7 +22,13 @@
     <FileResource projectRelativePath="imports/GPIOPinPort.ttcn" relativeURI="imports/GPIOPinPort.ttcn"/>
     <FileResource projectRelativePath="imports/GPIO_Pin_Port.cc" relativeURI="imports/GPIO_Pin_Port.cc"/>
     <FileResource projectRelativePath="imports/GPIO_Pin_Port.hh" relativeURI="imports/GPIO_Pin_Port.hh"/>
+    <FileResource projectRelativePath="interface_GPIO.tpd" relativeURI="interface_GPIO.tpd"/>
     <FileResource projectRelativePath="src/GPIO.ttcn" relativeURI="src/GPIO.ttcn"/>
+    <FileResource projectRelativePath="src/GPIO_Definitions.ttcn" relativeURI="src/GPIO_Definitions.ttcn"/>
+    <FileResource projectRelativePath="src/GPIO_Functions.ttcn" relativeURI="src/GPIO_Functions.ttcn"/>
+    <FileResource projectRelativePath="src/GPIO_TaskBuilder.ttcn" relativeURI="src/GPIO_TaskBuilder.ttcn"/>
+    <FileResource projectRelativePath="test/GPIO_Test.cfg" relativeURI="test/GPIO_Test.cfg"/>
+    <FileResource projectRelativePath="test/GPIO_Test.ttcn" relativeURI="test/GPIO_Test.ttcn"/>
   </Files>
   <ActiveConfiguration>Default</ActiveConfiguration>
   <Configurations>

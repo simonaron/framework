@@ -1,0 +1,80 @@
+module GPIO_Test {
+	import from GPIOPinPort all;
+	import from GPIO {import all};
+	import from TEST_API_Functions all;
+	import from TEST_API_Definitions all;
+	import from TASK_BUILDER all;
+	import from TASK all;
+
+	testcase tc_GPIO_UnitTest__Device__receive_value() runs on CT_TEST_API_Watcher {
+  	  f_TEST_API_UnitTest_Start();
+  	  
+  	  var CT_GPIO_Device device := CT_GPIO_Device.create alive;
+  	  var CT_GPIO_Controller controller := CT_GPIO_Controller.create alive;
+  	  f_TEST_API_Watcher_watch(device);
+  	  
+  	  connect(device:controller, controller:device);
+	  controller.start(f_GPIO_Controller_sendValue(HIGH));
+	  device.start(f_GPIO_Device_receiveValue());
+  	 
+  	  f_TEST_API_Watcher_getverdict(pass, "Value received!");
+  	  
+  	  f_TEST_API_UnitTest_Finished();
+	}
+	
+	testcase tc_GPIO_UnitTest__Controller__receive_value() runs on CT_TEST_API_Watcher {
+  	  f_TEST_API_UnitTest_Start();
+  	  
+  	  var CT_GPIO_Device device := CT_GPIO_Device.create alive;
+  	  var CT_GPIO_Controller controller := CT_GPIO_Controller.create alive;
+  	  f_TEST_API_Watcher_watch(controller);
+  	  
+  	  connect(device:controller, controller:device);
+	  device.start(f_GPIO_Device_sendValue(HIGH));
+	  controller.start(f_GPIO_Controller_receiveValue());
+  	 
+  	  f_TEST_API_Watcher_getverdict(pass, "Value received!");
+  	  
+  	  f_TEST_API_UnitTest_Finished();
+	}
+	
+	// TODO nameconvention
+	type component CT_GPIO_TEST_TaskBuilder extends CT_TEST_API_Watcher {
+	  port PT_TASK_BUILDER_TaskBuilderPort p_taskBuilderPort;
+	  port PT_TASK_TaskExecutorPort p_task;
+	}
+	
+	testcase tc_GPIO_UnitTest__TaskBuilder__create_task() runs on CT_GPIO_TEST_TaskBuilder {
+  	  f_TEST_API_UnitTest_Start();
+  	  
+  	  var CT_GPIO_Device device := CT_GPIO_Device.create alive;
+  	  var CT_GPIO_TaskBuilder builder := CT_GPIO_TaskBuilder.create alive;
+  	  f_TEST_API_Watcher_watch(builder);
+  	  
+  	  builder.start(f_GPIO_TaskBuilder(device));
+  	  connect(self:p_taskBuilderPort, builder:p_taskBuilderPort);
+  	  
+  	  var RT_TASK_BUILDER_TaskBuilderMission receivedMission;
+  	  p_taskBuilderPort.send({TaskName := "receive_high", CreatedTask := omit});
+  	  p_taskBuilderPort.receive({TaskName := "receive_high", CreatedTask := ?}) -> value receivedMission;
+  	  
+  	  connect(self:p_task, receivedMission.CreatedTask:p_taskPort);
+  	  p_task.send(EV_TASK_INIT);
+  	  p_task.receive(EV_TASK_INITIALISED);
+  	  p_task.send(EV_TASK_START);
+  	  
+	  device.start(f_GPIO_Device_sendValue(HIGH));
+  	  
+  	  p_task.receive(EV_TASK_FINISH);
+  	 
+  	 
+  	  
+  	  f_TEST_API_UnitTest_Finished();
+	}
+
+	control {
+	  execute(tc_GPIO_UnitTest__Device__receive_value())
+	  execute(tc_GPIO_UnitTest__Controller__receive_value())
+	  execute(tc_GPIO_UnitTest__TaskBuilder__create_task())
+	}
+}
