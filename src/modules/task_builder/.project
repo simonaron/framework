@@ -3,6 +3,9 @@
 	<name>module_TASK_BUILDER</name>
 	<comment></comment>
 	<projects>
+		<project>lib_TASK</project>
+		<project>lib_TEST</project>
+		<project>module_INTERFACE_STORE</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

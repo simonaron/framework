@@ -1,0 +1,19 @@
+module TASK_BUILDER {
+	import from TASK all;
+
+	type record
+	RT_TASK_BUILDER_TaskBuilderMission {
+		charstring 		TaskName,
+		CT_TASK_Task 	CreatedTask optional
+	}
+
+	type port
+	PT_TASK_BUILDER_TaskBuilderPort message {
+		inout RT_TASK_BUILDER_TaskBuilderMission
+	} with { extension "internal" }
+
+	type component
+	CT_TASK_BUILDER_TaskBuilder {
+		port PT_TASK_BUILDER_TaskBuilderPort p_taskBuilderPort;
+	}
+}
