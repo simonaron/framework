@@ -1,0 +1,93 @@
+module INTERFACE_STORE_Test {
+	import from TEST_API_Definitions all;
+	import from TEST_API_Functions all;
+	
+	import from INTERFACE_STORE all;
+	import from GPIO {import all};
+	
+	type component
+	CT_TEST_InterfaceStore extends CT_TEST_API_Watcher {
+		port PT_INTERFACE_STORE_InterfaceStorePort InterfaceStorePort;
+	}
+	
+	testcase tc_INTERFACE_STORE_UnitTest__InterfaceStore__no_element_found() runs on CT_TEST_InterfaceStore {
+  	  f_TEST_API_UnitTest_Start();
+  	  
+  	  var CT_INTERFACE_STORE_InterfaceStore interfaceStore := CT_INTERFACE_STORE_InterfaceStore.create alive;
+  	  f_TEST_API_Watcher_watch(interfaceStore);
+  	  
+  	  connect(self:InterfaceStorePort, interfaceStore:InterfaceStorePort);
+  	  interfaceStore.start(f_INTERFACE_STORE_InterfaceStore());
+  	  
+  	  InterfaceStorePort.send({Name:= "MyElement", Device:=omit, Controller:=omit});
+
+  	  f_TEST_API_Watcher_getverdict(fail, "No element found!");
+  	  
+  	  f_TEST_API_UnitTest_Finished();
+	}
+	
+	testcase tc_INTERFACE_STORE_UnitTest__InterfaceStore__create_element() runs on CT_TEST_InterfaceStore {
+  	  f_TEST_API_UnitTest_Start();
+  	  
+  	  var CT_INTERFACE_STORE_InterfaceStore interfaceStore := CT_INTERFACE_STORE_InterfaceStore.create alive;
+  	  f_TEST_API_Watcher_watch(interfaceStore);
+  	  
+  	  connect(self:InterfaceStorePort, interfaceStore:InterfaceStorePort);
+  	  interfaceStore.start(f_INTERFACE_STORE_InterfaceStore());
+  	  
+  	  var CT_GPIO_Device newDevice := CT_GPIO_Device.create;
+  	  InterfaceStorePort.send({Name:= "MyElement", Device:={ UV_GPIO := newDevice }, Controller:=omit});
+
+  	  f_TEST_API_Watcher_getverdict(pass, "Element create!");
+  	  
+  	  f_TEST_API_UnitTest_Finished();
+	}
+	
+	testcase tc_INTERFACE_STORE_UnitTest__InterfaceStore__create_2_element_then_found() runs on CT_TEST_InterfaceStore {
+  	  f_TEST_API_UnitTest_Start();
+  	  
+  	  var CT_INTERFACE_STORE_InterfaceStore interfaceStore := CT_INTERFACE_STORE_InterfaceStore.create alive;
+  	  f_TEST_API_Watcher_watch(interfaceStore);
+  	  
+  	  connect(self:InterfaceStorePort, interfaceStore:InterfaceStorePort);
+  	  interfaceStore.start(f_INTERFACE_STORE_InterfaceStore());
+  	  
+  	  var CT_GPIO_Device newDevice := CT_GPIO_Device.create;
+  	  InterfaceStorePort.send({Name:= "MyElement", Device:={ UV_GPIO := newDevice }, Controller:=omit});
+
+  	  f_TEST_API_Watcher_getverdict(pass, "Element create!");
+  	  
+  	  InterfaceStorePort.send({Name:= "MyElement OTHER", Device:={ UV_GPIO := newDevice }, Controller:=omit});
+
+  	  f_TEST_API_Watcher_getverdict(pass, "Element create!");
+  	  
+  	  InterfaceStorePort.send({Name:= "MyElement", Device:= omit , Controller:=omit});
+
+  	  f_TEST_API_Watcher_getverdict(pass, "Element found!");
+  	  
+  	  timer t; t.start(1.0);
+  	  var RT_INTERFACE_STORE_InterfaceElement receivedElement;
+  	  alt {
+  	  	[] InterfaceStorePort.receive(RT_INTERFACE_STORE_InterfaceElement:{Name := "MyElement", Device := ?, Controller := omit })
+  	  	-> value receivedElement {
+  	  	  	
+  	  	  	var CT_GPIO_Device receivedDevice := receivedElement.Device.UV_GPIO;
+  	  	  	var CT_GPIO_Controller newController := CT_GPIO_Controller.create;
+  	  	  	
+  	  	  	connect(receivedDevice:controller, newController:device);
+  	  	  	
+  	  		setverdict(pass, "TEST: Element received!");
+  	  	}
+  	  	[] t.timeout {
+  	  		setverdict(fail, "TEST: Receive timeout!");
+  	  	}
+  	  }
+  	  f_TEST_API_UnitTest_Finished();
+	}
+	
+	control {
+	  execute(tc_INTERFACE_STORE_UnitTest__InterfaceStore__no_element_found())
+	  execute(tc_INTERFACE_STORE_UnitTest__InterfaceStore__create_element())
+	  execute(tc_INTERFACE_STORE_UnitTest__InterfaceStore__create_2_element_then_found())
+	}
+}

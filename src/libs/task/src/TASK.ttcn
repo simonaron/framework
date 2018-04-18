@@ -1,0 +1,37 @@
+module TASK {
+	type enumerated
+	ET_TASK_ControlOutcomingMessage {
+		EV_TASK_INITIALISED,
+		EV_TASK_FINISH,
+		EV_TASK_ERROR
+	}
+	
+	type enumerated
+	ET_TASK_ControlIncomingMessage {
+		EV_TASK_INIT,
+		EV_TASK_START,
+		EV_TASK_STOP
+	}
+	
+	type port
+	PT_TASK_TaskPort message {
+		in 	ET_TASK_ControlIncomingMessage;
+		out ET_TASK_ControlOutcomingMessage;
+	} with { extension "internal" }
+	
+	type port
+	PT_TASK_TaskExecutorPort message {
+		out ET_TASK_ControlIncomingMessage;
+		in  ET_TASK_ControlOutcomingMessage;
+	} with { extension "internal" }
+	
+	type component
+	CT_TASK_Task {
+		port PT_TASK_TaskPort p_taskPort
+	}
+	
+	function f_TASK_Task() {
+		// TODO activate default message handling with throw NOT IMPLEMENTED error
+		// because it's something like an OO interface  
+	}
+}

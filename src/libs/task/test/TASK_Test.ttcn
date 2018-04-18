@@ -1,0 +1,7 @@
+module TASK_Test {
+	import from TASK all;
+	
+	control {
+		// TODO test f_TASK_Task function
+	}
+}
