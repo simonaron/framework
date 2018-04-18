@@ -1,6 +1,7 @@
 module TASK {
 	type enumerated
 	ET_TASK_ControlOutcomingMessage {
+		EV_TASK_INITIALISED,
 		EV_TASK_FINISH,
 		EV_TASK_ERROR
 	}
