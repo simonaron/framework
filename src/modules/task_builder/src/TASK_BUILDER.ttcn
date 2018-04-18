@@ -3,8 +3,29 @@ module TASK_BUILDER {
 	import from INTERFACE_STORE all;
 
 	type record
+	RT_TASK_BUILDER_TaskBuilderParameter {
+	  charstring Name,
+	  charstring Value
+	}
+	
+	type set of RT_TASK_BUILDER_TaskBuilderParameter
+	RT_TASK_BUILDER_TaskBuilderParameters;
+
+	function f_TaskBuilderParameters_getValueOf(RT_TASK_BUILDER_TaskBuilderParameters r_parameters, charstring v_name) 
+	return charstring {
+		for(var integer i := 0; i<sizeof(r_parameters); i := i + 1) {
+		  if(r_parameters[i].Name == v_name) {
+		    return r_parameters[i].Value;
+		  }
+		}
+		// TODO error catch
+		return ""
+	}
+
+	type record
 	RT_TASK_BUILDER_TaskBuilderMission {
 		charstring 		TaskName,
+		RT_TASK_BUILDER_TaskBuilderParameters Parameters,
 		CT_TASK_Task 	CreatedTask optional
 	}
 

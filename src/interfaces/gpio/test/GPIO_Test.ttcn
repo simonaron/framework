@@ -61,8 +61,8 @@ module GPIO_Test {
   	  connect(self:p_taskBuilderPort, builder:p_taskBuilderPort);
   	  
   	  var RT_TASK_BUILDER_TaskBuilderMission receivedMission;
-  	  p_taskBuilderPort.send({TaskName := "receive_high", CreatedTask := omit});
-  	  p_taskBuilderPort.receive({TaskName := "receive_high", CreatedTask := ?}) -> value receivedMission;
+  	  p_taskBuilderPort.send({TaskName := "receive_high", Parameters := {{Name:="INTERFACE",Value:="STORED DEVICE"}}, CreatedTask := omit});
+  	  p_taskBuilderPort.receive({TaskName := "receive_high", Parameters := ?, CreatedTask := ?}) -> value receivedMission;
   	  
   	  connect(self:p_task, receivedMission.CreatedTask:p_taskPort);
   	  p_task.send(EV_TASK_INIT);

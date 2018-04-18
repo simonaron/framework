@@ -45,14 +45,16 @@ module GPIO_TaskBuilder {
 	  
 	  var RT_TASK_BUILDER_TaskBuilderMission receivedMission;
 	  alt {
-	    [] p_taskBuilderPort.receive(RT_TASK_BUILDER_TaskBuilderMission:{TaskName := ?, CreatedTask := omit})
+	    [] p_taskBuilderPort.receive(RT_TASK_BUILDER_TaskBuilderMission:{TaskName := ?, Parameters := ?, CreatedTask := omit})
 	    -> value receivedMission {
 	    	select(receivedMission.TaskName) {
 	    	  case("receive_high") {
+	    	    var charstring v_interface := f_TaskBuilderParameters_getValueOf(receivedMission.Parameters, "INTERFACE");
+	    	    
 	    	    // get interface
 	    	    var RT_INTERFACE_STORE_InterfaceElement receivedElement;
-	    	    p_interfaceStore.send({Name:= "STORED DEVICE", Device:= omit , Controller:=omit});
-	    	    p_interfaceStore.receive({Name:= "STORED DEVICE", Device:= ? , Controller:=omit}) -> value receivedElement;
+	    	    p_interfaceStore.send({Name:= v_interface, Device:= omit , Controller:=omit});
+	    	    p_interfaceStore.receive({Name:= v_interface, Device:= ? , Controller:=omit}) -> value receivedElement;
 	    	    
 	    	    // start task
 	    	    var CT_GPIO_ReceiveValueTask newTask := CT_GPIO_ReceiveValueTask.create;
@@ -63,10 +65,12 @@ module GPIO_TaskBuilder {
 	    	  	break;
 	    	  }
 	    	  case("receive_low") {
+	    	    var charstring v_interface := f_TaskBuilderParameters_getValueOf(receivedMission.Parameters, "INTERFACE");
+	    	    
 	    	    // get interface
 	    	    var RT_INTERFACE_STORE_InterfaceElement receivedElement;
-	    	    p_interfaceStore.send({Name:= "STORED DEVICE", Device:= omit , Controller:=omit});
-	    	    p_interfaceStore.receive({Name:= "STORED DEVICE", Device:= ? , Controller:=omit}) -> value receivedElement;
+	    	    p_interfaceStore.send({Name:= v_interface, Device:= omit , Controller:=omit});
+	    	    p_interfaceStore.receive({Name:= v_interface, Device:= ? , Controller:=omit}) -> value receivedElement;
 	    	    
 	    	    // start task
 	    	    var CT_GPIO_ReceiveValueTask newTask := CT_GPIO_ReceiveValueTask.create;
