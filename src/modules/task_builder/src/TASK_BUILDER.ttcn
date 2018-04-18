@@ -1,5 +1,6 @@
 module TASK_BUILDER {
 	import from TASK all;
+	import from INTERFACE_STORE all;
 
 	type record
 	RT_TASK_BUILDER_TaskBuilderMission {
@@ -15,5 +16,6 @@ module TASK_BUILDER {
 	type component
 	CT_TASK_BUILDER_TaskBuilder {
 		port PT_TASK_BUILDER_TaskBuilderPort p_taskBuilderPort;
+		port PT_INTERFACE_STORE_InterfaceStorePort p_interfaceStore;
 	}
 }

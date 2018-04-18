@@ -32,7 +32,12 @@ module INTERFACE_STORE {
 	type component
 	CT_INTERFACE_STORE_InterfaceStore extends CT_TEST_API_Subject {
 		var RT_INTERFACE_STORE_InterfaceElements StoredElement := {};
-		port PT_INTERFACE_STORE_InterfaceStorePort InterfaceStorePort;
+		port PT_INTERFACE_STORE_InterfaceStorePort p_interfaceStoreClient;
+	}
+	
+	type component
+	CT_INTERFACE_STORE_InterfaceStoreClient extends CT_TEST_API_Subject {
+		port PT_INTERFACE_STORE_InterfaceStorePort p_interfaceStore;
 	}
 	
 	function f_INTERFACE_STORE_InterfaceStore_getElement
@@ -52,10 +57,11 @@ module INTERFACE_STORE {
 	function f_INTERFACE_STORE_InterfaceStore() 
 	runs on CT_INTERFACE_STORE_InterfaceStore {
 	  	var RT_INTERFACE_STORE_InterfaceElement receivedElement;
+	  	var CT_INTERFACE_STORE_InterfaceStoreClient client;
 	  	alt {
 	  	  	// get interface
-	  	  	[] InterfaceStorePort.receive(RT_INTERFACE_STORE_InterfaceElement:{Name := ?, Device := omit, Controller := omit })
-	  	  	-> value receivedElement {
+	  	  	[] p_interfaceStoreClient.receive(RT_INTERFACE_STORE_InterfaceElement:{Name := ?, Device := omit, Controller := omit })
+	  	  	-> value receivedElement sender client {
 	  	  	  	var RT_INTERFACE_STORE_InterfaceElement existingElement;
 	  	  	  	var integer indexOfExistingElement;
 	  	  	  	
@@ -65,12 +71,12 @@ module INTERFACE_STORE {
 	  	  			f_TEST_API_Subject_setverdict(fail, "No element found!");
 	  	  		} else {
 	  	  			f_TEST_API_Subject_setverdict(pass, "Element found!");
-	  	  			InterfaceStorePort.send(existingElement);
+	  	  			p_interfaceStoreClient.send(existingElement) to client;
 	  	  			repeat;
 	  	  		}
 	  	  	}
 	  	  	// create or override interface
-	  	  	[] InterfaceStorePort.receive(RT_INTERFACE_STORE_InterfaceElement:?)
+	  	  	[] p_interfaceStoreClient.receive(RT_INTERFACE_STORE_InterfaceElement:?)
 	  	  	-> value receivedElement {
 	  	  	  	var RT_INTERFACE_STORE_InterfaceElement existingElement;
 	  	  	  	var integer indexOfExistingElement;
