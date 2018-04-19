@@ -35,7 +35,7 @@ module TASK_BUILDER {
 	} with { extension "internal" }
 
 	type component
-	CT_TASK_BUILDER_TaskBuilder {
+	CT_TASK_BUILDER_TaskBuilder extends CT_TASK_Task {
 		port PT_TASK_BUILDER_TaskBuilderPort p_taskBuilderPort;
 		port PT_INTERFACE_STORE_InterfaceStorePort p_interfaceStore;
 	}
