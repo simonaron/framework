@@ -1,0 +1,65 @@
+module SEQUENCE_EXECUTOR {
+	import from TASK_BUILDER all;
+	import from TASK all;
+	import from TEST_API_Definitions all;
+	import from TEST_API_Functions all;
+
+	type component
+	CT_SEQUENCE_EXECUTOR_SequenceExecutor extends CT_TEST_API_Subject {
+	  port PT_TASK_BUILDER_TaskBuilderPort p_taskBuilder;
+	  port PT_TASK_TaskExecutorPort p_task;
+	}
+	
+	
+	type set
+	RT_SEQUENCE_EXECUTOR_Step {
+	  	// TODO change this type to an other!
+		RT_TASK_BUILDER_TaskBuilderMission Task,
+		float Timeout optional,
+		float Delay optional
+	}
+	
+	type record of RT_SEQUENCE_EXECUTOR_Step
+	RT_SEQUENCE_EXECUTOR_Steps;
+	
+	function f_SEQUENCE_EXECUTOR_SequenceExecutor (
+		CT_TASK_BUILDER_TaskBuilder taskBuilder,
+		RT_SEQUENCE_EXECUTOR_Steps steps
+	) runs on CT_SEQUENCE_EXECUTOR_SequenceExecutor {
+	  	connect(self:p_taskBuilder, taskBuilder:p_taskBuilderPort);
+	  
+	  	for (var integer i := 0; i < sizeof(steps); i := i + 1) {
+	  	  	f_TEST_API_Subject_setverdict(pass, "SEQUENCE_EXECUTOR: Step started!");
+	  	    var RT_TASK_BUILDER_TaskBuilderMission mission := steps[i].Task;
+	  	  	
+	  	  	// TODO delay, timeout
+	  	  	timer t_delay := steps[i].Delay;
+	  	  	timer t_timeout := steps[i].Timeout;
+	  	  	t_delay.start;
+	  	  	t_timeout.start;
+	  	  	
+	  	  	// create task
+	  	  	p_taskBuilder.send(mission);
+	  	  	p_taskBuilder.receive({TaskName := mission.TaskName, Parameters := ?, CreatedTask := ?}) -> value mission;
+	  	    connect(self:p_task, mission.CreatedTask:p_taskPort);
+	  	  	
+	  	  	// init task
+	  	  	p_task.send(EV_TASK_INIT);
+  	  		p_task.receive(EV_TASK_INITIALISED);
+  	  		// start task when delay ended
+  	  		alt {
+  	  			[] p_task.receive(EV_TASK_FINISH) {
+  	  				f_TEST_API_Subject_setverdict(pass, "SEQUENCE_EXECUTOR: Step successfully finished!");
+  	  			}
+  	  			[] t_delay.timeout {
+  	  			  	f_TEST_API_Subject_setverdict(pass, "SEQUENCE_EXECUTOR: Delay timeout!");
+  	  				p_task.send(EV_TASK_START);
+  	  				repeat;
+  	  			}
+  	  			[] t_timeout.timeout {
+  	  				f_TEST_API_Subject_setverdict(fail, "SEQUENCE_EXECUTOR: Step timeout!");
+  	  			}
+  	  		}
+	  	}
+	}
+}

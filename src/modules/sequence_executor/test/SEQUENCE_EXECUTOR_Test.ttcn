@@ -1,0 +1,102 @@
+module SEQUENCE_EXECUTOR_Test {
+	import from SEQUENCE_EXECUTOR all;
+	import from TASK_BUILDER all;
+	import from TASK all;
+	import from TEST_API_Definitions all;
+	import from TEST_API_Functions all;
+	import from INTERFACE_STORE all;
+	
+	import from GPIO {import all};
+	
+	type component
+	CT_TEST_SEQUENCE_EXECUTOR extends CT_TEST_API_Watcher, CT_INTERFACE_STORE_InterfaceStoreClient {}
+	
+	testcase tc_SEQUENCE_EXECUTOR_UnitTest__SequenceExecutor__run_step_successfully() runs on CT_TEST_SEQUENCE_EXECUTOR {
+  	  f_TEST_API_UnitTest_Start();
+  	  
+  	  var CT_GPIO_Device device := CT_GPIO_Device.create alive;
+  	  var CT_GPIO_TaskBuilder builder := CT_GPIO_TaskBuilder.create alive;
+  	  var CT_INTERFACE_STORE_InterfaceStore store := CT_INTERFACE_STORE_InterfaceStore.create alive;
+  	  var CT_SEQUENCE_EXECUTOR_SequenceExecutor executor := CT_SEQUENCE_EXECUTOR_SequenceExecutor.create alive;
+  	  
+  	  // init store
+  	  store.start(f_INTERFACE_STORE_InterfaceStore());
+  	  
+  	  // upload interface
+  	  connect(self:p_interfaceStore, store:p_interfaceStoreClient);
+  	  p_interfaceStore.send({Name:= "GPIO 1", Device:={ UV_GPIO := device }, Controller:=omit});
+  	  
+  	  builder.start(f_GPIO_TaskBuilder(store));
+  	  
+  	  f_TEST_API_Watcher_watch(executor);
+  	 
+  	 
+  	 executor.start(f_SEQUENCE_EXECUTOR_SequenceExecutor(
+  	 	builder,
+  	 	{
+  	 		{Task:={
+  	 		  	TaskName := "send", 
+  	 		  	Parameters := {{Name:="INTERFACE",Value:="GPIO 1"},
+  	 		  					{Name := "PARAM_1", Value := "HIGH"}}, 
+  	 		  	CreatedTask := omit
+  	 		}, Delay := 0.0, Timeout := 0.5}
+  	 	}
+  	 )); 
+  	  
+	  device.start(f_GPIO_Device_receiveValue());
+  	 
+  	  f_TEST_API_Watcher_getverdict(pass, "SEQUENCE_EXECUTOR: Step started!");
+  	  f_TEST_API_Watcher_getverdict(pass, "SEQUENCE_EXECUTOR: Delay timeout!");
+  	  f_TEST_API_Watcher_getverdict(pass, "SEQUENCE_EXECUTOR: Step successfully finished!");
+  	  
+  	  f_TEST_API_UnitTest_Finished();
+	}
+	
+	testcase tc_SEQUENCE_EXECUTOR_UnitTest__SequenceExecutor__run_step_timeout() runs on CT_TEST_SEQUENCE_EXECUTOR {
+  	  f_TEST_API_UnitTest_Start();
+  	  
+  	  var CT_GPIO_Device device := CT_GPIO_Device.create alive;
+  	  var CT_GPIO_TaskBuilder builder := CT_GPIO_TaskBuilder.create alive;
+  	  var CT_INTERFACE_STORE_InterfaceStore store := CT_INTERFACE_STORE_InterfaceStore.create alive;
+  	  var CT_SEQUENCE_EXECUTOR_SequenceExecutor executor := CT_SEQUENCE_EXECUTOR_SequenceExecutor.create alive;
+  	  
+  	  // init store
+  	  store.start(f_INTERFACE_STORE_InterfaceStore());
+  	  
+  	  // upload interface
+  	  connect(self:p_interfaceStore, store:p_interfaceStoreClient);
+  	  p_interfaceStore.send({Name:= "GPIO 1", Device:={ UV_GPIO := device }, Controller:=omit});
+  	  
+  	  builder.start(f_GPIO_TaskBuilder(store));
+  	  
+  	  f_TEST_API_Watcher_watch(executor);
+  	 
+  	 
+  	 executor.start(f_SEQUENCE_EXECUTOR_SequenceExecutor(
+  	 	builder,
+  	 	{
+  	 		{Task:={
+  	 		  	TaskName := "send", 
+  	 		  	Parameters := {{Name:="INTERFACE",Value:="GPIO 1"},
+  	 		  					{Name := "PARAM_1", Value := "HIGH"}}, 
+  	 		  	CreatedTask := omit
+  	 		}, Delay := 0.2, Timeout := 0.1}
+  	 	}
+  	 )); 
+  	  
+	  device.start(f_GPIO_Device_receiveValue());
+  	 
+  	  f_TEST_API_Watcher_getverdict(pass, "SEQUENCE_EXECUTOR: Step started!");
+  	  f_TEST_API_Watcher_getverdict(fail, "SEQUENCE_EXECUTOR: Step timeout!");
+  	  
+  	  f_TEST_API_UnitTest_Finished();
+	}
+
+	control {
+	  // Unit tests
+	  execute(tc_SEQUENCE_EXECUTOR_UnitTest__SequenceExecutor__run_step_successfully())
+	  execute(tc_SEQUENCE_EXECUTOR_UnitTest__SequenceExecutor__run_step_timeout())
+	  
+	  // Functional system test
+	}
+}
