@@ -92,11 +92,249 @@ module SEQUENCE_EXECUTOR_Test {
   	  f_TEST_API_UnitTest_Finished();
 	}
 
+	testcase tc_SEQUENCE_EXECUTOR_SystemTest__SequenceExecutor__one_device_one_message() runs on CT_TEST_SEQUENCE_EXECUTOR {
+  	  f_TEST_API_UnitTest_Start();
+  	  
+  	  var CT_GPIO_Device device := CT_GPIO_Device.create alive;
+  	  var CT_GPIO_TaskBuilder builder := CT_GPIO_TaskBuilder.create alive;
+  	  var CT_INTERFACE_STORE_InterfaceStore store := CT_INTERFACE_STORE_InterfaceStore.create alive;
+  	  var CT_SEQUENCE_EXECUTOR_SequenceExecutor executor := CT_SEQUENCE_EXECUTOR_SequenceExecutor.create alive;
+  	  
+  	  // init store
+  	  store.start(f_INTERFACE_STORE_InterfaceStore());
+  	  
+  	  // upload interface
+  	  connect(self:p_interfaceStore, store:p_interfaceStoreClient);
+  	  p_interfaceStore.send({Name:= "GPIO 1", Device:={ UV_GPIO := device }, Controller:=omit});
+  	  
+  	  builder.start(f_GPIO_TaskBuilder(store));
+  	  
+  	  f_TEST_API_Watcher_watch(device);
+  	 
+  	 
+  	 executor.start(f_SEQUENCE_EXECUTOR_SequenceExecutor(
+  	 	builder,
+  	 	{
+  	 		{Task:={
+  	 		  	TaskName := "send", 
+  	 		  	Parameters := {{Name:="INTERFACE",Value:="GPIO 1"},
+  	 		  					{Name := "PARAM_1", Value := "HIGH"}}, 
+  	 		  	CreatedTask := omit
+  	 		}, Delay := 0.0, Timeout := 0.1}
+  	 	}
+  	 )); 
+  	  
+	  device.start(f_GPIO_TestDevice_receiveExpectedValue(HIGH));
+  	 
+  	  f_TEST_API_Watcher_getverdict(pass, "Value received!");
+  	  f_TEST_API_Watcher_getverdict(pass, "GPIO TEST: Expected value received!");
+  	  
+  	  executor.done;
+  	  
+  	  f_TEST_API_UnitTest_Finished();
+	}
+
+	testcase tc_SEQUENCE_EXECUTOR_SystemTest__SequenceExecutor__one_device_more_message() runs on CT_TEST_SEQUENCE_EXECUTOR {
+  	  f_TEST_API_UnitTest_Start();
+  	  
+  	  var CT_GPIO_Device device := CT_GPIO_Device.create alive;
+  	  var CT_GPIO_TaskBuilder builder := CT_GPIO_TaskBuilder.create alive;
+  	  var CT_INTERFACE_STORE_InterfaceStore store := CT_INTERFACE_STORE_InterfaceStore.create alive;
+  	  var CT_SEQUENCE_EXECUTOR_SequenceExecutor executor := CT_SEQUENCE_EXECUTOR_SequenceExecutor.create alive;
+  	  
+  	  // init store
+  	  store.start(f_INTERFACE_STORE_InterfaceStore());
+  	  
+  	  // upload interface
+  	  connect(self:p_interfaceStore, store:p_interfaceStoreClient);
+  	  p_interfaceStore.send({Name:= "GPIO 1", Device:={ UV_GPIO := device }, Controller:=omit});
+  	  
+  	  builder.start(f_GPIO_TaskBuilder(store));
+  	  
+  	  f_TEST_API_Watcher_watch(device);
+  	 
+  	 
+  	 executor.start(f_SEQUENCE_EXECUTOR_SequenceExecutor(
+  	 	builder,
+  	 	{
+  	 		{Task:={
+  	 		  	TaskName := "send", 
+  	 		  	Parameters := {{Name:="INTERFACE",Value:="GPIO 1"},
+  	 		  					{Name := "PARAM_1", Value := "HIGH"}}, 
+  	 		  	CreatedTask := omit
+  	 		}, Delay := 0.0, Timeout := 0.1},
+  	 		{Task:={
+  	 		  	TaskName := "send", 
+  	 		  	Parameters := {{Name:="INTERFACE",Value:="GPIO 1"},
+  	 		  					{Name := "PARAM_1", Value := "LOW"}}, 
+  	 		  	CreatedTask := omit
+  	 		}, Delay := 0.0, Timeout := 0.1},
+  	 		{Task:={
+  	 		  	TaskName := "send", 
+  	 		  	Parameters := {{Name:="INTERFACE",Value:="GPIO 1"},
+  	 		  					{Name := "PARAM_1", Value := "HIGH"}}, 
+  	 		  	CreatedTask := omit
+  	 		}, Delay := 0.0, Timeout := 0.1}
+  	 	}
+  	 )); 
+  	  
+	  device.start(f_GPIO_TestDevice_receiveExpectedValue(HIGH));
+	  device.done;
+  	  f_TEST_API_Watcher_getverdict(pass, "Value received!");
+  	  f_TEST_API_Watcher_getverdict(pass, "GPIO TEST: Expected value received!");	  
+	  device.start(f_GPIO_TestDevice_receiveExpectedValue(LOW));
+	  device.done;
+  	  f_TEST_API_Watcher_getverdict(pass, "Value received!");
+  	  f_TEST_API_Watcher_getverdict(pass, "GPIO TEST: Expected value received!");	  
+	  device.start(f_GPIO_TestDevice_receiveExpectedValue(HIGH));
+	  device.done;
+  	  f_TEST_API_Watcher_getverdict(pass, "Value received!");
+  	  f_TEST_API_Watcher_getverdict(pass, "GPIO TEST: Expected value received!");
+  	  
+  	  executor.done;
+  	  
+  	  f_TEST_API_UnitTest_Finished();
+	}
+
+	testcase tc_SEQUENCE_EXECUTOR_SystemTest__SequenceExecutor__more_device_more_message() runs on CT_TEST_SEQUENCE_EXECUTOR {
+  	  f_TEST_API_UnitTest_Start();
+  	  
+  	  var CT_GPIO_Device device1 := CT_GPIO_Device.create alive;
+  	  var CT_GPIO_Device device2 := CT_GPIO_Device.create alive;
+  	  var CT_GPIO_Device device3 := CT_GPIO_Device.create alive;
+  	  var CT_GPIO_TaskBuilder builder := CT_GPIO_TaskBuilder.create alive;
+  	  var CT_INTERFACE_STORE_InterfaceStore store := CT_INTERFACE_STORE_InterfaceStore.create alive;
+  	  var CT_SEQUENCE_EXECUTOR_SequenceExecutor executor := CT_SEQUENCE_EXECUTOR_SequenceExecutor.create alive;
+  	  
+  	  // init store
+  	  store.start(f_INTERFACE_STORE_InterfaceStore());
+  	  
+  	  // upload interface
+  	  connect(self:p_interfaceStore, store:p_interfaceStoreClient);
+  	  p_interfaceStore.send({Name:= "GPIO 1", Device:={ UV_GPIO := device1 }, Controller:=omit});
+  	  p_interfaceStore.send({Name:= "GPIO 2", Device:={ UV_GPIO := device2 }, Controller:=omit});
+  	  p_interfaceStore.send({Name:= "GPIO 3", Device:={ UV_GPIO := device3 }, Controller:=omit});
+  	  
+  	  builder.start(f_GPIO_TaskBuilder(store));
+  	  
+  	  f_TEST_API_Watcher_watch(device1);
+  	  f_TEST_API_Watcher_watch(device2);
+  	  f_TEST_API_Watcher_watch(device3);
+  	 
+  	 
+  	 executor.start(f_SEQUENCE_EXECUTOR_SequenceExecutor(
+  	 	builder,
+  	 	{
+  	 		{Task:={
+  	 		  	TaskName := "send", 
+  	 		  	Parameters := {{Name:="INTERFACE",Value:="GPIO 1"},
+  	 		  					{Name := "PARAM_1", Value := "HIGH"}}, 
+  	 		  	CreatedTask := omit
+  	 		}, Delay := 0.0, Timeout := 0.1},
+  	 		{Task:={
+  	 		  	TaskName := "send", 
+  	 		  	Parameters := {{Name:="INTERFACE",Value:="GPIO 1"},
+  	 		  					{Name := "PARAM_1", Value := "LOW"}}, 
+  	 		  	CreatedTask := omit
+  	 		}, Delay := 0.0, Timeout := 0.1},
+  	 		{Task:={
+  	 		  	TaskName := "send", 
+  	 		  	Parameters := {{Name:="INTERFACE",Value:="GPIO 1"},
+  	 		  					{Name := "PARAM_1", Value := "HIGH"}}, 
+  	 		  	CreatedTask := omit
+  	 		}, Delay := 0.0, Timeout := 0.1},
+  	 		{Task:={
+  	 		  	TaskName := "send", 
+  	 		  	Parameters := {{Name:="INTERFACE",Value:="GPIO 2"},
+  	 		  					{Name := "PARAM_1", Value := "HIGH"}}, 
+  	 		  	CreatedTask := omit
+  	 		}, Delay := 0.0, Timeout := 0.1},
+  	 		{Task:={
+  	 		  	TaskName := "send", 
+  	 		  	Parameters := {{Name:="INTERFACE",Value:="GPIO 2"},
+  	 		  					{Name := "PARAM_1", Value := "LOW"}}, 
+  	 		  	CreatedTask := omit
+  	 		}, Delay := 0.0, Timeout := 0.1},
+  	 		{Task:={
+  	 		  	TaskName := "send", 
+  	 		  	Parameters := {{Name:="INTERFACE",Value:="GPIO 2"},
+  	 		  					{Name := "PARAM_1", Value := "HIGH"}}, 
+  	 		  	CreatedTask := omit
+  	 		}, Delay := 0.0, Timeout := 0.1},
+  	 		{Task:={
+  	 		  	TaskName := "send", 
+  	 		  	Parameters := {{Name:="INTERFACE",Value:="GPIO 3"},
+  	 		  					{Name := "PARAM_1", Value := "HIGH"}}, 
+  	 		  	CreatedTask := omit
+  	 		}, Delay := 0.0, Timeout := 0.1},
+  	 		{Task:={
+  	 		  	TaskName := "send", 
+  	 		  	Parameters := {{Name:="INTERFACE",Value:="GPIO 3"},
+  	 		  					{Name := "PARAM_1", Value := "LOW"}}, 
+  	 		  	CreatedTask := omit
+  	 		}, Delay := 0.0, Timeout := 0.1},
+  	 		{Task:={
+  	 		  	TaskName := "send", 
+  	 		  	Parameters := {{Name:="INTERFACE",Value:="GPIO 3"},
+  	 		  					{Name := "PARAM_1", Value := "HIGH"}}, 
+  	 		  	CreatedTask := omit
+  	 		}, Delay := 0.0, Timeout := 0.1}
+  	 	}
+  	 )); 
+  	  
+	  device1.start(f_GPIO_TestDevice_receiveExpectedValue(HIGH));
+	  device1.done;
+  	  f_TEST_API_Watcher_getverdict(pass, "Value received!");
+  	  f_TEST_API_Watcher_getverdict(pass, "GPIO TEST: Expected value received!");	  
+	  device1.start(f_GPIO_TestDevice_receiveExpectedValue(LOW));
+	  device1.done;
+  	  f_TEST_API_Watcher_getverdict(pass, "Value received!");
+  	  f_TEST_API_Watcher_getverdict(pass, "GPIO TEST: Expected value received!");	  
+	  device1.start(f_GPIO_TestDevice_receiveExpectedValue(HIGH));
+	  device1.done;
+  	  f_TEST_API_Watcher_getverdict(pass, "Value received!");
+  	  f_TEST_API_Watcher_getverdict(pass, "GPIO TEST: Expected value received!");
+  	  
+  	  
+  	  device2.start(f_GPIO_TestDevice_receiveExpectedValue(HIGH));
+	  device2.done;
+  	  f_TEST_API_Watcher_getverdict(pass, "Value received!");
+  	  f_TEST_API_Watcher_getverdict(pass, "GPIO TEST: Expected value received!");	  
+	  device2.start(f_GPIO_TestDevice_receiveExpectedValue(LOW));
+	  device2.done;
+  	  f_TEST_API_Watcher_getverdict(pass, "Value received!");
+  	  f_TEST_API_Watcher_getverdict(pass, "GPIO TEST: Expected value received!");	  
+	  device2.start(f_GPIO_TestDevice_receiveExpectedValue(HIGH));
+	  device2.done;
+  	  f_TEST_API_Watcher_getverdict(pass, "Value received!");
+  	  f_TEST_API_Watcher_getverdict(pass, "GPIO TEST: Expected value received!");
+  	  executor.done;
+  	  
+  	  
+  	  device3.start(f_GPIO_TestDevice_receiveExpectedValue(HIGH));
+	  device3.done;
+  	  f_TEST_API_Watcher_getverdict(pass, "Value received!");
+  	  f_TEST_API_Watcher_getverdict(pass, "GPIO TEST: Expected value received!");	  
+	  device3.start(f_GPIO_TestDevice_receiveExpectedValue(LOW));
+	  device3.done;
+  	  f_TEST_API_Watcher_getverdict(pass, "Value received!");
+  	  f_TEST_API_Watcher_getverdict(pass, "GPIO TEST: Expected value received!");	  
+	  device3.start(f_GPIO_TestDevice_receiveExpectedValue(HIGH));
+	  device3.done;
+  	  f_TEST_API_Watcher_getverdict(pass, "Value received!");
+  	  f_TEST_API_Watcher_getverdict(pass, "GPIO TEST: Expected value received!");
+  	  
+  	  f_TEST_API_UnitTest_Finished();
+	}
+
 	control {
 	  // Unit tests
 	  execute(tc_SEQUENCE_EXECUTOR_UnitTest__SequenceExecutor__run_step_successfully())
 	  execute(tc_SEQUENCE_EXECUTOR_UnitTest__SequenceExecutor__run_step_timeout())
 	  
 	  // Functional system test
+	  execute(tc_SEQUENCE_EXECUTOR_SystemTest__SequenceExecutor__one_device_one_message())
+	  execute(tc_SEQUENCE_EXECUTOR_SystemTest__SequenceExecutor__one_device_more_message())
+	  execute(tc_SEQUENCE_EXECUTOR_SystemTest__SequenceExecutor__more_device_more_message())
 	}
 }

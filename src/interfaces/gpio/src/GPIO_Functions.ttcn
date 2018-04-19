@@ -22,6 +22,18 @@ module GPIO_Functions {
 	  	return LOW;
 	}
 	
+	
+	// TODO move into a test fw
+	function f_GPIO_TestDevice_receiveExpectedValue(GPIO_PIN_VALUE expectedValue) 
+	runs on CT_GPIO_Device {
+	  	var GPIO_PIN_VALUE receivedValue := f_GPIO_Device_receiveValue();
+	  	if(receivedValue == expectedValue) {
+	  	  f_TEST_API_Subject_setverdict(pass, "GPIO TEST: Expected value received!");
+	  	} else {
+	  	  f_TEST_API_Subject_setverdict(fail, "GPIO TEST: Unexpected value received!");
+	  	}
+	}
+	
 	function f_GPIO_Controller_sendValue(GPIO_PIN_VALUE newValue) 
 	runs on CT_GPIO_Controller {
 		device.send(newValue);
