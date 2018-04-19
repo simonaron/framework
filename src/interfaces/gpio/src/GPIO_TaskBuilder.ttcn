@@ -2,7 +2,9 @@ module GPIO_TaskBuilder {
 	import from TEST_API_Definitions all;
 	import from TASK_BUILDER all;
 	import from INTERFACE_STORE all;
+	
 	import from GPIO_ReceiveValueTask all;	
+	import from GPIO_SendValueTask all;	
 	
 	type component
 	CT_GPIO_TaskBuilder extends CT_TASK_BUILDER_TaskBuilder, CT_TEST_API_Subject { }
@@ -11,6 +13,7 @@ module GPIO_TaskBuilder {
 	runs on CT_GPIO_TaskBuilder {
 	  	connect(self:p_interfaceStore, interfaceStore:p_interfaceStoreClient);
 	  	activate(as_GPIO_ReceiveValueTask_TaskBuilder_subscribe());
+	  	activate(as_GPIO_SendValueTask_TaskBuilder_subscribe());
 			
 		p_taskPort.receive(EV_TASK_STOP);
 	}

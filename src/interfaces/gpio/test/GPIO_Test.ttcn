@@ -61,7 +61,23 @@ module GPIO_Test {
   	  connect(self:p_taskBuilderPort, builder:p_taskBuilderPort);
   	  
   	  var RT_TASK_BUILDER_TaskBuilderMission receivedMission;
+  	  
+  	  log("TASK 1 Receive value --- START");
   	  p_taskBuilderPort.send({TaskName := "receive", Parameters := {{Name:="INTERFACE",Value:="STORED DEVICE"}, {Name := "PARAM_1", Value := "HIGH"}}, CreatedTask := omit});
+  	  p_taskBuilderPort.receive({TaskName := "receive", Parameters := ?, CreatedTask := ?}) -> value receivedMission;
+  	  
+  	  connect(self:p_task, receivedMission.CreatedTask:p_taskPort);
+  	  p_task.send(EV_TASK_INIT);
+  	  p_task.receive(EV_TASK_INITIALISED);
+  	  p_task.send(EV_TASK_START);
+  	  
+	  device.start(f_GPIO_Device_sendValue(HIGH));
+	  
+	  p_task.receive(EV_TASK_FINISH);
+	  log("");
+	  
+	  log("TASK 2 Receive value --- START");
+	  p_taskBuilderPort.send({TaskName := "receive", Parameters := {{Name:="INTERFACE",Value:="STORED DEVICE"}, {Name := "PARAM_1", Value := "HIGH"}}, CreatedTask := omit});
   	  p_taskBuilderPort.receive({TaskName := "receive", Parameters := ?, CreatedTask := ?}) -> value receivedMission;
   	  
   	  connect(self:p_task, receivedMission.CreatedTask:p_taskPort);
@@ -72,8 +88,21 @@ module GPIO_Test {
 	  device.start(f_GPIO_Device_sendValue(HIGH));
   	  
   	  p_task.receive(EV_TASK_FINISH);
+  	  log("");
   	 
-  	 
+  	  log("TASK 3 Send value --- START");
+	  p_taskBuilderPort.send({TaskName := "send", Parameters := {{Name:="INTERFACE",Value:="STORED DEVICE"}, {Name := "PARAM_1", Value := "HIGH"}}, CreatedTask := omit});
+  	  p_taskBuilderPort.receive({TaskName := "send", Parameters := ?, CreatedTask := ?}) -> value receivedMission;
+  	  
+  	  connect(self:p_task, receivedMission.CreatedTask:p_taskPort);
+  	  p_task.send(EV_TASK_INIT);
+  	  p_task.receive(EV_TASK_INITIALISED);
+  	  p_task.send(EV_TASK_START);
+  	  
+	  device.start(f_GPIO_Device_receiveValue());
+  	  
+  	  p_task.receive(EV_TASK_FINISH);
+  	  log("");
   	  
   	  f_TEST_API_UnitTest_Finished();
 	}
