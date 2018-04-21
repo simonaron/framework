@@ -12,6 +12,7 @@
     <ReferencedProject name="interface_GPIO" projectLocationURI="../../interfaces/gpio/interface_GPIO.tpd"/>
     <ReferencedProject name="lib_TASK" projectLocationURI="../../libs/task/lib_TASK.tpd"/>
     <ReferencedProject name="module_INTERFACE_STORE" projectLocationURI="../interface_store/module_INTERFACE_STORE.tpd"/>
+    <ReferencedProject name="module_LANGUAGE" projectLocationURI="../language/module_LANGUAGE.tpd"/>
     <ReferencedProject name="module_TASK_BUILDER" projectLocationURI="../task_builder/module_TASK_BUILDER.tpd"/>
   </ReferencedProjects>
   <Folders>

@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>module_SEQUENCE_EXECUTOR</name>
+	<name>module_LANGUAGE</name>
 	<comment></comment>
 	<projects>
-		<project>interface_GPIO</project>
-		<project>lib_TASK</project>
-		<project>module_INTERFACE_STORE</project>
-		<project>module_LANGUAGE</project>
-		<project>module_TASK_BUILDER</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

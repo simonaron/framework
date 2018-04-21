@@ -1,0 +1,11 @@
+module LANGUAGE_STATIC {
+	type record
+	LANGUAGE_STATIC_Interface {
+		charstring Name,
+		charstring Library
+		// TODO Type
+	}
+	
+	type record of LANGUAGE_STATIC_Interface
+	LANGUAGE_STATIC_Interfaces; 
+}

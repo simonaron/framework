@@ -34,12 +34,7 @@ module SEQUENCE_EXECUTOR_Test {
   	 executor.start(f_SEQUENCE_EXECUTOR_SequenceExecutor(
   	 	builder,
   	 	{
-  	 		{Task:={
-  	 		  	TaskName := "send", 
-  	 		  	Parameters := {{Name:="INTERFACE",Value:="GPIO 1"},
-  	 		  					{Name := "PARAM_1", Value := "HIGH"}}, 
-  	 		  	CreatedTask := omit
-  	 		}, Delay := 0.0, Timeout := 0.5}
+  	 		{InterfaceAction := {"GPIO 1", "send", {"HIGH"}, 0.0 ,0.5}}
   	 	}
   	 )); 
   	  
@@ -75,12 +70,7 @@ module SEQUENCE_EXECUTOR_Test {
   	 executor.start(f_SEQUENCE_EXECUTOR_SequenceExecutor(
   	 	builder,
   	 	{
-  	 		{Task:={
-  	 		  	TaskName := "send", 
-  	 		  	Parameters := {{Name:="INTERFACE",Value:="GPIO 1"},
-  	 		  					{Name := "PARAM_1", Value := "HIGH"}}, 
-  	 		  	CreatedTask := omit
-  	 		}, Delay := 0.2, Timeout := 0.1}
+  	 		{InterfaceAction := {"GPIO 1", "send", {"HIGH"}, 0.2 ,0.1}}
   	 	}
   	 )); 
   	  
@@ -115,12 +105,7 @@ module SEQUENCE_EXECUTOR_Test {
   	 executor.start(f_SEQUENCE_EXECUTOR_SequenceExecutor(
   	 	builder,
   	 	{
-  	 		{Task:={
-  	 		  	TaskName := "send", 
-  	 		  	Parameters := {{Name:="INTERFACE",Value:="GPIO 1"},
-  	 		  					{Name := "PARAM_1", Value := "HIGH"}}, 
-  	 		  	CreatedTask := omit
-  	 		}, Delay := 0.0, Timeout := 0.1}
+  	 		{InterfaceAction := {"GPIO 1", "send", {"HIGH"}, 0.0 ,0.5}}
   	 	}
   	 )); 
   	  
@@ -157,24 +142,9 @@ module SEQUENCE_EXECUTOR_Test {
   	 executor.start(f_SEQUENCE_EXECUTOR_SequenceExecutor(
   	 	builder,
   	 	{
-  	 		{Task:={
-  	 		  	TaskName := "send", 
-  	 		  	Parameters := {{Name:="INTERFACE",Value:="GPIO 1"},
-  	 		  					{Name := "PARAM_1", Value := "HIGH"}}, 
-  	 		  	CreatedTask := omit
-  	 		}, Delay := 0.0, Timeout := 0.1},
-  	 		{Task:={
-  	 		  	TaskName := "send", 
-  	 		  	Parameters := {{Name:="INTERFACE",Value:="GPIO 1"},
-  	 		  					{Name := "PARAM_1", Value := "LOW"}}, 
-  	 		  	CreatedTask := omit
-  	 		}, Delay := 0.0, Timeout := 0.1},
-  	 		{Task:={
-  	 		  	TaskName := "send", 
-  	 		  	Parameters := {{Name:="INTERFACE",Value:="GPIO 1"},
-  	 		  					{Name := "PARAM_1", Value := "HIGH"}}, 
-  	 		  	CreatedTask := omit
-  	 		}, Delay := 0.0, Timeout := 0.1}
+  	 		{InterfaceAction := {"GPIO 1", "send", {"HIGH"}, 0.0 ,0.5}},
+  	 		{InterfaceAction := {"GPIO 1", "send", {"LOW"}, 0.0 ,0.5}},
+  	 		{InterfaceAction := {"GPIO 1", "send", {"HIGH"}, 0.0 ,0.5}}
   	 	}
   	 )); 
   	  
@@ -225,60 +195,15 @@ module SEQUENCE_EXECUTOR_Test {
   	 executor.start(f_SEQUENCE_EXECUTOR_SequenceExecutor(
   	 	builder,
   	 	{
-  	 		{Task:={
-  	 		  	TaskName := "send", 
-  	 		  	Parameters := {{Name:="INTERFACE",Value:="GPIO 1"},
-  	 		  					{Name := "PARAM_1", Value := "HIGH"}}, 
-  	 		  	CreatedTask := omit
-  	 		}, Delay := 0.0, Timeout := 0.1},
-  	 		{Task:={
-  	 		  	TaskName := "send", 
-  	 		  	Parameters := {{Name:="INTERFACE",Value:="GPIO 1"},
-  	 		  					{Name := "PARAM_1", Value := "LOW"}}, 
-  	 		  	CreatedTask := omit
-  	 		}, Delay := 0.0, Timeout := 0.1},
-  	 		{Task:={
-  	 		  	TaskName := "send", 
-  	 		  	Parameters := {{Name:="INTERFACE",Value:="GPIO 1"},
-  	 		  					{Name := "PARAM_1", Value := "HIGH"}}, 
-  	 		  	CreatedTask := omit
-  	 		}, Delay := 0.0, Timeout := 0.1},
-  	 		{Task:={
-  	 		  	TaskName := "send", 
-  	 		  	Parameters := {{Name:="INTERFACE",Value:="GPIO 2"},
-  	 		  					{Name := "PARAM_1", Value := "HIGH"}}, 
-  	 		  	CreatedTask := omit
-  	 		}, Delay := 0.0, Timeout := 0.1},
-  	 		{Task:={
-  	 		  	TaskName := "send", 
-  	 		  	Parameters := {{Name:="INTERFACE",Value:="GPIO 2"},
-  	 		  					{Name := "PARAM_1", Value := "LOW"}}, 
-  	 		  	CreatedTask := omit
-  	 		}, Delay := 0.0, Timeout := 0.1},
-  	 		{Task:={
-  	 		  	TaskName := "send", 
-  	 		  	Parameters := {{Name:="INTERFACE",Value:="GPIO 2"},
-  	 		  					{Name := "PARAM_1", Value := "HIGH"}}, 
-  	 		  	CreatedTask := omit
-  	 		}, Delay := 0.0, Timeout := 0.1},
-  	 		{Task:={
-  	 		  	TaskName := "send", 
-  	 		  	Parameters := {{Name:="INTERFACE",Value:="GPIO 3"},
-  	 		  					{Name := "PARAM_1", Value := "HIGH"}}, 
-  	 		  	CreatedTask := omit
-  	 		}, Delay := 0.0, Timeout := 0.1},
-  	 		{Task:={
-  	 		  	TaskName := "send", 
-  	 		  	Parameters := {{Name:="INTERFACE",Value:="GPIO 3"},
-  	 		  					{Name := "PARAM_1", Value := "LOW"}}, 
-  	 		  	CreatedTask := omit
-  	 		}, Delay := 0.0, Timeout := 0.1},
-  	 		{Task:={
-  	 		  	TaskName := "send", 
-  	 		  	Parameters := {{Name:="INTERFACE",Value:="GPIO 3"},
-  	 		  					{Name := "PARAM_1", Value := "HIGH"}}, 
-  	 		  	CreatedTask := omit
-  	 		}, Delay := 0.0, Timeout := 0.1}
+  	 		{InterfaceAction := {"GPIO 1", "send", {"HIGH"}, 0.0 ,0.5}},
+  	 		{InterfaceAction := {"GPIO 1", "send", {"LOW"}, 0.0 ,0.5}},
+  	 		{InterfaceAction := {"GPIO 1", "send", {"HIGH"}, 0.0 ,0.5}},
+  	 		{InterfaceAction := {"GPIO 2", "send", {"HIGH"}, 0.0 ,0.5}},
+  	 		{InterfaceAction := {"GPIO 2", "send", {"LOW"}, 0.0 ,0.5}},
+  	 		{InterfaceAction := {"GPIO 2", "send", {"HIGH"}, 0.0 ,0.5}},
+  	 		{InterfaceAction := {"GPIO 3", "send", {"HIGH"}, 0.0 ,0.5}},
+  	 		{InterfaceAction := {"GPIO 3", "send", {"LOW"}, 0.0 ,0.5}},
+  	 		{InterfaceAction := {"GPIO 3", "send", {"HIGH"}, 0.0 ,0.5}}
   	 	}
   	 )); 
   	  
