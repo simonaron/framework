@@ -1,0 +1,84 @@
+module GPIO_ReceiveValueTask {
+	import from TEST_API_Functions all;
+	//import from TEST_API_Definitions all;
+	import from GPIOPinPort all;
+	import from TASK_BUILDER all;
+	import from TASK all;
+	//import from GPIO all;
+	import from GPIO {import all};
+	import from INTERFACE_STORE all;
+	
+	type component
+	CT_GPIO_ReceiveValueTask extends CT_GPIO_Controller, CT_TASK_Task { }
+	
+	template RT_TASK_BUILDER_TaskBuilderMission
+	t_GPIO_ReceiveValueTask_Acceped := {
+	  TaskName := "receive",
+	  Parameters := {{Name:="INTERFACE", Value:=?},{Name:="PARAM_1", Value:=?}},
+	  CreatedTask := omit
+	};
+	
+	template RT_TASK_BUILDER_TaskBuilderMission
+	t_GPIO_ReceiveValueTask_ParameterError := {TaskName := "receive", Parameters := ?, CreatedTask := omit};
+	
+	function f_GPIO_ReceiveValueTask_Task (CT_GPIO_Device sourceDevice, GPIO_PIN_VALUE expectedValue)
+	runs on CT_GPIO_ReceiveValueTask {
+		alt {
+			[] p_taskPort.receive(EV_TASK_INIT) {
+			  	connect(self:device, sourceDevice:controller);
+			  	device.send(GPIO_PIN_DIRECTION:IN);
+			  	f_TEST_API_Subject_setverdict(pass, "Task initialised!");
+			  	p_taskPort.send(EV_TASK_INITIALISED);
+			}
+		}
+		
+		alt {
+		  	[] p_taskPort.receive(EV_TASK_START) {
+		  	  	
+		  	  	var GPIO_PIN_VALUE receivedValue := f_GPIO_Controller_receiveValue();
+		  	  	
+		  	  	disconnect(self:device, sourceDevice:controller);
+		  	  	if (receivedValue == expectedValue) {
+		  	  		f_TEST_API_Subject_setverdict(pass, "Task: Received expected value!");
+		  	  		p_taskPort.send(EV_TASK_FINISH);
+		  	  	} else {
+		  	  		f_TEST_API_Subject_setverdict(fail, "Task: Unexpected received value!");
+		  	  		p_taskPort.send(EV_TASK_ERROR);
+		  	  	}
+		  	}
+		}
+	}
+	
+	altstep as_GPIO_ReceiveValueTask_TaskBuilder_subscribe()
+	runs on CT_GPIO_TaskBuilder {
+	    var RT_TASK_BUILDER_TaskBuilderMission receivedMission;
+	    [] p_taskBuilderPort.receive(t_GPIO_ReceiveValueTask_Acceped)
+	    -> value receivedMission {
+	    	    var charstring v_interface := f_TaskBuilderParameters_getValueOf(receivedMission.Parameters, "INTERFACE");
+	    	    var charstring v_value := f_TaskBuilderParameters_getValueOf(receivedMission.Parameters, "PARAM_1");
+	    	    
+	    	    // get interface
+	    	    var RT_INTERFACE_STORE_InterfaceElement receivedElement;
+	    	    p_interfaceStore.send({Name:= v_interface, Device:= omit , Controller:=omit});
+	    	    p_interfaceStore.receive({Name:= v_interface, Device:= ? , Controller:=omit}) -> value receivedElement;
+	    	    
+	    	    // start task
+	    	    var CT_GPIO_ReceiveValueTask newTask := CT_GPIO_ReceiveValueTask.create;
+	    	    if (v_value == "HIGH") {
+	    	    	newTask.start(f_GPIO_ReceiveValueTask_Task(receivedElement.Device.UV_GPIO, HIGH));
+	    	    } else if (v_value == "LOW") {
+	    	      	newTask.start(f_GPIO_ReceiveValueTask_Task(receivedElement.Device.UV_GPIO, LOW));
+	    	    } else {
+	    	      	// TODO throw ERROR
+	    	    }
+	    	    
+	    	    receivedMission.CreatedTask := newTask;
+	    	    p_taskBuilderPort.send(receivedMission);
+	    	repeat;
+	    }
+	    [] p_taskBuilderPort.receive(t_GPIO_ReceiveValueTask_ParameterError)
+	    -> value receivedMission {
+	    	// TODO throw ERROR
+	    }
+	  }
+}

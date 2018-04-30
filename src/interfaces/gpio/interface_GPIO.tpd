@@ -26,6 +26,8 @@
     <FileResource projectRelativePath="src/GPIO.ttcn" relativeURI="src/GPIO.ttcn"/>
     <FileResource projectRelativePath="src/GPIO_Definitions.ttcn" relativeURI="src/GPIO_Definitions.ttcn"/>
     <FileResource projectRelativePath="src/GPIO_Functions.ttcn" relativeURI="src/GPIO_Functions.ttcn"/>
+    <FileResource projectRelativePath="src/GPIO_ReceiveValueTask.ttcn" relativeURI="src/GPIO_ReceiveValueTask.ttcn"/>
+    <FileResource projectRelativePath="src/GPIO_SendValueTask.ttcn" relativeURI="src/GPIO_SendValueTask.ttcn"/>
     <FileResource projectRelativePath="src/GPIO_TaskBuilder.ttcn" relativeURI="src/GPIO_TaskBuilder.ttcn"/>
     <FileResource projectRelativePath="test/GPIO_Test.cfg" relativeURI="test/GPIO_Test.cfg"/>
     <FileResource projectRelativePath="test/GPIO_Test.ttcn" relativeURI="test/GPIO_Test.ttcn"/>

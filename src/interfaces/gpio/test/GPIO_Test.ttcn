@@ -5,6 +5,7 @@ module GPIO_Test {
 	import from TEST_API_Definitions all;
 	import from TASK_BUILDER all;
 	import from TASK all;
+	import from INTERFACE_STORE all;
 
 	testcase tc_GPIO_UnitTest__Device__receive_value() runs on CT_TEST_API_Watcher {
   	  f_TEST_API_UnitTest_Start();
@@ -42,21 +43,42 @@ module GPIO_Test {
 	type component CT_GPIO_TEST_TaskBuilder extends CT_TEST_API_Watcher {
 	  port PT_TASK_BUILDER_TaskBuilderPort p_taskBuilderPort;
 	  port PT_TASK_TaskExecutorPort p_task;
+	  port PT_INTERFACE_STORE_InterfaceStorePort p_interfaceStorePort;
 	}
 	
-	testcase tc_GPIO_UnitTest__TaskBuilder__create_task() runs on CT_GPIO_TEST_TaskBuilder {
+	testcase tc_GPIO_UnitTest__TaskBuilder__create_task_with_builder() runs on CT_GPIO_TEST_TaskBuilder {
   	  f_TEST_API_UnitTest_Start();
   	  
-  	  var CT_GPIO_Device device := CT_GPIO_Device.create alive;
-  	  var CT_GPIO_TaskBuilder builder := CT_GPIO_TaskBuilder.create alive;
-  	  f_TEST_API_Watcher_watch(builder);
+  	  var CT_INTERFACE_STORE_InterfaceStore interfaceStore := CT_INTERFACE_STORE_InterfaceStore.create alive;
+  	  connect(self:p_interfaceStorePort, interfaceStore:p_interfaceStoreClient);
+  	  interfaceStore.start(f_INTERFACE_STORE_InterfaceStore());
   	  
-  	  builder.start(f_GPIO_TaskBuilder(device));
+  	  var CT_GPIO_Device device := CT_GPIO_Device.create alive;
+  	  p_interfaceStorePort.send({Name:= "STORED DEVICE", Device:={ UV_GPIO := device }, Controller:=omit});
+  	  var CT_GPIO_TaskBuilder builder := CT_GPIO_TaskBuilder.create alive;
+  	  
+  	  builder.start(f_GPIO_TaskBuilder(interfaceStore));
   	  connect(self:p_taskBuilderPort, builder:p_taskBuilderPort);
   	  
   	  var RT_TASK_BUILDER_TaskBuilderMission receivedMission;
-  	  p_taskBuilderPort.send({TaskName := "receive_high", CreatedTask := omit});
-  	  p_taskBuilderPort.receive({TaskName := "receive_high", CreatedTask := ?}) -> value receivedMission;
+  	  
+  	  log("TASK 1 Receive value --- START");
+  	  p_taskBuilderPort.send({TaskName := "receive", Parameters := {{Name:="INTERFACE",Value:="STORED DEVICE"}, {Name := "PARAM_1", Value := "HIGH"}}, CreatedTask := omit});
+  	  p_taskBuilderPort.receive({TaskName := "receive", Parameters := ?, CreatedTask := ?}) -> value receivedMission;
+  	  
+  	  connect(self:p_task, receivedMission.CreatedTask:p_taskPort);
+  	  p_task.send(EV_TASK_INIT);
+  	  p_task.receive(EV_TASK_INITIALISED);
+  	  p_task.send(EV_TASK_START);
+  	  
+	  device.start(f_GPIO_Device_sendValue(HIGH));
+	  
+	  p_task.receive(EV_TASK_FINISH);
+	  log("");
+	  
+	  log("TASK 2 Receive value --- START");
+	  p_taskBuilderPort.send({TaskName := "receive", Parameters := {{Name:="INTERFACE",Value:="STORED DEVICE"}, {Name := "PARAM_1", Value := "HIGH"}}, CreatedTask := omit});
+  	  p_taskBuilderPort.receive({TaskName := "receive", Parameters := ?, CreatedTask := ?}) -> value receivedMission;
   	  
   	  connect(self:p_task, receivedMission.CreatedTask:p_taskPort);
   	  p_task.send(EV_TASK_INIT);
@@ -66,15 +88,88 @@ module GPIO_Test {
 	  device.start(f_GPIO_Device_sendValue(HIGH));
   	  
   	  p_task.receive(EV_TASK_FINISH);
+  	  log("");
   	 
-  	 
+  	  log("TASK 3 Send value --- START");
+	  p_taskBuilderPort.send({TaskName := "send", Parameters := {{Name:="INTERFACE",Value:="STORED DEVICE"}, {Name := "PARAM_1", Value := "HIGH"}}, CreatedTask := omit});
+  	  p_taskBuilderPort.receive({TaskName := "send", Parameters := ?, CreatedTask := ?}) -> value receivedMission;
   	  
+  	  connect(self:p_task, receivedMission.CreatedTask:p_taskPort);
+  	  p_task.send(EV_TASK_INIT);
+  	  p_task.receive(EV_TASK_INITIALISED);
+  	  p_task.send(EV_TASK_START);
+  	  
+	  device.start(f_GPIO_Device_receiveValue());
+  	  
+  	  p_task.receive(EV_TASK_FINISH);
+  	  log("");
+  	  
+  	  f_TEST_API_UnitTest_Finished();
+	}
+
+	testcase tc_GPIO_UnitTest__TaskBuilder__parametrised_performance(integer sum) runs on CT_GPIO_TEST_TaskBuilder {
+  	  f_TEST_API_UnitTest_Start();
+  	  
+  	  var CT_INTERFACE_STORE_InterfaceStore interfaceStore := CT_INTERFACE_STORE_InterfaceStore.create alive;
+  	  connect(self:p_interfaceStorePort, interfaceStore:p_interfaceStoreClient);
+  	  interfaceStore.start(f_INTERFACE_STORE_InterfaceStore());
+  	  
+  	  var CT_GPIO_Device device := CT_GPIO_Device.create alive;
+  	  p_interfaceStorePort.send({Name:= "STORED DEVICE", Device:={ UV_GPIO := device }, Controller:=omit});
+  	  var CT_GPIO_TaskBuilder builder := CT_GPIO_TaskBuilder.create alive;
+  	  
+  	  builder.start(f_GPIO_TaskBuilder(interfaceStore));
+  	  connect(self:p_taskBuilderPort, builder:p_taskBuilderPort);
+  	  
+  	  var RT_TASK_BUILDER_TaskBuilderMission receivedMission;
+  	  
+  	  timer t := 100.0;
+  	  t.start;
+  	  
+  	  for(var integer i := 0; i < sum; i := i + 1) {  
+  	 
+  	  log("TASK 3 Send HIGH --- START");
+	  p_taskBuilderPort.send({TaskName := "send", Parameters := {{Name:="INTERFACE",Value:="STORED DEVICE"}, {Name := "PARAM_1", Value := "HIGH"}}, CreatedTask := omit});
+  	  p_taskBuilderPort.receive({TaskName := "send", Parameters := ?, CreatedTask := ?}) -> value receivedMission;
+  	  
+  	  connect(self:p_task, receivedMission.CreatedTask:p_taskPort);
+  	  p_task.send(EV_TASK_INIT);
+  	  p_task.receive(EV_TASK_INITIALISED);
+  	  p_task.send(EV_TASK_START);
+  	  
+	  device.start(f_GPIO_Device_receiveValue());
+  	  
+  	  p_task.receive(EV_TASK_FINISH);
+  	  log("");
+  	  
+  	  log("TASK 3 Send LOW --- START");
+	  p_taskBuilderPort.send({TaskName := "send", Parameters := {{Name:="INTERFACE",Value:="STORED DEVICE"}, {Name := "PARAM_1", Value := "LOW"}}, CreatedTask := omit});
+  	  p_taskBuilderPort.receive({TaskName := "send", Parameters := ?, CreatedTask := ?}) -> value receivedMission;
+  	  
+  	  connect(self:p_task, receivedMission.CreatedTask:p_taskPort);
+  	  p_task.send(EV_TASK_INIT);
+  	  p_task.receive(EV_TASK_INITIALISED);
+  	  p_task.send(EV_TASK_START);
+  	  
+	  device.start(f_GPIO_Device_receiveValue());
+  	  
+  	  p_task.receive(EV_TASK_FINISH);
+  	  log("");
+  	  }
+  	  log(sum);
+  	  log(t.read);
   	  f_TEST_API_UnitTest_Finished();
 	}
 
 	control {
 	  execute(tc_GPIO_UnitTest__Device__receive_value())
 	  execute(tc_GPIO_UnitTest__Controller__receive_value())
-	  execute(tc_GPIO_UnitTest__TaskBuilder__create_task())
+	  execute(tc_GPIO_UnitTest__TaskBuilder__create_task_with_builder())
+	  
+	  //execute(tc_GPIO_UnitTest__TaskBuilder__parametrised_performance(10))
+	  //execute(tc_GPIO_UnitTest__TaskBuilder__parametrised_performance(100))
+	  //execute(tc_GPIO_UnitTest__TaskBuilder__parametrised_performance(1000))
+	  //execute(tc_GPIO_UnitTest__TaskBuilder__parametrised_performance(10000))
+	  //execute(tc_GPIO_UnitTest__TaskBuilder__parametrised_performance(100000))
 	}
 }

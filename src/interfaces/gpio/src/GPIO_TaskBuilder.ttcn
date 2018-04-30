@@ -1,71 +1,21 @@
 module GPIO_TaskBuilder {
-	import from TEST_API_Functions all;
 	import from TEST_API_Definitions all;
-	import from GPIOPinPort all;
 	import from TASK_BUILDER all;
-	import from TASK all;
-	import from GPIO all;
-	import from GPIO {import all};
+	import from INTERFACE_STORE all;
 	
-	type component
-	CT_GPIO_ReceiveValueTask extends CT_GPIO_Controller, CT_TASK_Task { }
-	
-	function f_GPIO_ReceiveValueTask (CT_GPIO_Device sourceDevice, GPIO_PIN_VALUE expectedValue)
-	runs on CT_GPIO_ReceiveValueTask {
-		alt {
-			[] p_taskPort.receive(EV_TASK_INIT) {
-			  	connect(self:device, sourceDevice:controller);
-			  	f_TEST_API_Subject_setverdict(pass, "Task initialised!");
-			  	p_taskPort.send(EV_TASK_INITIALISED);
-			}
-		}
-		
-		alt {
-		  	[] p_taskPort.receive(EV_TASK_START) {
-		  	  	
-		  	  	var GPIO_PIN_VALUE receivedValue := f_GPIO_Controller_receiveValue();
-		  	  	if (receivedValue == expectedValue) {
-		  	  		f_TEST_API_Subject_setverdict(pass, "Task: Received expected value!");
-		  	  		p_taskPort.send(EV_TASK_FINISH);
-		  	  	} else {
-		  	  		f_TEST_API_Subject_setverdict(fail, "Task: Unexpected received value!");
-		  	  		p_taskPort.send(EV_TASK_ERROR);
-		  	  	}
-		  	}
-		}
-	}
+	import from GPIO_ReceiveValueTask all;	
+	import from GPIO_SendValueTask all;	
 	
 	type component
 	CT_GPIO_TaskBuilder extends CT_TASK_BUILDER_TaskBuilder, CT_TEST_API_Subject { }
 	
-	function f_GPIO_TaskBuilder(CT_GPIO_Device device)
+	function f_GPIO_TaskBuilder(CT_INTERFACE_STORE_InterfaceStore interfaceStore)
 	runs on CT_GPIO_TaskBuilder {
-	  var RT_TASK_BUILDER_TaskBuilderMission receivedMission;
-	  alt {
-	    [] p_taskBuilderPort.receive(RT_TASK_BUILDER_TaskBuilderMission:{TaskName := ?, CreatedTask := omit})
-	    -> value receivedMission {
-	    	select(receivedMission.TaskName) {
-	    	  case("receive_high") {
-	    	    var CT_GPIO_ReceiveValueTask newTask := CT_GPIO_ReceiveValueTask.create;
-	    	    newTask.start(f_GPIO_ReceiveValueTask(device, HIGH));
-	    	    receivedMission.CreatedTask := newTask;
-	    	    p_taskBuilderPort.send(receivedMission);
-	    	  	break;
-	    	  }
-	    	  case("receive_low") {
-	    	    var CT_GPIO_ReceiveValueTask newTask := CT_GPIO_ReceiveValueTask.create;
-	    	    newTask.start(f_GPIO_ReceiveValueTask(device, LOW));
-	    	    receivedMission.CreatedTask := newTask;
-	    	    p_taskBuilderPort.send(receivedMission);
-	    	  	break;
-	    	  }
-	    	  case else {
-	    	    f_TEST_API_Subject_setverdict(fail, "TaskBuilder: TaskName not a valid one!");
-	    	    break; 
-	    	  }
-	    	}
-	    	repeat;
-	    }
-	  }
+	  	connect(self:p_interfaceStore, interfaceStore:p_interfaceStoreClient);
+	  	activate(as_GPIO_ReceiveValueTask_TaskBuilder_subscribe());
+	  	activate(as_GPIO_SendValueTask_TaskBuilder_subscribe());
+			
+		p_taskPort.receive(EV_TASK_STOP);
 	}
+	   
 }

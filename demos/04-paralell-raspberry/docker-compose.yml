@@ -1,0 +1,25 @@
+version: "3"
+services:
+  mc:
+    image: 192.168.50.100:5000/project_mc
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: none
+  hc1:
+    image: 192.168.50.100:5000/project_hc
+    deploy:
+      placement:
+        constraints: [node.role != manager]
+      restart_policy:
+        condition: none
+  hc2:
+    image: 192.168.50.100:5000/project_hc
+    deploy:
+      placement:
+        constraints: [node.role != manager]
+      restart_policy:
+        condition: none
+
+    

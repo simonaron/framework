@@ -1,0 +1,89 @@
+module SEQUENCE_EXECUTOR {
+	import from TASK_BUILDER all;
+	import from TASK all;
+	import from TEST_API_Definitions all;
+	import from TEST_API_Functions all;
+	import from LANGUAGE all;
+	import from LANGUAGE {import all};
+	
+	type component
+    CT_SEQUENCE_EXECUTOR_SequenceExecutor extends CT_TEST_API_Subject {
+      port PT_TASK_BUILDER_TaskBuilderPort p_taskBuilder;
+      port PT_TASK_TaskExecutorPort p_task;
+    }
+	
+	
+	function f_SEQUENCE_EXECUTOR_SequenceExecutor (
+		CT_TASK_BUILDER_TaskBuilder taskBuilder,
+		LANGUAGE_DYNAMIC_ActionSequence sequence
+	) runs on CT_SEQUENCE_EXECUTOR_SequenceExecutor {
+	  	connect(self:p_taskBuilder, taskBuilder:p_taskBuilderPort);
+	  
+	  	for (var integer i := 0; i < sizeof(sequence); i := i + 1) {
+	  	  	f_TEST_API_Subject_setverdict(pass, "SEQUENCE_EXECUTOR: Step started!");
+	  	  
+	  	  	var float v_delay := 0.0;
+	  	  	var float v_timeout := 5.0;
+	  	  	var RT_TASK_BUILDER_TaskBuilderMission mission;
+	  	  	
+	  	  	
+	  	  	if(ischosen(sequence[i].InterfaceAction)) {
+	  	  	    if (ispresent(sequence[i].InterfaceAction.Delay)) {
+    	  	      v_delay := sequence[i].InterfaceAction.Delay;
+    	  	    }
+    	  	    if (ispresent(sequence[i].InterfaceAction.Timeout)) {
+    	  	      v_timeout := sequence[i].InterfaceAction.Timeout;
+    	  	    }
+    	  	    
+	  	  	  	action("+ ---------------------------------------------------------------------------------------------");
+	  	  	  	action("  Execute ",sequence[i].InterfaceAction.Command, " on ",sequence[i].InterfaceAction.InterfaceName);
+	  	  	  	action("  Params: ", sequence[i].InterfaceAction.Parameters);
+	  	  	  	action("  Delay: ",v_delay, " Timeout: ", v_timeout);
+	  	  	  	action("= - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
+    	  	    mission := {
+    	  	      TaskName := sequence[i].InterfaceAction.Command,
+    	  	      Parameters := {
+    	  	        { Name := "INTERFACE", Value := sequence[i].InterfaceAction.InterfaceName },
+    	  	        { Name := "PARAM_1", Value := sequence[i].InterfaceAction.Parameters[0] }
+    	  	      },
+    	  	      CreatedTask := omit
+    	  	    };
+	  	  	} else {
+	  	  	  // TODO non 
+	  	  	}
+	  	  	
+	  	  	// TODO delay, timeout
+	  	  	timer t_delay, t_timeout;
+	  	  	t_delay.start(v_delay);
+	  	  	t_timeout.start(v_timeout);
+	  	  	
+	  	  	// create task
+	  	  	p_taskBuilder.send(mission);
+	  	  	p_taskBuilder.receive({TaskName := mission.TaskName, Parameters := ?, CreatedTask := ?}) -> value mission;
+	  	    connect(self:p_task, mission.CreatedTask:p_taskPort);
+	  	  	
+	  	  	// init task
+	  	  	p_task.send(EV_TASK_INIT);
+  	  		p_task.receive(EV_TASK_INITIALISED);
+  	  		// start task when delay ended
+  	  		alt {
+  	  			[] p_task.receive(EV_TASK_FINISH) {
+  	  			  	action("  Verdict: PASS");
+  	  				f_TEST_API_Subject_setverdict(pass, "SEQUENCE_EXECUTOR: Step successfully finished!");
+  	  			}
+  	  			[] t_delay.timeout {
+  	  			  	f_TEST_API_Subject_setverdict(pass, "SEQUENCE_EXECUTOR: Delay timeout!");
+  	  				p_task.send(EV_TASK_START);
+  	  				repeat;
+  	  			}
+  	  			[] t_timeout.timeout {
+  	  			  	action("  Verdict: FAIL - Action timeout occured!");
+  	  				f_TEST_API_Subject_setverdict(fail, "SEQUENCE_EXECUTOR: Step timeout!");
+  	  			}
+  	  		}
+  	  		disconnect(self:p_task, mission.CreatedTask:p_taskPort);
+	  	  	action("+ ---------------------------------------------------------------------------------------------");
+	  	  	action("");
+	  	}
+	}
+}

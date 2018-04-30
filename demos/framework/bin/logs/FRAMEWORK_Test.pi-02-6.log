@@ -1,0 +1,38 @@
+2018/Apr/22 14:46:30.086209 EXECUTOR - TTCN-3 Parallel Test Component started on pi-02. Component reference: 6, component type: INTERFACE_STORE.CT_INTERFACE_STORE_InterfaceStore. Version: CRL 113 200/6 R3A.
+2018/Apr/22 14:46:30.086402 EXECUTOR - TTCN Logger v2.2 options: TimeStampFormat:=DateTime; LogEntityName:=Yes; LogEventTypes:=Yes; SourceInfoFormat:=Single; *.FileMask:=LOG_ALL | MATCHING | DEBUG; *.ConsoleMask:=ACTION | ERROR; LogFileSize:=0; LogFileNumber:=1; DiskFullAction:=Error
+2018/Apr/22 14:46:30.087065 EXECUTOR - Connected to MC.
+2018/Apr/22 14:46:30.087227 PARALLEL - Initializing variables, timers and ports of component type INTERFACE_STORE.CT_INTERFACE_STORE_InterfaceStore inside testcase test.
+2018/Apr/22 14:46:30.087788 PORTEVENT - Port watcher was started.
+2018/Apr/22 14:46:30.087950 PORTEVENT - Port p_interfaceStoreClient was started.
+2018/Apr/22 14:46:30.087991 PARALLEL - Component type INTERFACE_STORE.CT_INTERFACE_STORE_InterfaceStore was initialized.
+2018/Apr/22 14:46:30.090680 PARALLEL - Starting function f_INTERFACE_STORE_InterfaceStore().
+2018/Apr/22 14:46:30.091416 PORTEVENT INTERFACE_STORE.ttcn:61(function:f_INTERFACE_STORE_InterfaceStore) Port p_interfaceStoreClient has established the connection with mtc:p_interfaceStore using transport type UNIX.
+2018/Apr/22 14:46:30.092465 PORTEVENT INTERFACE_STORE.ttcn:61(function:f_INTERFACE_STORE_InterfaceStore) Message enqueued on p_interfaceStoreClient from mtc @INTERFACE_STORE.RT_INTERFACE_STORE_InterfaceElement : { Name := "ENABLE", Device := { UV_GPIO := 3 }, Controller := omit } id 1
+2018/Apr/22 14:46:30.092639 PORTEVENT INTERFACE_STORE.ttcn:61(function:f_INTERFACE_STORE_InterfaceStore) Message enqueued on p_interfaceStoreClient from mtc @INTERFACE_STORE.RT_INTERFACE_STORE_InterfaceElement : { Name := "IN", Device := { UV_GPIO := 4 }, Controller := omit } id 2
+2018/Apr/22 14:46:30.092738 MATCHING INTERFACE_STORE.ttcn:63(function:f_INTERFACE_STORE_InterfaceStore) Matching on port p_interfaceStoreClient .Device{ UV_GPIO := 3 } with omit unmatched: First message in the queue does not match the template: 
+2018/Apr/22 14:46:30.092836 MATCHING INTERFACE_STORE.ttcn:79(function:f_INTERFACE_STORE_InterfaceStore) Matching on port p_interfaceStoreClient succeeded:  matched
+2018/Apr/22 14:46:30.092896 PORTEVENT INTERFACE_STORE.ttcn:79(function:f_INTERFACE_STORE_InterfaceStore) Receive operation on port p_interfaceStoreClient succeeded, message from mtc: @INTERFACE_STORE.RT_INTERFACE_STORE_InterfaceElement : { Name := "ENABLE", Device := { UV_GPIO := 3 }, Controller := omit } id 1
+2018/Apr/22 14:46:30.092956 PORTEVENT INTERFACE_STORE.ttcn:79(function:f_INTERFACE_STORE_InterfaceStore) Message with id 1 was extracted from the queue of p_interfaceStoreClient.
+2018/Apr/22 14:46:30.093035 USER TEST_Functions.ttcn:15(function:f_TEST_Subject_setverdict) "Element create!"
+2018/Apr/22 14:46:30.093138 VERDICTOP TEST_Functions.ttcn:16(function:f_TEST_Subject_setverdict) setverdict(pass): none -> pass reason: ""Element create!"", new component reason: ""Element create!""
+2018/Apr/22 14:46:30.093217 MATCHING INTERFACE_STORE.ttcn:63(function:f_INTERFACE_STORE_InterfaceStore) Matching on port p_interfaceStoreClient .Device{ UV_GPIO := 4 } with omit unmatched: First message in the queue does not match the template: 
+2018/Apr/22 14:46:30.093272 MATCHING INTERFACE_STORE.ttcn:79(function:f_INTERFACE_STORE_InterfaceStore) Matching on port p_interfaceStoreClient succeeded:  matched
+2018/Apr/22 14:46:30.093329 PORTEVENT INTERFACE_STORE.ttcn:79(function:f_INTERFACE_STORE_InterfaceStore) Receive operation on port p_interfaceStoreClient succeeded, message from mtc: @INTERFACE_STORE.RT_INTERFACE_STORE_InterfaceElement : { Name := "IN", Device := { UV_GPIO := 4 }, Controller := omit } id 2
+2018/Apr/22 14:46:30.093387 PORTEVENT INTERFACE_STORE.ttcn:79(function:f_INTERFACE_STORE_InterfaceStore) Message with id 2 was extracted from the queue of p_interfaceStoreClient.
+2018/Apr/22 14:46:30.093440 USER TEST_Functions.ttcn:15(function:f_TEST_Subject_setverdict) "Element create!"
+2018/Apr/22 14:46:30.093500 VERDICTOP TEST_Functions.ttcn:16(function:f_TEST_Subject_setverdict) setverdict(pass): pass -> pass reason: ""Element create!"", component reason not changed
+2018/Apr/22 14:46:30.094586 PORTEVENT INTERFACE_STORE.ttcn:61(function:f_INTERFACE_STORE_InterfaceStore) Port p_interfaceStoreClient has established the connection with 5:p_interfaceStore using transport type UNIX.
+2018/Apr/22 14:46:33.310539 PORTEVENT INTERFACE_STORE.ttcn:61(function:f_INTERFACE_STORE_InterfaceStore) Message enqueued on p_interfaceStoreClient from 5 @INTERFACE_STORE.RT_INTERFACE_STORE_InterfaceElement : { Name := "IN", Device := omit, Controller := omit } id 3
+2018/Apr/22 14:46:33.310643 MATCHING INTERFACE_STORE.ttcn:63(function:f_INTERFACE_STORE_InterfaceStore) Matching on port p_interfaceStoreClient succeeded:  matched
+2018/Apr/22 14:46:33.310703 PORTEVENT INTERFACE_STORE.ttcn:63(function:f_INTERFACE_STORE_InterfaceStore) Receive operation on port p_interfaceStoreClient succeeded, message from 5: @INTERFACE_STORE.RT_INTERFACE_STORE_InterfaceElement : { Name := "IN", Device := omit, Controller := omit } id 3
+2018/Apr/22 14:46:33.310764 PORTEVENT INTERFACE_STORE.ttcn:63(function:f_INTERFACE_STORE_InterfaceStore) Message with id 3 was extracted from the queue of p_interfaceStoreClient.
+2018/Apr/22 14:46:33.310824 USER TEST_Functions.ttcn:15(function:f_TEST_Subject_setverdict) "Element found!"
+2018/Apr/22 14:46:33.310893 VERDICTOP TEST_Functions.ttcn:16(function:f_TEST_Subject_setverdict) setverdict(pass): pass -> pass reason: ""Element found!"", component reason not changed
+2018/Apr/22 14:46:33.310963 PORTEVENT INTERFACE_STORE.ttcn:74(function:f_INTERFACE_STORE_InterfaceStore) Sent on p_interfaceStoreClient to 5 @INTERFACE_STORE.RT_INTERFACE_STORE_InterfaceElement : { Name := "IN", Device := { UV_GPIO := 4 }, Controller := omit }
+2018/Apr/22 14:46:34.660592 PORTEVENT INTERFACE_STORE.ttcn:61(function:f_INTERFACE_STORE_InterfaceStore) Message enqueued on p_interfaceStoreClient from 5 @INTERFACE_STORE.RT_INTERFACE_STORE_InterfaceElement : { Name := "IN", Device := omit, Controller := omit } id 4
+2018/Apr/22 14:46:34.660707 MATCHING INTERFACE_STORE.ttcn:63(function:f_INTERFACE_STORE_InterfaceStore) Matching on port p_interfaceStoreClient succeeded:  matched
+2018/Apr/22 14:46:34.660772 PORTEVENT INTERFACE_STORE.ttcn:63(function:f_INTERFACE_STORE_InterfaceStore) Receive operation on port p_interfaceStoreClient succeeded, message from 5: @INTERFACE_STORE.RT_INTERFACE_STORE_InterfaceElement : { Name := "IN", Device := omit, Controller := omit } id 4
+2018/Apr/22 14:46:34.660852 PORTEVENT INTERFACE_STORE.ttcn:63(function:f_INTERFACE_STORE_InterfaceStore) Message with id 4 was extracted from the queue of p_interfaceStoreClient.
+2018/Apr/22 14:46:34.660932 USER TEST_Functions.ttcn:15(function:f_TEST_Subject_setverdict) "Element found!"
+2018/Apr/22 14:46:34.661014 VERDICTOP TEST_Functions.ttcn:16(function:f_TEST_Subject_setverdict) setverdict(pass): pass -> pass reason: ""Element found!"", component reason not changed
+2018/Apr/22 14:46:34.661089 PORTEVENT INTERFACE_STORE.ttcn:74(function:f_INTERFACE_STORE_InterfaceStore) Sent on p_interfaceStoreClient to 5 @INTERFACE_STORE.RT_INTERFACE_STORE_InterfaceElement : { Name := "IN", Device := { UV_GPIO := 4 }, Controller := omit }

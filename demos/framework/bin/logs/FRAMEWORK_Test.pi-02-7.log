@@ -1,0 +1,74 @@
+2018/Apr/22 14:46:30.089199 EXECUTOR - TTCN-3 Parallel Test Component started on pi-02. Component reference: 7, component type: SEQUENCE_EXECUTOR.CT_SEQUENCE_EXECUTOR_SequenceExecutor. Version: CRL 113 200/6 R3A.
+2018/Apr/22 14:46:30.089388 EXECUTOR - TTCN Logger v2.2 options: TimeStampFormat:=DateTime; LogEntityName:=Yes; LogEventTypes:=Yes; SourceInfoFormat:=Single; *.FileMask:=LOG_ALL | MATCHING | DEBUG; *.ConsoleMask:=ACTION | ERROR; LogFileSize:=0; LogFileNumber:=1; DiskFullAction:=Error
+2018/Apr/22 14:46:30.090053 EXECUTOR - Connected to MC.
+2018/Apr/22 14:46:30.090212 PARALLEL - Initializing variables, timers and ports of component type SEQUENCE_EXECUTOR.CT_SEQUENCE_EXECUTOR_SequenceExecutor inside testcase test.
+2018/Apr/22 14:46:30.100700 PORTEVENT - Port watcher was started.
+2018/Apr/22 14:46:30.100928 PORTEVENT - Port p_taskBuilder was started.
+2018/Apr/22 14:46:30.100971 PORTEVENT - Port p_task was started.
+2018/Apr/22 14:46:30.101018 PARALLEL - Component type SEQUENCE_EXECUTOR.CT_SEQUENCE_EXECUTOR_SequenceExecutor was initialized.
+2018/Apr/22 14:46:33.306621 PARALLEL - Starting function f_SEQUENCE_EXECUTOR_SequenceExecutor(5, { { InterfaceAction := { InterfaceName := "IN", Command := "receive", Parameters := { "HIGH" }, Delay := 0.000000, Timeout := 10.000000 } }, { InterfaceAction := { InterfaceName := "IN", Command := "receive", Parameters := { "LOW" }, Delay := 0.000000, Timeout := 10.000000 } }, { InterfaceAction := { InterfaceName := "IN", Command := "receive", Parameters := { "HIGH" }, Delay := 0.000000, Timeout := 10.000000 } }, { InterfaceAction := { InterfaceName := "IN", Command := "receive", Parameters := { "LOW" }, Delay := 0.000000, Timeout := 10.000000 } } }).
+2018/Apr/22 14:46:33.306854 PARALLEL SEQUENCE_EXECUTOR.ttcn:20(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Connecting ports 7:p_taskBuilder and 5:p_taskBuilderPort.
+2018/Apr/22 14:46:33.307600 PORTEVENT SEQUENCE_EXECUTOR.ttcn:20(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Port p_taskBuilder has established the connection with 5:p_taskBuilderPort using transport type UNIX.
+2018/Apr/22 14:46:33.308044 PARALLEL SEQUENCE_EXECUTOR.ttcn:20(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Connect operation on 7:p_taskBuilder and 5:p_taskBuilderPort finished.
+2018/Apr/22 14:46:33.308211 USER TEST_Functions.ttcn:15(function:f_TEST_Subject_setverdict) "SEQUENCE_EXECUTOR: Step started!"
+2018/Apr/22 14:46:33.308326 VERDICTOP TEST_Functions.ttcn:16(function:f_TEST_Subject_setverdict) setverdict(pass): none -> pass reason: ""SEQUENCE_EXECUTOR: Step started!"", new component reason: ""SEQUENCE_EXECUTOR: Step started!""
+2018/Apr/22 14:46:33.308444 ACTION SEQUENCE_EXECUTOR.ttcn:38(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Action: + ---------------------------------------------------------------------------------------------
+2018/Apr/22 14:46:33.308566 ACTION SEQUENCE_EXECUTOR.ttcn:39(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Action:   Execute "receive" on "IN"
+2018/Apr/22 14:46:33.308735 ACTION SEQUENCE_EXECUTOR.ttcn:40(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Action:   Params: { "HIGH" }
+2018/Apr/22 14:46:33.308858 ACTION SEQUENCE_EXECUTOR.ttcn:41(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Action:   Delay: 0.000000 Timeout: 10.000000
+2018/Apr/22 14:46:33.309018 ACTION SEQUENCE_EXECUTOR.ttcn:42(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Action: = - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+2018/Apr/22 14:46:33.309171 TIMEROP SEQUENCE_EXECUTOR.ttcn:57(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Start timer t_delay: 0 s
+2018/Apr/22 14:46:33.309294 TIMEROP SEQUENCE_EXECUTOR.ttcn:58(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Start timer t_timeout: 10 s
+2018/Apr/22 14:46:33.309387 PORTEVENT SEQUENCE_EXECUTOR.ttcn:61(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Sent on p_taskBuilder to 5 @TASK_BUILDER.RT_TASK_BUILDER_TaskBuilderMission : { TaskName := "receive", Parameters := { { Name := "INTERFACE", Value := "IN" }, { Name := "PARAM_1", Value := "HIGH" } }, CreatedTask := omit }
+2018/Apr/22 14:46:33.325117 PORTEVENT SEQUENCE_EXECUTOR.ttcn:62(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Message enqueued on p_taskBuilder from 5 @TASK_BUILDER.RT_TASK_BUILDER_TaskBuilderMission : { TaskName := "receive", Parameters := { { Name := "INTERFACE", Value := "IN" }, { Name := "PARAM_1", Value := "HIGH" } }, CreatedTask := 8 } id 1
+2018/Apr/22 14:46:33.325249 MATCHING SEQUENCE_EXECUTOR.ttcn:62(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Matching on port p_taskBuilder succeeded:  matched
+2018/Apr/22 14:46:33.325325 PORTEVENT SEQUENCE_EXECUTOR.ttcn:62(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Receive operation on port p_taskBuilder succeeded, message from 5: @TASK_BUILDER.RT_TASK_BUILDER_TaskBuilderMission : { TaskName := "receive", Parameters := { { Name := "INTERFACE", Value := "IN" }, { Name := "PARAM_1", Value := "HIGH" } }, CreatedTask := 8 } id 1
+2018/Apr/22 14:46:33.325386 PORTEVENT SEQUENCE_EXECUTOR.ttcn:62(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Message with id 1 was extracted from the queue of p_taskBuilder.
+2018/Apr/22 14:46:33.325439 PARALLEL SEQUENCE_EXECUTOR.ttcn:63(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Connecting ports 7:p_task and 8:p_taskPort.
+2018/Apr/22 14:46:33.325921 PORTEVENT SEQUENCE_EXECUTOR.ttcn:63(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Port p_task is waiting for connection from 8:p_taskPort on UNIX pathname /tmp/ttcn3-portconn-290fba5f.
+2018/Apr/22 14:46:33.326267 PORTEVENT SEQUENCE_EXECUTOR.ttcn:63(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Port p_task has accepted the connection from 8:p_taskPort.
+2018/Apr/22 14:46:33.326362 PARALLEL SEQUENCE_EXECUTOR.ttcn:63(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Connect operation on 7:p_task and 8:p_taskPort finished.
+2018/Apr/22 14:46:33.326441 PORTEVENT SEQUENCE_EXECUTOR.ttcn:66(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Sent on p_task to 8 @TASK.ET_TASK_ControlIncomingMessage : EV_TASK_INIT (0)
+2018/Apr/22 14:46:33.335190 PORTEVENT SEQUENCE_EXECUTOR.ttcn:67(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Message enqueued on p_task from 8 @TASK.ET_TASK_ControlOutcomingMessage : EV_TASK_INITIALISED (0) id 1
+2018/Apr/22 14:46:33.335309 MATCHING SEQUENCE_EXECUTOR.ttcn:67(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Matching on port p_task succeeded: EV_TASK_INITIALISED (0) with EV_TASK_INITIALISED (0) matched
+2018/Apr/22 14:46:33.335886 PORTEVENT SEQUENCE_EXECUTOR.ttcn:67(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Receive operation on port p_task succeeded, message from 8: @TASK.ET_TASK_ControlOutcomingMessage : EV_TASK_INITIALISED (0) id 1
+2018/Apr/22 14:46:33.336026 PORTEVENT SEQUENCE_EXECUTOR.ttcn:67(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Message with id 1 was extracted from the queue of p_task.
+2018/Apr/22 14:46:33.336089 TIMEROP SEQUENCE_EXECUTOR.ttcn:74(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Timeout t_delay: 0 s
+2018/Apr/22 14:46:33.336157 USER TEST_Functions.ttcn:15(function:f_TEST_Subject_setverdict) "SEQUENCE_EXECUTOR: Delay timeout!"
+2018/Apr/22 14:46:33.336236 VERDICTOP TEST_Functions.ttcn:16(function:f_TEST_Subject_setverdict) setverdict(pass): pass -> pass reason: ""SEQUENCE_EXECUTOR: Delay timeout!"", component reason not changed
+2018/Apr/22 14:46:33.336304 PORTEVENT SEQUENCE_EXECUTOR.ttcn:76(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Sent on p_task to 8 @TASK.ET_TASK_ControlIncomingMessage : EV_TASK_START (1)
+2018/Apr/22 14:46:33.336384 MATCHING SEQUENCE_EXECUTOR.ttcn:74(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Timeout operation on timer t_delay failed: The timer is not started.
+2018/Apr/22 14:46:34.656854 PORTEVENT SEQUENCE_EXECUTOR.ttcn:69(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Message enqueued on p_task from 8 @TASK.ET_TASK_ControlOutcomingMessage : EV_TASK_FINISH (1) id 2
+2018/Apr/22 14:46:34.656953 MATCHING SEQUENCE_EXECUTOR.ttcn:70(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Matching on port p_task succeeded: EV_TASK_FINISH (1) with EV_TASK_FINISH (1) matched
+2018/Apr/22 14:46:34.657016 PORTEVENT SEQUENCE_EXECUTOR.ttcn:70(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Receive operation on port p_task succeeded, message from 8: @TASK.ET_TASK_ControlOutcomingMessage : EV_TASK_FINISH (1) id 2
+2018/Apr/22 14:46:34.657109 PORTEVENT SEQUENCE_EXECUTOR.ttcn:70(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Message with id 2 was extracted from the queue of p_task.
+2018/Apr/22 14:46:34.657162 ACTION SEQUENCE_EXECUTOR.ttcn:71(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Action:   Verdict: PASS
+2018/Apr/22 14:46:34.657311 USER TEST_Functions.ttcn:15(function:f_TEST_Subject_setverdict) "SEQUENCE_EXECUTOR: Step successfully finished!"
+2018/Apr/22 14:46:34.657397 VERDICTOP TEST_Functions.ttcn:16(function:f_TEST_Subject_setverdict) setverdict(pass): pass -> pass reason: ""SEQUENCE_EXECUTOR: Step successfully finished!"", component reason not changed
+2018/Apr/22 14:46:34.657459 PARALLEL SEQUENCE_EXECUTOR.ttcn:84(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Disconnecting ports 7:p_task and 8:p_taskPort.
+2018/Apr/22 14:46:34.657604 PORTEVENT SEQUENCE_EXECUTOR.ttcn:84(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Connection of port p_task to 8:p_taskPort was closed unexpectedly by the peer.
+2018/Apr/22 14:46:34.657666 PORTEVENT SEQUENCE_EXECUTOR.ttcn:84(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Port p_task was disconnected from 8:p_taskPort.
+2018/Apr/22 14:46:34.658251 PARALLEL SEQUENCE_EXECUTOR.ttcn:84(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Disconnect operation on 7:p_task and 8:p_taskPort finished.
+2018/Apr/22 14:46:34.658403 ACTION SEQUENCE_EXECUTOR.ttcn:85(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Action: + ---------------------------------------------------------------------------------------------
+2018/Apr/22 14:46:34.658533 ACTION SEQUENCE_EXECUTOR.ttcn:86(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Action: 
+2018/Apr/22 14:46:34.658656 USER TEST_Functions.ttcn:15(function:f_TEST_Subject_setverdict) "SEQUENCE_EXECUTOR: Step started!"
+2018/Apr/22 14:46:34.658750 VERDICTOP TEST_Functions.ttcn:16(function:f_TEST_Subject_setverdict) setverdict(pass): pass -> pass reason: ""SEQUENCE_EXECUTOR: Step started!"", component reason not changed
+2018/Apr/22 14:46:34.658826 ACTION SEQUENCE_EXECUTOR.ttcn:38(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Action: + ---------------------------------------------------------------------------------------------
+2018/Apr/22 14:46:34.658945 ACTION SEQUENCE_EXECUTOR.ttcn:39(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Action:   Execute "receive" on "IN"
+2018/Apr/22 14:46:34.659076 ACTION SEQUENCE_EXECUTOR.ttcn:40(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Action:   Params: { "LOW" }
+2018/Apr/22 14:46:34.659191 ACTION SEQUENCE_EXECUTOR.ttcn:41(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Action:   Delay: 0.000000 Timeout: 10.000000
+2018/Apr/22 14:46:34.659324 ACTION SEQUENCE_EXECUTOR.ttcn:42(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Action: = - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+2018/Apr/22 14:46:34.659442 TIMEROP SEQUENCE_EXECUTOR.ttcn:57(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Start timer t_delay: 0 s
+2018/Apr/22 14:46:34.659516 TIMEROP SEQUENCE_EXECUTOR.ttcn:58(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Start timer t_timeout: 10 s
+2018/Apr/22 14:46:34.659603 PORTEVENT SEQUENCE_EXECUTOR.ttcn:61(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Sent on p_taskBuilder to 5 @TASK_BUILDER.RT_TASK_BUILDER_TaskBuilderMission : { TaskName := "receive", Parameters := { { Name := "INTERFACE", Value := "IN" }, { Name := "PARAM_1", Value := "LOW" } }, CreatedTask := omit }
+2018/Apr/22 14:46:34.679676 PORTEVENT SEQUENCE_EXECUTOR.ttcn:62(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Message enqueued on p_taskBuilder from 5 @TASK_BUILDER.RT_TASK_BUILDER_TaskBuilderMission : { TaskName := "receive", Parameters := { { Name := "INTERFACE", Value := "IN" }, { Name := "PARAM_1", Value := "LOW" } }, CreatedTask := 9 } id 2
+2018/Apr/22 14:46:34.679808 MATCHING SEQUENCE_EXECUTOR.ttcn:62(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Matching on port p_taskBuilder succeeded:  matched
+2018/Apr/22 14:46:34.679927 PORTEVENT SEQUENCE_EXECUTOR.ttcn:62(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Receive operation on port p_taskBuilder succeeded, message from 5: @TASK_BUILDER.RT_TASK_BUILDER_TaskBuilderMission : { TaskName := "receive", Parameters := { { Name := "INTERFACE", Value := "IN" }, { Name := "PARAM_1", Value := "LOW" } }, CreatedTask := 9 } id 2
+2018/Apr/22 14:46:34.679996 PORTEVENT SEQUENCE_EXECUTOR.ttcn:62(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Message with id 2 was extracted from the queue of p_taskBuilder.
+2018/Apr/22 14:46:34.680051 PARALLEL SEQUENCE_EXECUTOR.ttcn:63(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Connecting ports 7:p_task and 9:p_taskPort.
+2018/Apr/22 14:46:34.680813 PORTEVENT SEQUENCE_EXECUTOR.ttcn:63(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Port p_task is waiting for connection from 9:p_taskPort on UNIX pathname /tmp/ttcn3-portconn-280fba5f.
+2018/Apr/22 14:46:34.682264 PORTEVENT SEQUENCE_EXECUTOR.ttcn:63(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Port p_task has accepted the connection from 9:p_taskPort.
+2018/Apr/22 14:46:34.682447 PARALLEL SEQUENCE_EXECUTOR.ttcn:63(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Connect operation on 7:p_task and 9:p_taskPort finished.
+2018/Apr/22 14:46:34.682552 PORTEVENT SEQUENCE_EXECUTOR.ttcn:66(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Sent on p_task to 9 @TASK.ET_TASK_ControlIncomingMessage : EV_TASK_INIT (0)
+2018/Apr/22 14:46:34.686781 PORTEVENT SEQUENCE_EXECUTOR.ttcn:67(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Connection of port p_task to 9:p_taskPort was closed unexpectedly by the peer.
+2018/Apr/22 14:46:34.686861 PORTEVENT SEQUENCE_EXECUTOR.ttcn:67(function:f_SEQUENCE_EXECUTOR_SequenceExecutor) Port p_task was disconnected from 9:p_taskPort.

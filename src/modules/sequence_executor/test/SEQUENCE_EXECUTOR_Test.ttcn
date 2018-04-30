@@ -1,0 +1,265 @@
+module SEQUENCE_EXECUTOR_Test {
+	import from SEQUENCE_EXECUTOR all;
+	import from TASK_BUILDER all;
+	import from TASK all;
+	import from TEST_API_Definitions all;
+	import from TEST_API_Functions all;
+	import from INTERFACE_STORE all;
+	
+	import from GPIO {import all};
+	
+	type component
+	CT_TEST_SEQUENCE_EXECUTOR extends CT_TEST_API_Watcher, CT_INTERFACE_STORE_InterfaceStoreClient {}
+	
+	testcase tc_SEQUENCE_EXECUTOR_UnitTest__SequenceExecutor__run_step_successfully() runs on CT_TEST_SEQUENCE_EXECUTOR {
+  	  f_TEST_API_UnitTest_Start();
+  	  
+  	  var CT_GPIO_Device device := CT_GPIO_Device.create alive;
+  	  var CT_GPIO_TaskBuilder builder := CT_GPIO_TaskBuilder.create alive;
+  	  var CT_INTERFACE_STORE_InterfaceStore store := CT_INTERFACE_STORE_InterfaceStore.create alive;
+  	  var CT_SEQUENCE_EXECUTOR_SequenceExecutor executor := CT_SEQUENCE_EXECUTOR_SequenceExecutor.create alive;
+  	  
+  	  // init store
+  	  store.start(f_INTERFACE_STORE_InterfaceStore());
+  	  
+  	  // upload interface
+  	  connect(self:p_interfaceStore, store:p_interfaceStoreClient);
+  	  p_interfaceStore.send({Name:= "GPIO 1", Device:={ UV_GPIO := device }, Controller:=omit});
+  	  
+  	  builder.start(f_GPIO_TaskBuilder(store));
+  	  
+  	  f_TEST_API_Watcher_watch(executor);
+  	 
+  	 
+  	 executor.start(f_SEQUENCE_EXECUTOR_SequenceExecutor(
+  	 	builder,
+  	 	{
+  	 		{InterfaceAction := {"GPIO 1", "send", {"HIGH"}, 0.0 ,0.5}}
+  	 	}
+  	 )); 
+  	  
+	  device.start(f_GPIO_Device_receiveValue());
+  	 
+  	  f_TEST_API_Watcher_getverdict(pass, "SEQUENCE_EXECUTOR: Step started!");
+  	  f_TEST_API_Watcher_getverdict(pass, "SEQUENCE_EXECUTOR: Delay timeout!");
+  	  f_TEST_API_Watcher_getverdict(pass, "SEQUENCE_EXECUTOR: Step successfully finished!");
+  	  
+  	  f_TEST_API_UnitTest_Finished();
+	}
+	
+	testcase tc_SEQUENCE_EXECUTOR_UnitTest__SequenceExecutor__run_step_timeout() runs on CT_TEST_SEQUENCE_EXECUTOR {
+  	  f_TEST_API_UnitTest_Start();
+  	  
+  	  var CT_GPIO_Device device := CT_GPIO_Device.create alive;
+  	  var CT_GPIO_TaskBuilder builder := CT_GPIO_TaskBuilder.create alive;
+  	  var CT_INTERFACE_STORE_InterfaceStore store := CT_INTERFACE_STORE_InterfaceStore.create alive;
+  	  var CT_SEQUENCE_EXECUTOR_SequenceExecutor executor := CT_SEQUENCE_EXECUTOR_SequenceExecutor.create alive;
+  	  
+  	  // init store
+  	  store.start(f_INTERFACE_STORE_InterfaceStore());
+  	  
+  	  // upload interface
+  	  connect(self:p_interfaceStore, store:p_interfaceStoreClient);
+  	  p_interfaceStore.send({Name:= "GPIO 1", Device:={ UV_GPIO := device }, Controller:=omit});
+  	  
+  	  builder.start(f_GPIO_TaskBuilder(store));
+  	  
+  	  f_TEST_API_Watcher_watch(executor);
+  	 
+  	 
+  	 executor.start(f_SEQUENCE_EXECUTOR_SequenceExecutor(
+  	 	builder,
+  	 	{
+  	 		{InterfaceAction := {"GPIO 1", "send", {"HIGH"}, 0.2 ,0.1}}
+  	 	}
+  	 )); 
+  	  
+	  device.start(f_GPIO_Device_receiveValue());
+  	 
+  	  f_TEST_API_Watcher_getverdict(pass, "SEQUENCE_EXECUTOR: Step started!");
+  	  f_TEST_API_Watcher_getverdict(fail, "SEQUENCE_EXECUTOR: Step timeout!");
+  	  
+  	  f_TEST_API_UnitTest_Finished();
+	}
+
+	testcase tc_SEQUENCE_EXECUTOR_SystemTest__SequenceExecutor__one_device_one_message() runs on CT_TEST_SEQUENCE_EXECUTOR {
+  	  f_TEST_API_UnitTest_Start();
+  	  
+  	  var CT_GPIO_Device device := CT_GPIO_Device.create alive;
+  	  var CT_GPIO_TaskBuilder builder := CT_GPIO_TaskBuilder.create alive;
+  	  var CT_INTERFACE_STORE_InterfaceStore store := CT_INTERFACE_STORE_InterfaceStore.create alive;
+  	  var CT_SEQUENCE_EXECUTOR_SequenceExecutor executor := CT_SEQUENCE_EXECUTOR_SequenceExecutor.create alive;
+  	  
+  	  // init store
+  	  store.start(f_INTERFACE_STORE_InterfaceStore());
+  	  
+  	  // upload interface
+  	  connect(self:p_interfaceStore, store:p_interfaceStoreClient);
+  	  p_interfaceStore.send({Name:= "GPIO 1", Device:={ UV_GPIO := device }, Controller:=omit});
+  	  
+  	  builder.start(f_GPIO_TaskBuilder(store));
+  	  
+  	  f_TEST_API_Watcher_watch(device);
+  	 
+  	 
+  	 executor.start(f_SEQUENCE_EXECUTOR_SequenceExecutor(
+  	 	builder,
+  	 	{
+  	 		{InterfaceAction := {"GPIO 1", "send", {"HIGH"}, 0.0 ,0.5}}
+  	 	}
+  	 )); 
+  	  
+	  device.start(f_GPIO_TestDevice_receiveExpectedValue(HIGH));
+  	 
+  	  f_TEST_API_Watcher_getverdict(pass, "Value received!");
+  	  f_TEST_API_Watcher_getverdict(pass, "GPIO TEST: Expected value received!");
+  	  
+  	  executor.done;
+  	  
+  	  f_TEST_API_UnitTest_Finished();
+	}
+
+	testcase tc_SEQUENCE_EXECUTOR_SystemTest__SequenceExecutor__one_device_more_message() runs on CT_TEST_SEQUENCE_EXECUTOR {
+  	  f_TEST_API_UnitTest_Start();
+  	  
+  	  var CT_GPIO_Device device := CT_GPIO_Device.create alive;
+  	  var CT_GPIO_TaskBuilder builder := CT_GPIO_TaskBuilder.create alive;
+  	  var CT_INTERFACE_STORE_InterfaceStore store := CT_INTERFACE_STORE_InterfaceStore.create alive;
+  	  var CT_SEQUENCE_EXECUTOR_SequenceExecutor executor := CT_SEQUENCE_EXECUTOR_SequenceExecutor.create alive;
+  	  
+  	  // init store
+  	  store.start(f_INTERFACE_STORE_InterfaceStore());
+  	  
+  	  // upload interface
+  	  connect(self:p_interfaceStore, store:p_interfaceStoreClient);
+  	  p_interfaceStore.send({Name:= "GPIO 1", Device:={ UV_GPIO := device }, Controller:=omit});
+  	  
+  	  builder.start(f_GPIO_TaskBuilder(store));
+  	  
+  	  f_TEST_API_Watcher_watch(device);
+  	 
+  	 
+  	 executor.start(f_SEQUENCE_EXECUTOR_SequenceExecutor(
+  	 	builder,
+  	 	{
+  	 		{InterfaceAction := {"GPIO 1", "send", {"HIGH"}, 0.0 ,0.5}},
+  	 		{InterfaceAction := {"GPIO 1", "send", {"LOW"}, 0.0 ,0.5}},
+  	 		{InterfaceAction := {"GPIO 1", "send", {"HIGH"}, 0.0 ,0.5}}
+  	 	}
+  	 )); 
+  	  
+	  device.start(f_GPIO_TestDevice_receiveExpectedValue(HIGH));
+	  device.done;
+  	  f_TEST_API_Watcher_getverdict(pass, "Value received!");
+  	  f_TEST_API_Watcher_getverdict(pass, "GPIO TEST: Expected value received!");	  
+	  device.start(f_GPIO_TestDevice_receiveExpectedValue(LOW));
+	  device.done;
+  	  f_TEST_API_Watcher_getverdict(pass, "Value received!");
+  	  f_TEST_API_Watcher_getverdict(pass, "GPIO TEST: Expected value received!");	  
+	  device.start(f_GPIO_TestDevice_receiveExpectedValue(HIGH));
+	  device.done;
+  	  f_TEST_API_Watcher_getverdict(pass, "Value received!");
+  	  f_TEST_API_Watcher_getverdict(pass, "GPIO TEST: Expected value received!");
+  	  
+  	  executor.done;
+  	  
+  	  f_TEST_API_UnitTest_Finished();
+	}
+
+	testcase tc_SEQUENCE_EXECUTOR_SystemTest__SequenceExecutor__more_device_more_message() runs on CT_TEST_SEQUENCE_EXECUTOR {
+  	  f_TEST_API_UnitTest_Start();
+  	  
+  	  var CT_GPIO_Device device1 := CT_GPIO_Device.create alive;
+  	  var CT_GPIO_Device device2 := CT_GPIO_Device.create alive;
+  	  var CT_GPIO_Device device3 := CT_GPIO_Device.create alive;
+  	  var CT_GPIO_TaskBuilder builder := CT_GPIO_TaskBuilder.create alive;
+  	  var CT_INTERFACE_STORE_InterfaceStore store := CT_INTERFACE_STORE_InterfaceStore.create alive;
+  	  var CT_SEQUENCE_EXECUTOR_SequenceExecutor executor := CT_SEQUENCE_EXECUTOR_SequenceExecutor.create alive;
+  	  
+  	  // init store
+  	  store.start(f_INTERFACE_STORE_InterfaceStore());
+  	  
+  	  // upload interface
+  	  connect(self:p_interfaceStore, store:p_interfaceStoreClient);
+  	  p_interfaceStore.send({Name:= "GPIO 1", Device:={ UV_GPIO := device1 }, Controller:=omit});
+  	  p_interfaceStore.send({Name:= "GPIO 2", Device:={ UV_GPIO := device2 }, Controller:=omit});
+  	  p_interfaceStore.send({Name:= "GPIO 3", Device:={ UV_GPIO := device3 }, Controller:=omit});
+  	  
+  	  builder.start(f_GPIO_TaskBuilder(store));
+  	  
+  	  f_TEST_API_Watcher_watch(device1);
+  	  f_TEST_API_Watcher_watch(device2);
+  	  f_TEST_API_Watcher_watch(device3);
+  	 
+  	 
+  	 executor.start(f_SEQUENCE_EXECUTOR_SequenceExecutor(
+  	 	builder,
+  	 	{
+  	 		{InterfaceAction := {"GPIO 1", "send", {"HIGH"}, 0.0 ,0.5}},
+  	 		{InterfaceAction := {"GPIO 1", "send", {"LOW"}, 0.0 ,0.5}},
+  	 		{InterfaceAction := {"GPIO 1", "send", {"HIGH"}, 0.0 ,0.5}},
+  	 		{InterfaceAction := {"GPIO 2", "send", {"HIGH"}, 0.0 ,0.5}},
+  	 		{InterfaceAction := {"GPIO 2", "send", {"LOW"}, 0.0 ,0.5}},
+  	 		{InterfaceAction := {"GPIO 2", "send", {"HIGH"}, 0.0 ,0.5}},
+  	 		{InterfaceAction := {"GPIO 3", "send", {"HIGH"}, 0.0 ,0.5}},
+  	 		{InterfaceAction := {"GPIO 3", "send", {"LOW"}, 0.0 ,0.5}},
+  	 		{InterfaceAction := {"GPIO 3", "send", {"HIGH"}, 0.0 ,0.5}}
+  	 	}
+  	 )); 
+  	  
+	  device1.start(f_GPIO_TestDevice_receiveExpectedValue(HIGH));
+	  device1.done;
+  	  f_TEST_API_Watcher_getverdict(pass, "Value received!");
+  	  f_TEST_API_Watcher_getverdict(pass, "GPIO TEST: Expected value received!");	  
+	  device1.start(f_GPIO_TestDevice_receiveExpectedValue(LOW));
+	  device1.done;
+  	  f_TEST_API_Watcher_getverdict(pass, "Value received!");
+  	  f_TEST_API_Watcher_getverdict(pass, "GPIO TEST: Expected value received!");	  
+	  device1.start(f_GPIO_TestDevice_receiveExpectedValue(HIGH));
+	  device1.done;
+  	  f_TEST_API_Watcher_getverdict(pass, "Value received!");
+  	  f_TEST_API_Watcher_getverdict(pass, "GPIO TEST: Expected value received!");
+  	  
+  	  
+  	  device2.start(f_GPIO_TestDevice_receiveExpectedValue(HIGH));
+	  device2.done;
+  	  f_TEST_API_Watcher_getverdict(pass, "Value received!");
+  	  f_TEST_API_Watcher_getverdict(pass, "GPIO TEST: Expected value received!");	  
+	  device2.start(f_GPIO_TestDevice_receiveExpectedValue(LOW));
+	  device2.done;
+  	  f_TEST_API_Watcher_getverdict(pass, "Value received!");
+  	  f_TEST_API_Watcher_getverdict(pass, "GPIO TEST: Expected value received!");	  
+	  device2.start(f_GPIO_TestDevice_receiveExpectedValue(HIGH));
+	  device2.done;
+  	  f_TEST_API_Watcher_getverdict(pass, "Value received!");
+  	  f_TEST_API_Watcher_getverdict(pass, "GPIO TEST: Expected value received!");
+  	  executor.done;
+  	  
+  	  
+  	  device3.start(f_GPIO_TestDevice_receiveExpectedValue(HIGH));
+	  device3.done;
+  	  f_TEST_API_Watcher_getverdict(pass, "Value received!");
+  	  f_TEST_API_Watcher_getverdict(pass, "GPIO TEST: Expected value received!");	  
+	  device3.start(f_GPIO_TestDevice_receiveExpectedValue(LOW));
+	  device3.done;
+  	  f_TEST_API_Watcher_getverdict(pass, "Value received!");
+  	  f_TEST_API_Watcher_getverdict(pass, "GPIO TEST: Expected value received!");	  
+	  device3.start(f_GPIO_TestDevice_receiveExpectedValue(HIGH));
+	  device3.done;
+  	  f_TEST_API_Watcher_getverdict(pass, "Value received!");
+  	  f_TEST_API_Watcher_getverdict(pass, "GPIO TEST: Expected value received!");
+  	  
+  	  f_TEST_API_UnitTest_Finished();
+	}
+
+	control {
+	  // Unit tests
+	  execute(tc_SEQUENCE_EXECUTOR_UnitTest__SequenceExecutor__run_step_successfully())
+	  execute(tc_SEQUENCE_EXECUTOR_UnitTest__SequenceExecutor__run_step_timeout())
+	  
+	  // Functional system test
+	  execute(tc_SEQUENCE_EXECUTOR_SystemTest__SequenceExecutor__one_device_one_message())
+	  execute(tc_SEQUENCE_EXECUTOR_SystemTest__SequenceExecutor__one_device_more_message())
+	  execute(tc_SEQUENCE_EXECUTOR_SystemTest__SequenceExecutor__more_device_more_message())
+	}
+}

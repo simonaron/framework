@@ -1,0 +1,77 @@
+2018/Apr/22 14:46:30.060427 EXECUTOR - TTCN-3 Host Controller started on pi-02. Version: CRL 113 200/6 R3A.
+2018/Apr/22 14:46:30.060634 EXECUTOR - TTCN Logger v2.2 options: TimeStampFormat:=DateTime; LogEntityName:=Yes; LogEventTypes:=Yes; SourceInfoFormat:=Single; *.FileMask:=LOG_ALL | MATCHING | DEBUG; *.ConsoleMask:=ACTION | ERROR; LogFileSize:=0; LogFileNumber:=1; DiskFullAction:=Error
+2018/Apr/22 14:46:30.061413 EXECUTOR - The address of MC was set to pi-02[127.0.1.1]:0.
+2018/Apr/22 14:46:30.062661 EXECUTOR - The local IP address of the control connection to MC is 127.0.0.1.
+2018/Apr/22 14:46:30.062712 EXECUTOR - Connected to MC.
+2018/Apr/22 14:46:30.062799 EXECUTOR - This host supports UNIX domain sockets for local communication.
+2018/Apr/22 14:46:30.064390 EXECUTOR - Processing configuration data received from MC.
+2018/Apr/22 14:46:30.065445 EXECUTOR - Initializing module FRAMEWORK_Test.
+2018/Apr/22 14:46:30.065484 EXECUTOR FRAMEWORK_Test.ttcn:0 Initializing module SEQUENCE_EXECUTOR.
+2018/Apr/22 14:46:30.065527 EXECUTOR SEQUENCE_EXECUTOR.ttcn:0 Initializing module TASK_BUILDER.
+2018/Apr/22 14:46:30.065569 EXECUTOR TASK_BUILDER.ttcn:0 Initializing module TASK.
+2018/Apr/22 14:46:30.065611 EXECUTOR TASK_BUILDER.ttcn:0 Initialization of module TASK finished.
+2018/Apr/22 14:46:30.065652 EXECUTOR TASK_BUILDER.ttcn:0 Initializing module INTERFACE_STORE.
+2018/Apr/22 14:46:30.065694 EXECUTOR INTERFACE_STORE.ttcn:0 Initializing module TEST_API_Functions.
+2018/Apr/22 14:46:30.065739 EXECUTOR TEST_API_Functions.ttcn:0 Initializing module TEST_API_Definitions.
+2018/Apr/22 14:46:30.065785 EXECUTOR TEST_API_Definitions.ttcn:0 Initializing module TEST_Definitions.
+2018/Apr/22 14:46:30.065832 EXECUTOR TEST_API_Definitions.ttcn:0 Initialization of module TEST_Definitions finished.
+2018/Apr/22 14:46:30.065877 EXECUTOR TEST_API_Functions.ttcn:0 Initialization of module TEST_API_Definitions finished.
+2018/Apr/22 14:46:30.065923 EXECUTOR TEST_API_Functions.ttcn:0 Initializing module TEST_Functions.
+2018/Apr/22 14:46:30.065968 EXECUTOR TEST_API_Functions.ttcn:0 Initialization of module TEST_Functions finished.
+2018/Apr/22 14:46:30.066013 EXECUTOR INTERFACE_STORE.ttcn:0 Initialization of module TEST_API_Functions finished.
+2018/Apr/22 14:46:30.066057 EXECUTOR INTERFACE_STORE.ttcn:0 Initializing module GPIO.
+2018/Apr/22 14:46:30.066100 EXECUTOR GPIO.ttcn:0 Initializing module GPIO_TaskBuilder.
+2018/Apr/22 14:46:30.066145 EXECUTOR GPIO_TaskBuilder.ttcn:0 Initializing module GPIO_ReceiveValueTask.
+2018/Apr/22 14:46:30.066192 EXECUTOR GPIO_ReceiveValueTask.ttcn:0 Initializing module GPIOPinPort.
+2018/Apr/22 14:46:30.066239 EXECUTOR GPIO_ReceiveValueTask.ttcn:0 Initialization of module GPIOPinPort finished.
+2018/Apr/22 14:46:30.066297 EXECUTOR GPIO_TaskBuilder.ttcn:0 Initialization of module GPIO_ReceiveValueTask finished.
+2018/Apr/22 14:46:30.066344 EXECUTOR GPIO_TaskBuilder.ttcn:0 Initializing module GPIO_SendValueTask.
+2018/Apr/22 14:46:30.066396 EXECUTOR GPIO_TaskBuilder.ttcn:0 Initialization of module GPIO_SendValueTask finished.
+2018/Apr/22 14:46:30.066443 EXECUTOR GPIO.ttcn:0 Initialization of module GPIO_TaskBuilder finished.
+2018/Apr/22 14:46:30.066488 EXECUTOR GPIO.ttcn:0 Initializing module GPIO_Functions.
+2018/Apr/22 14:46:30.066532 EXECUTOR GPIO_Functions.ttcn:0 Initializing module GPIO_Definitions.
+2018/Apr/22 14:46:30.066579 EXECUTOR GPIO_Functions.ttcn:0 Initialization of module GPIO_Definitions finished.
+2018/Apr/22 14:46:30.066626 EXECUTOR GPIO.ttcn:0 Initialization of module GPIO_Functions finished.
+2018/Apr/22 14:46:30.066669 EXECUTOR INTERFACE_STORE.ttcn:0 Initialization of module GPIO finished.
+2018/Apr/22 14:46:30.066712 EXECUTOR TASK_BUILDER.ttcn:0 Initialization of module INTERFACE_STORE finished.
+2018/Apr/22 14:46:30.066753 EXECUTOR SEQUENCE_EXECUTOR.ttcn:0 Initialization of module TASK_BUILDER finished.
+2018/Apr/22 14:46:30.066793 EXECUTOR SEQUENCE_EXECUTOR.ttcn:0 Initializing module LANGUAGE.
+2018/Apr/22 14:46:30.066832 EXECUTOR LANGUAGE.ttcn:0 Initializing module LANGUAGE_STATIC.
+2018/Apr/22 14:46:30.066873 EXECUTOR LANGUAGE.ttcn:0 Initialization of module LANGUAGE_STATIC finished.
+2018/Apr/22 14:46:30.066932 EXECUTOR LANGUAGE.ttcn:0 Initializing module LANGUAGE_DYNAMIC.
+2018/Apr/22 14:46:30.066974 EXECUTOR LANGUAGE.ttcn:0 Initialization of module LANGUAGE_DYNAMIC finished.
+2018/Apr/22 14:46:30.067015 EXECUTOR SEQUENCE_EXECUTOR.ttcn:0 Initialization of module LANGUAGE finished.
+2018/Apr/22 14:46:30.067055 EXECUTOR FRAMEWORK_Test.ttcn:0 Initialization of module SEQUENCE_EXECUTOR finished.
+2018/Apr/22 14:46:30.067095 EXECUTOR - Initialization of module FRAMEWORK_Test finished.
+2018/Apr/22 14:46:30.067129 EXECUTOR - Initializing module GPIO_Test.
+2018/Apr/22 14:46:30.067164 EXECUTOR - Initialization of module GPIO_Test finished.
+2018/Apr/22 14:46:30.067198 EXECUTOR - Initializing module INTERFACE_STORE_Test.
+2018/Apr/22 14:46:30.067232 EXECUTOR - Initialization of module INTERFACE_STORE_Test finished.
+2018/Apr/22 14:46:30.067267 EXECUTOR - Initializing module LANGUAGE_DISTRIBUTED.
+2018/Apr/22 14:46:30.067301 EXECUTOR - Initialization of module LANGUAGE_DISTRIBUTED finished.
+2018/Apr/22 14:46:30.067335 EXECUTOR - Initializing module PreGenRecordOf.
+2018/Apr/22 14:46:30.067369 EXECUTOR - Initialization of module PreGenRecordOf finished.
+2018/Apr/22 14:46:30.067403 EXECUTOR - Initializing module SEQUENCE_EXECUTOR_Test.
+2018/Apr/22 14:46:30.067438 EXECUTOR - Initialization of module SEQUENCE_EXECUTOR_Test finished.
+2018/Apr/22 14:46:30.067472 EXECUTOR - Initializing module TASK_BUILDER_Test.
+2018/Apr/22 14:46:30.067506 EXECUTOR - Initialization of module TASK_BUILDER_Test finished.
+2018/Apr/22 14:46:30.067540 EXECUTOR - Initializing module TASK_Test.
+2018/Apr/22 14:46:30.067574 EXECUTOR - Initialization of module TASK_Test finished.
+2018/Apr/22 14:46:30.067608 EXECUTOR - Initializing module TEST_EXECUTOR.
+2018/Apr/22 14:46:30.067641 EXECUTOR - Initialization of module TEST_EXECUTOR finished.
+2018/Apr/22 14:46:30.067675 EXECUTOR - Initializing module TEST_EXECUTOR_Test.
+2018/Apr/22 14:46:30.067709 EXECUTOR - Initialization of module TEST_EXECUTOR_Test finished.
+2018/Apr/22 14:46:30.067743 EXECUTOR - Initializing module TEST_Test.
+2018/Apr/22 14:46:30.067777 EXECUTOR - Initialization of module TEST_Test finished.
+2018/Apr/22 14:46:30.067811 EXECUTOR - Initializing module TitanLoggerApi.
+2018/Apr/22 14:46:30.067844 EXECUTOR - Initialization of module TitanLoggerApi finished.
+2018/Apr/22 14:46:30.068579 EXECUTOR - Configuration data was processed successfully.
+2018/Apr/22 14:46:30.069133 EXECUTOR - MTC was created. Process id: 28310.
+2018/Apr/22 14:46:30.074612 PARALLEL - PTC was created. Component reference: 3, component type: FRAMEWORK_Test.CT_GPIO_Proxy, testcase name: test, process id: 28311.
+2018/Apr/22 14:46:30.077557 PARALLEL - PTC was created. Component reference: 4, component type: FRAMEWORK_Test.CT_GPIO_Proxy, testcase name: test, process id: 28312.
+2018/Apr/22 14:46:30.081373 PARALLEL - PTC was created. Component reference: 5, component type: GPIO_TaskBuilder.CT_GPIO_TaskBuilder, testcase name: test, process id: 28313.
+2018/Apr/22 14:46:30.085264 PARALLEL - PTC was created. Component reference: 6, component type: INTERFACE_STORE.CT_INTERFACE_STORE_InterfaceStore, testcase name: test, process id: 28314.
+2018/Apr/22 14:46:30.088228 PARALLEL - PTC was created. Component reference: 7, component type: SEQUENCE_EXECUTOR.CT_SEQUENCE_EXECUTOR_SequenceExecutor, testcase name: test, process id: 28315.
+2018/Apr/22 14:46:33.312459 PARALLEL - PTC was created. Component reference: 8, component type: GPIO_ReceiveValueTask.CT_GPIO_ReceiveValueTask, testcase name: test, process id: 28323.
+2018/Apr/22 14:46:34.663996 PARALLEL - PTC with component reference 8 finished. Process statistics: { process id: 28323, terminated normally, exit status: 0, user time: 0.000000 s, system time: 0.010000 s, maximum resident set size: 7028, integral resident set size: 0, page faults not requiring physical I/O: 258, page faults requiring physical I/O: 0, swaps: 0, block input operations: 0, block output operations: 16, messages sent: 0, messages received: 0, signals received: 0, voluntary context switches: 12, involuntary context switches: 15 }
+2018/Apr/22 14:46:34.664570 PARALLEL - PTC was created. Component reference: 9, component type: GPIO_ReceiveValueTask.CT_GPIO_ReceiveValueTask, testcase name: test, process id: 28324.

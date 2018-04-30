@@ -1,0 +1,54 @@
+2018/Apr/22 14:46:30.075568 EXECUTOR - TTCN-3 Parallel Test Component started on pi-02. Component reference: 3, component type: FRAMEWORK_Test.CT_GPIO_Proxy. Version: CRL 113 200/6 R3A.
+2018/Apr/22 14:46:30.075769 EXECUTOR - TTCN Logger v2.2 options: TimeStampFormat:=DateTime; LogEntityName:=Yes; LogEventTypes:=Yes; SourceInfoFormat:=Single; *.FileMask:=LOG_ALL | MATCHING | DEBUG; *.ConsoleMask:=ACTION | ERROR; LogFileSize:=0; LogFileNumber:=1; DiskFullAction:=Error
+2018/Apr/22 14:46:30.076428 EXECUTOR - Connected to MC.
+2018/Apr/22 14:46:30.076590 PARALLEL - Initializing variables, timers and ports of component type FRAMEWORK_Test.CT_GPIO_Proxy inside testcase test.
+2018/Apr/22 14:46:30.077199 PORTEVENT - Port controller was started.
+2018/Apr/22 14:46:30.077360 PORTEVENT - Port gpio[2] was started.
+2018/Apr/22 14:46:30.077398 PORTEVENT - Port gpio[3] was started.
+2018/Apr/22 14:46:30.077434 PORTEVENT - Port gpio[4] was started.
+2018/Apr/22 14:46:30.077471 PORTEVENT - Port gpio[5] was started.
+2018/Apr/22 14:46:30.077506 PORTEVENT - Port gpio[6] was started.
+2018/Apr/22 14:46:30.077541 PORTEVENT - Port gpio[7] was started.
+2018/Apr/22 14:46:30.077576 PORTEVENT - Port gpio[8] was started.
+2018/Apr/22 14:46:30.077611 PORTEVENT - Port gpio[9] was started.
+2018/Apr/22 14:46:30.077645 PORTEVENT - Port gpio[10] was started.
+2018/Apr/22 14:46:30.077681 PORTEVENT - Port gpio[11] was started.
+2018/Apr/22 14:46:30.077715 PORTEVENT - Port gpio[12] was started.
+2018/Apr/22 14:46:30.077750 PORTEVENT - Port gpio[13] was started.
+2018/Apr/22 14:46:30.077785 PORTEVENT - Port gpio[14] was started.
+2018/Apr/22 14:46:30.077819 PORTEVENT - Port gpio[15] was started.
+2018/Apr/22 14:46:30.077853 PORTEVENT - Port gpio[16] was started.
+2018/Apr/22 14:46:30.077887 PORTEVENT - Port gpio[17] was started.
+2018/Apr/22 14:46:30.077922 PORTEVENT - Port gpio[18] was started.
+2018/Apr/22 14:46:30.077956 PORTEVENT - Port gpio[19] was started.
+2018/Apr/22 14:46:30.077990 PORTEVENT - Port gpio[20] was started.
+2018/Apr/22 14:46:30.078024 PORTEVENT - Port gpio[21] was started.
+2018/Apr/22 14:46:30.078059 PORTEVENT - Port gpio[22] was started.
+2018/Apr/22 14:46:30.078093 PORTEVENT - Port gpio[23] was started.
+2018/Apr/22 14:46:30.078127 PORTEVENT - Port gpio[24] was started.
+2018/Apr/22 14:46:30.078161 PORTEVENT - Port gpio[25] was started.
+2018/Apr/22 14:46:30.078195 PORTEVENT - Port gpio[26] was started.
+2018/Apr/22 14:46:30.078229 PORTEVENT - Port gpio[27] was started.
+2018/Apr/22 14:46:30.078263 PORTEVENT - Port p_taskPort was started.
+2018/Apr/22 14:46:30.078298 PORTEVENT - Port watcher was started.
+2018/Apr/22 14:46:30.078332 PARALLEL - Component type FRAMEWORK_Test.CT_GPIO_Proxy was initialized.
+2018/Apr/22 14:46:30.094431 PARALLEL - Starting function f_GPIO_Proxy(4).
+2018/Apr/22 14:46:30.096151 PORTEVENT FRAMEWORK_Test.ttcn:48(function:f_GPIO_Proxy) Port p_taskPort has established the connection with mtc:p_task using transport type UNIX.
+2018/Apr/22 14:46:30.097444 PORTEVENT FRAMEWORK_Test.ttcn:48(function:f_GPIO_Proxy) Message enqueued on p_taskPort from mtc @TASK.ET_TASK_ControlIncomingMessage : EV_TASK_INIT (0) id 1
+2018/Apr/22 14:46:30.097558 MATCHING FRAMEWORK_Test.ttcn:48(function:f_GPIO_Proxy) Matching on port p_taskPort succeeded: EV_TASK_INIT (0) with EV_TASK_INIT (0) matched
+2018/Apr/22 14:46:30.097640 PORTEVENT FRAMEWORK_Test.ttcn:48(function:f_GPIO_Proxy) Receive operation on port p_taskPort succeeded, message from mtc: @TASK.ET_TASK_ControlIncomingMessage : EV_TASK_INIT (0) id 1
+2018/Apr/22 14:46:30.097692 PORTEVENT FRAMEWORK_Test.ttcn:48(function:f_GPIO_Proxy) Message with id 1 was extracted from the queue of p_taskPort.
+2018/Apr/22 14:46:30.097768 PARALLEL FRAMEWORK_Test.ttcn:49(function:f_GPIO_Proxy) Mapping port 3:gpio[4] to system:gpio[4].
+2018/Apr/22 14:46:30.098772 PORTEVENT FRAMEWORK_Test.ttcn:49(function:f_GPIO_Proxy) Port gpio[4] was mapped to system:gpio[4].
+2018/Apr/22 14:46:30.099994 PARALLEL FRAMEWORK_Test.ttcn:49(function:f_GPIO_Proxy) Map operation of 3:gpio[4] to system:gpio[4] finished.
+2018/Apr/22 14:46:30.100153 TIMEROP FRAMEWORK_Test.ttcn:50(function:f_GPIO_Proxy) Start timer t: 0.1 s
+2018/Apr/22 14:46:30.200286 TIMEROP FRAMEWORK_Test.ttcn:50(function:f_GPIO_Proxy) Timeout t: 0.1 s
+2018/Apr/22 14:46:30.200468 PORTEVENT FRAMEWORK_Test.ttcn:52(function:f_GPIO_Proxy) Sent on gpio[4] to system @GPIOPinPort.GPIO_PIN_DIRECTION : IN (0)
+2018/Apr/22 14:46:30.201183 TIMEROP FRAMEWORK_Test.ttcn:53(function:f_GPIO_Proxy) Start timer t: 0.1 s
+2018/Apr/22 14:46:30.301335 TIMEROP FRAMEWORK_Test.ttcn:53(function:f_GPIO_Proxy) Timeout t: 0.1 s
+2018/Apr/22 14:46:30.301508 PORTEVENT FRAMEWORK_Test.ttcn:54(function:f_GPIO_Proxy) Sent on p_taskPort to mtc @TASK.ET_TASK_ControlOutcomingMessage : EV_TASK_INITIALISED (0)
+2018/Apr/22 14:46:30.302071 ACTION FRAMEWORK_Test.ttcn:55(function:f_GPIO_Proxy) Action: ASDASDASDASDASDASD
+2018/Apr/22 14:46:30.303913 PORTEVENT FRAMEWORK_Test.ttcn:56(function:f_GPIO_Proxy) Message enqueued on p_taskPort from mtc @TASK.ET_TASK_ControlIncomingMessage : EV_TASK_START (1) id 2
+2018/Apr/22 14:46:30.303989 MATCHING FRAMEWORK_Test.ttcn:56(function:f_GPIO_Proxy) Matching on port p_taskPort succeeded: EV_TASK_START (1) with EV_TASK_START (1) matched
+2018/Apr/22 14:46:30.304045 PORTEVENT FRAMEWORK_Test.ttcn:56(function:f_GPIO_Proxy) Receive operation on port p_taskPort succeeded, message from mtc: @TASK.ET_TASK_ControlIncomingMessage : EV_TASK_START (1) id 2
+2018/Apr/22 14:46:30.304094 PORTEVENT FRAMEWORK_Test.ttcn:56(function:f_GPIO_Proxy) Message with id 2 was extracted from the queue of p_taskPort.

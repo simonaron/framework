@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>module_SEQUENCE_EXECUTOR</name>
+	<comment></comment>
+	<projects>
+		<project>interface_GPIO</project>
+		<project>lib_TASK</project>
+		<project>module_INTERFACE_STORE</project>
+		<project>module_LANGUAGE</project>
+		<project>module_TASK_BUILDER</project>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.titan.designer.core.TITANBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.titan.designer.core.TITANNature</nature>
+		<nature>org.eclipse.titan.log.viewer.TitanLogProject</nature>
+	</natures>
+</projectDescription>

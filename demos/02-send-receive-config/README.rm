@@ -1,0 +1,12 @@
+## README
+A component which can be present the both side of the configured callflow.
+
+# BUILD
+sudo docker build . --build-arg ARCH=`arch` -t project_`arch`
+
+# RUN
+sudo docker run project_`arch`
+
+# TODO
+- use activate deactivate feature of TTCN-3
+- make some parametrized part of sended and received msg

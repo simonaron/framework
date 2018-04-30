@@ -1,0 +1,20 @@
+module LANGUAGE {
+	public import from LANGUAGE_STATIC all;
+	public import from LANGUAGE_DYNAMIC all;
+	//import from LANGUAGE_DISTRIBUTED all;
+
+	type LANGUAGE_STATIC_Interfaces
+	LANGUAGE_StaticTestConfiguration;
+	
+	type union
+	LANGUAGE_DynamicTestConfiguration {
+		LANGUAGE_DYNAMIC_ActionSequence Sequence
+	}
+
+	type record
+	LANGUAGE_LogicalTestConfiguration {
+	  	charstring TestName,
+		LANGUAGE_StaticTestConfiguration StaticTestConfiguration,
+		LANGUAGE_DynamicTestConfiguration DynamicTestConfiguration
+	}
+}

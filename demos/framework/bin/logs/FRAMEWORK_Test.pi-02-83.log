@@ -1,0 +1,39 @@
+2018/Apr/21 21:01:00.689736 EXECUTOR - TTCN-3 Parallel Test Component started on pi-02. Component reference: 83, component type: GPIO_SendValueTask.CT_GPIO_SendValueTask. Version: CRL 113 200/6 R3A.
+2018/Apr/21 21:01:00.690137 EXECUTOR - TTCN Logger v2.2 options: TimeStampFormat:=DateTime; LogEntityName:=Yes; LogEventTypes:=Yes; SourceInfoFormat:=Single; *.FileMask:=LOG_ALL | MATCHING | DEBUG; *.ConsoleMask:=ACTION | ERROR; LogFileSize:=0; LogFileNumber:=1; DiskFullAction:=Error
+2018/Apr/21 21:01:00.691268 EXECUTOR - Connected to MC.
+2018/Apr/21 21:01:00.691509 PARALLEL - Initializing variables, timers and ports of component type GPIO_SendValueTask.CT_GPIO_SendValueTask inside testcase test.
+2018/Apr/21 21:01:00.692989 PORTEVENT - Port device was started.
+2018/Apr/21 21:01:00.693247 PORTEVENT - Port p_taskPort was started.
+2018/Apr/21 21:01:00.693361 PORTEVENT - Port watcher was started.
+2018/Apr/21 21:01:00.693451 PARALLEL - Component type GPIO_SendValueTask.CT_GPIO_SendValueTask was initialized.
+2018/Apr/21 21:01:00.693584 PARALLEL - Starting function f_GPIO_SendValueTask_Task(13, LOW (0)).
+2018/Apr/21 21:01:00.694331 PORTEVENT GPIO_SendValueTask.ttcn:24(function:f_GPIO_SendValueTask_Task) Port p_taskPort has established the connection with 17:p_task using transport type UNIX.
+2018/Apr/21 21:01:00.694990 PORTEVENT GPIO_SendValueTask.ttcn:24(function:f_GPIO_SendValueTask_Task) Message enqueued on p_taskPort from 17 @TASK.ET_TASK_ControlIncomingMessage : EV_TASK_INIT (0) id 1
+2018/Apr/21 21:01:00.695127 MATCHING GPIO_SendValueTask.ttcn:25(function:f_GPIO_SendValueTask_Task) Matching on port p_taskPort succeeded: EV_TASK_INIT (0) with EV_TASK_INIT (0) matched
+2018/Apr/21 21:01:00.695238 PORTEVENT GPIO_SendValueTask.ttcn:25(function:f_GPIO_SendValueTask_Task) Receive operation on port p_taskPort succeeded, message from 17: @TASK.ET_TASK_ControlIncomingMessage : EV_TASK_INIT (0) id 1
+2018/Apr/21 21:01:00.695340 PORTEVENT GPIO_SendValueTask.ttcn:25(function:f_GPIO_SendValueTask_Task) Message with id 1 was extracted from the queue of p_taskPort.
+2018/Apr/21 21:01:00.695437 PARALLEL GPIO_SendValueTask.ttcn:26(function:f_GPIO_SendValueTask_Task) Connecting ports 83:device and 13:controller.
+2018/Apr/21 21:01:00.696574 PORTEVENT GPIO_SendValueTask.ttcn:26(function:f_GPIO_SendValueTask_Task) Port device has established the connection with 13:controller using transport type UNIX.
+2018/Apr/21 21:01:00.696766 PARALLEL GPIO_SendValueTask.ttcn:26(function:f_GPIO_SendValueTask_Task) Connect operation on 83:device and 13:controller finished.
+2018/Apr/21 21:01:00.696939 USER TEST_Functions.ttcn:15(function:f_TEST_Subject_setverdict) "Task initialised!"
+2018/Apr/21 21:01:00.697166 VERDICTOP TEST_Functions.ttcn:16(function:f_TEST_Subject_setverdict) setverdict(pass): none -> pass reason: ""Task initialised!"", new component reason: ""Task initialised!""
+2018/Apr/21 21:01:00.697345 PORTEVENT GPIO_SendValueTask.ttcn:28(function:f_GPIO_SendValueTask_Task) Sent on p_taskPort to 17 @TASK.ET_TASK_ControlOutcomingMessage : EV_TASK_INITIALISED (0)
+2018/Apr/21 21:01:01.183004 PORTEVENT GPIO_SendValueTask.ttcn:32(function:f_GPIO_SendValueTask_Task) Message enqueued on p_taskPort from 17 @TASK.ET_TASK_ControlIncomingMessage : EV_TASK_START (1) id 2
+2018/Apr/21 21:01:01.183099 MATCHING GPIO_SendValueTask.ttcn:33(function:f_GPIO_SendValueTask_Task) Matching on port p_taskPort succeeded: EV_TASK_START (1) with EV_TASK_START (1) matched
+2018/Apr/21 21:01:01.183157 PORTEVENT GPIO_SendValueTask.ttcn:33(function:f_GPIO_SendValueTask_Task) Receive operation on port p_taskPort succeeded, message from 17: @TASK.ET_TASK_ControlIncomingMessage : EV_TASK_START (1) id 2
+2018/Apr/21 21:01:01.183211 PORTEVENT GPIO_SendValueTask.ttcn:33(function:f_GPIO_SendValueTask_Task) Message with id 2 was extracted from the queue of p_taskPort.
+2018/Apr/21 21:01:01.183268 PORTEVENT GPIO_Functions.ttcn:39(function:f_GPIO_Controller_sendValue) Sent on device to 13 @GPIOPinPort.GPIO_PIN_VALUE : LOW (0)
+2018/Apr/21 21:01:01.183831 USER TEST_Functions.ttcn:15(function:f_TEST_Subject_setverdict) "Task: Value sended!"
+2018/Apr/21 21:01:01.183944 VERDICTOP TEST_Functions.ttcn:16(function:f_TEST_Subject_setverdict) setverdict(pass): pass -> pass reason: ""Task: Value sended!"", component reason not changed
+2018/Apr/21 21:01:01.184011 PORTEVENT GPIO_SendValueTask.ttcn:37(function:f_GPIO_SendValueTask_Task) Sent on p_taskPort to 17 @TASK.ET_TASK_ControlOutcomingMessage : EV_TASK_FINISH (1)
+2018/Apr/21 21:01:01.184080 PARALLEL - Function f_GPIO_SendValueTask_Task finished. PTC terminates.
+2018/Apr/21 21:01:01.184127 PARALLEL - Terminating component type GPIO_SendValueTask.CT_GPIO_SendValueTask.
+2018/Apr/21 21:01:01.184168 PORTEVENT - Removing unterminated connection between port device and 13:controller.
+2018/Apr/21 21:01:01.184658 PORTEVENT - Port device was stopped.
+2018/Apr/21 21:01:01.184763 PORTEVENT - Removing unterminated connection between port p_taskPort and 17:p_task.
+2018/Apr/21 21:01:01.184899 PORTEVENT - Port p_taskPort was stopped.
+2018/Apr/21 21:01:01.184941 PORTEVENT - Port watcher was stopped.
+2018/Apr/21 21:01:01.184979 PARALLEL - Component type GPIO_SendValueTask.CT_GPIO_SendValueTask was shut down inside testcase test.
+2018/Apr/21 21:01:01.185060 VERDICTOP - Final verdict of PTC: pass reason: ""Task initialised!""
+2018/Apr/21 21:01:01.185617 EXECUTOR - Disconnected from MC.
+2018/Apr/21 21:01:01.185666 EXECUTOR - TTCN-3 Parallel Test Component finished.

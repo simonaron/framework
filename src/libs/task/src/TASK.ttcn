@@ -1,4 +1,4 @@
-module TASK {
+module TASK { // TODO it's a module
 	type enumerated
 	ET_TASK_ControlOutcomingMessage {
 		EV_TASK_INITIALISED,

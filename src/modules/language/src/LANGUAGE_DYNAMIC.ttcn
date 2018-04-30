@@ -1,0 +1,18 @@
+module LANGUAGE_DYNAMIC {
+	type union
+	LANGUAGE_DYNAMIC_Action {
+	  LANGUAGE_DYNAMIC_InterfaceAction InterfaceAction
+	}
+
+	type record
+	LANGUAGE_DYNAMIC_InterfaceAction {
+		charstring InterfaceName,
+		charstring Command,
+		record of charstring Parameters,
+		float Delay optional,
+		float Timeout optional
+	}
+	
+	type set of LANGUAGE_DYNAMIC_Action
+	LANGUAGE_DYNAMIC_ActionSequence;
+}
