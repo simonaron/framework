@@ -1,0 +1,160 @@
+module FRAMEWORK_Test {
+	import from TASK all;
+	import from GPIO all;
+	import from GPIO {import all};
+	import from INTERFACE_STORE all;
+	import from SEQUENCE_EXECUTOR all;
+	
+	type component CT_GPIO_Proxy extends CT_GPIO_Device, GPIO_Base, CT_TASK_Task {
+	}
+	
+	function f_GPIO_OutProxy(integer index)
+	runs on CT_GPIO_Proxy {
+	  map(self:gpio[index], system:gpio[index]);
+	  timer t; t.start(0.1); t.timeout;
+	  gpio[index].send(GPIO_PIN_DIRECTION:OUT);
+	  t.start(0.1); t.timeout;
+	  log("NAGYON NAGYON KISCICA")
+	  var GPIO_PIN_VALUE v_value; 
+	  alt {
+	  	[] controller.receive(GPIO_PIN_VALUE:?) -> value v_value {
+	  		gpio[index].send(v_value);
+	  		repeat;
+	  	}
+	  }
+	}
+	
+	function f_GPIO_InProxy(integer index)
+	runs on CT_GPIO_Proxy {
+	  map(self:gpio[index], system:gpio[index]);
+	  timer t; t.start(0.1); t.timeout;
+	  gpio[index].send(GPIO_PIN_DIRECTION:IN);
+	  t.start(0.1); t.timeout;
+	  log("NAGYON NAGYON KISCICA")
+	  var GPIO_PIN_VALUE v_value; 
+	  alt {
+	  	[] gpio[index].receive(GPIO_PIN_VALUE:?) -> value v_value {
+	  		controller.send(v_value);
+	  		repeat;
+	  	}
+	  }
+	}
+	
+	function f_GPIO_Proxy(integer index)
+	runs on CT_GPIO_Proxy {
+        var GPIO_PIN_VALUE v_value;
+        timer t; 
+	    
+	  	p_taskPort.receive(EV_TASK_INIT)
+		map(self:gpio[index], system:gpio[index]);
+   	    t.start(0.1); t.timeout;
+  	  	// default
+   	  	gpio[index].send(GPIO_PIN_DIRECTION:IN);
+   	  	t.start(0.1); t.timeout;
+	  	p_taskPort.send(EV_TASK_INITIALISED);		
+		action("ASDASDASDASDASDASD");
+		p_taskPort.receive(EV_TASK_START); 
+	    
+	    while(true) {
+	    	alt {
+      		  [] controller.receive(GPIO_PIN_DIRECTION:OUT) {
+      		    gpio[index].send(GPIO_PIN_DIRECTION:OUT);
+      	  		t.start(0.1); t.timeout;
+      		  }
+      		  [] gpio[index].receive(GPIO_PIN_VALUE:?) -> value v_value {
+      		    action("1111111111111111111111111");
+      	  		controller.send(v_value);
+      	  		action("1111111111111111111111111");
+      	  		repeat;
+      	  	  }
+      	  	  [] p_taskPort.receive(EV_TASK_STOP) {
+      	  	    break;
+      	  	  }
+      		}
+      	  	
+      	  	alt {
+      		  	  [] controller.receive(GPIO_PIN_VALUE:?) -> value v_value {
+      		  	  	gpio[index].send(v_value);  
+      		  	  	repeat;
+      		  	  }
+      		  	  [] controller.receive(GPIO_PIN_DIRECTION:IN) {
+      		  	    gpio[index].send(GPIO_PIN_DIRECTION:IN);
+      	  			t.start(0.1); t.timeout;
+      		  	  }
+      		  	  [] p_taskPort.receive(EV_TASK_STOP) {
+      		  	    gpio[index].send(GPIO_PIN_DIRECTION:IN);
+        	  	    break;
+        	  	  }
+      		  }
+      		}
+	  	}
+	
+	type component MTC extends CT_INTERFACE_STORE_InterfaceStoreClient { //extends GPIO_Base {
+		port PT_TASK_TaskExecutorPort p_task;
+	}
+	
+	testcase test() runs on MTC system MTC {
+	  
+	  var CT_GPIO_Proxy device1 := CT_GPIO_Proxy.create alive;
+	  var CT_GPIO_Proxy device2 := CT_GPIO_Proxy.create alive;
+	  
+  	  var CT_GPIO_TaskBuilder builder := CT_GPIO_TaskBuilder.create alive;
+  	  var CT_INTERFACE_STORE_InterfaceStore store := CT_INTERFACE_STORE_InterfaceStore.create alive;
+  	  var CT_SEQUENCE_EXECUTOR_SequenceExecutor executor := CT_SEQUENCE_EXECUTOR_SequenceExecutor.create alive;
+  	  
+  	  // init store
+  	  store.start(f_INTERFACE_STORE_InterfaceStore());
+  	  
+  	  // upload interface
+  	  connect(self:p_interfaceStore, store:p_interfaceStoreClient);
+  	  p_interfaceStore.send({Name:= "ENABLE", Device:={ UV_GPIO := device1 }, Controller:=omit});
+  	  p_interfaceStore.send({Name:= "IN", Device:={ UV_GPIO := device2 }, Controller:=omit});
+  	  
+  	  
+  	  builder.start(f_GPIO_TaskBuilder(store));
+  	 
+  	 
+	  device1.start(f_GPIO_Proxy(4));
+	  device2.start(f_GPIO_Proxy(17));
+	  connect(device1:p_taskPort, self:p_task);
+	  connect(device2:p_taskPort, self:p_task);
+	  p_task.send(EV_TASK_INIT) to device1;
+	  p_task.send(EV_TASK_INIT) to device2;
+	  p_task.receive(EV_TASK_INITIALISED);
+	  p_task.receive(EV_TASK_INITIALISED);
+	  p_task.send(EV_TASK_START) to device1;
+	  p_task.send(EV_TASK_START) to device2;
+	  
+	  timer t; t.start(3.0); t.timeout;
+  	 executor.start(f_SEQUENCE_EXECUTOR_SequenceExecutor(
+  	 	builder,
+  	 	{
+  	 	  	{InterfaceAction := {"IN", "receive", {"HIGH"}, 0.0, 10.0}},
+  	 	  	{InterfaceAction := {"IN", "receive", {"LOW"}, 0.0, 10.0}},
+  	 	  	{InterfaceAction := {"IN", "receive", {"HIGH"}, 0.0, 10.0}},
+  	 	  	{InterfaceAction := {"IN", "receive", {"LOW"}, 0.0, 10.0}}
+  	 		//{InterfaceAction := {"ENABLE", "send", {"LOW"}, 0.0, omit}},
+  	 		//{InterfaceAction := {"ENABLE", "send", {"HIGH"}, 2.0, omit}},
+  	 		//{InterfaceAction := {"ENABLE", "send", {"LOW"}, 2.0, omit}},
+  	 		//{InterfaceAction := {"ENABLE", "send", {"HIGH"}, 2.0, omit}},
+  	 		//{InterfaceAction := {"ENABLE", "send", {"LOW"}, 2.0, omit}},
+  	 		//{InterfaceAction := {"ENABLE", "send", {"HIGH"}, 2.0, omit}}
+  	 		
+  	 		//{InterfaceAction := {"IN", "receive", {"HIGH"}, 0.0, omit}},
+  	 		
+  	 		//{InterfaceAction := {"GPIO OUT", "send", {"LOW"}, 0.1, omit}},
+  	 		
+  	 		//{InterfaceAction := {"IN", "receive", {"LOW"}, 0.0, omit}}
+  	 		
+  	 	}
+  	 )); 
+  	 
+  	 executor.done;
+  	  p_task.send(EV_TASK_STOP) to device1;
+	  p_task.send(EV_TASK_STOP) to device2;
+  	 
+	}
+	control {
+	  execute(test())
+	}
+}

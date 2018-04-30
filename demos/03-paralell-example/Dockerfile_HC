@@ -1,0 +1,12 @@
+ARG ARCH
+FROM titan_${ARCH}
+
+# Setup Project
+COPY ./src/ /home/project/
+
+RUN  cd /home/project/ && \
+     ttcn3_makefilegen MyExample.ttcn -f && \
+     make
+
+CMD  cd /home/project/ && \
+     ./MyExample 172.18.0.2 3000

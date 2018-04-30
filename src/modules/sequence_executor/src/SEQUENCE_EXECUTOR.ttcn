@@ -23,11 +23,23 @@ module SEQUENCE_EXECUTOR {
 	  	  	f_TEST_API_Subject_setverdict(pass, "SEQUENCE_EXECUTOR: Step started!");
 	  	  
 	  	  	var float v_delay := 0.0;
-	  	  	var float v_timeout := 0.0;
+	  	  	var float v_timeout := 5.0;
 	  	  	var RT_TASK_BUILDER_TaskBuilderMission mission;
 	  	  	
 	  	  	
 	  	  	if(ischosen(sequence[i].InterfaceAction)) {
+	  	  	    if (ispresent(sequence[i].InterfaceAction.Delay)) {
+    	  	      v_delay := sequence[i].InterfaceAction.Delay;
+    	  	    }
+    	  	    if (ispresent(sequence[i].InterfaceAction.Timeout)) {
+    	  	      v_timeout := sequence[i].InterfaceAction.Timeout;
+    	  	    }
+    	  	    
+	  	  	  	action("+ ---------------------------------------------------------------------------------------------");
+	  	  	  	action("  Execute ",sequence[i].InterfaceAction.Command, " on ",sequence[i].InterfaceAction.InterfaceName);
+	  	  	  	action("  Params: ", sequence[i].InterfaceAction.Parameters);
+	  	  	  	action("  Delay: ",v_delay, " Timeout: ", v_timeout);
+	  	  	  	action("= - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
     	  	    mission := {
     	  	      TaskName := sequence[i].InterfaceAction.Command,
     	  	      Parameters := {
@@ -36,13 +48,6 @@ module SEQUENCE_EXECUTOR {
     	  	      },
     	  	      CreatedTask := omit
     	  	    };
-    	  	    
-    	  	    if (ispresent(sequence[i].InterfaceAction.Delay)) {
-    	  	      v_delay := sequence[i].InterfaceAction.Delay;
-    	  	    }
-    	  	    if (ispresent(sequence[i].InterfaceAction.Timeout)) {
-    	  	      v_timeout := sequence[i].InterfaceAction.Timeout;
-    	  	    }
 	  	  	} else {
 	  	  	  // TODO non 
 	  	  	}
@@ -63,6 +68,7 @@ module SEQUENCE_EXECUTOR {
   	  		// start task when delay ended
   	  		alt {
   	  			[] p_task.receive(EV_TASK_FINISH) {
+  	  			  	action("  Verdict: PASS");
   	  				f_TEST_API_Subject_setverdict(pass, "SEQUENCE_EXECUTOR: Step successfully finished!");
   	  			}
   	  			[] t_delay.timeout {
@@ -71,9 +77,13 @@ module SEQUENCE_EXECUTOR {
   	  				repeat;
   	  			}
   	  			[] t_timeout.timeout {
+  	  			  	action("  Verdict: FAIL - Action timeout occured!");
   	  				f_TEST_API_Subject_setverdict(fail, "SEQUENCE_EXECUTOR: Step timeout!");
   	  			}
   	  		}
+  	  		disconnect(self:p_task, mission.CreatedTask:p_taskPort);
+	  	  	action("+ ---------------------------------------------------------------------------------------------");
+	  	  	action("");
 	  	}
 	}
 }

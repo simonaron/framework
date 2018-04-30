@@ -1,0 +1,14 @@
+module TEST_EXECUTOR {
+	type component
+	TEST_EXECUTOR_TestExecutor {
+		
+	}
+	
+	function f_TEST_EXECUTOR_TestExecutor()
+	runs on TEST_EXECUTOR_TestExecutor {
+		// create device store
+		// create devices (logical and physical configuration)
+		// create builder TODO superbuilder
+		// create executor
+	}
+}

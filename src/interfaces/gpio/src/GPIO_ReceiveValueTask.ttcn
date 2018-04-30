@@ -26,6 +26,7 @@ module GPIO_ReceiveValueTask {
 		alt {
 			[] p_taskPort.receive(EV_TASK_INIT) {
 			  	connect(self:device, sourceDevice:controller);
+			  	device.send(GPIO_PIN_DIRECTION:IN);
 			  	f_TEST_API_Subject_setverdict(pass, "Task initialised!");
 			  	p_taskPort.send(EV_TASK_INITIALISED);
 			}
@@ -35,6 +36,8 @@ module GPIO_ReceiveValueTask {
 		  	[] p_taskPort.receive(EV_TASK_START) {
 		  	  	
 		  	  	var GPIO_PIN_VALUE receivedValue := f_GPIO_Controller_receiveValue();
+		  	  	
+		  	  	disconnect(self:device, sourceDevice:controller);
 		  	  	if (receivedValue == expectedValue) {
 		  	  		f_TEST_API_Subject_setverdict(pass, "Task: Received expected value!");
 		  	  		p_taskPort.send(EV_TASK_FINISH);

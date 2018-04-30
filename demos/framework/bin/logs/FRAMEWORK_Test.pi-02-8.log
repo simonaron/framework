@@ -1,0 +1,50 @@
+2018/Apr/22 14:46:33.322926 EXECUTOR - TTCN-3 Parallel Test Component started on pi-02. Component reference: 8, component type: GPIO_ReceiveValueTask.CT_GPIO_ReceiveValueTask. Version: CRL 113 200/6 R3A.
+2018/Apr/22 14:46:33.323173 EXECUTOR - TTCN Logger v2.2 options: TimeStampFormat:=DateTime; LogEntityName:=Yes; LogEventTypes:=Yes; SourceInfoFormat:=Single; *.FileMask:=LOG_ALL | MATCHING | DEBUG; *.ConsoleMask:=ACTION | ERROR; LogFileSize:=0; LogFileNumber:=1; DiskFullAction:=Error
+2018/Apr/22 14:46:33.323989 EXECUTOR - Connected to MC.
+2018/Apr/22 14:46:33.324261 PARALLEL - Initializing variables, timers and ports of component type GPIO_ReceiveValueTask.CT_GPIO_ReceiveValueTask inside testcase test.
+2018/Apr/22 14:46:33.324523 PORTEVENT - Port device was started.
+2018/Apr/22 14:46:33.324827 PORTEVENT - Port p_taskPort was started.
+2018/Apr/22 14:46:33.324865 PORTEVENT - Port watcher was started.
+2018/Apr/22 14:46:33.324901 PARALLEL - Component type GPIO_ReceiveValueTask.CT_GPIO_ReceiveValueTask was initialized.
+2018/Apr/22 14:46:33.324987 PARALLEL - Starting function f_GPIO_ReceiveValueTask_Task(4, HIGH (1)).
+2018/Apr/22 14:46:33.326101 PORTEVENT GPIO_ReceiveValueTask.ttcn:26(function:f_GPIO_ReceiveValueTask_Task) Port p_taskPort has established the connection with 7:p_task using transport type UNIX.
+2018/Apr/22 14:46:33.332568 PORTEVENT GPIO_ReceiveValueTask.ttcn:26(function:f_GPIO_ReceiveValueTask_Task) Message enqueued on p_taskPort from 7 @TASK.ET_TASK_ControlIncomingMessage : EV_TASK_INIT (0) id 1
+2018/Apr/22 14:46:33.332765 MATCHING GPIO_ReceiveValueTask.ttcn:27(function:f_GPIO_ReceiveValueTask_Task) Matching on port p_taskPort succeeded: EV_TASK_INIT (0) with EV_TASK_INIT (0) matched
+2018/Apr/22 14:46:33.332854 PORTEVENT GPIO_ReceiveValueTask.ttcn:27(function:f_GPIO_ReceiveValueTask_Task) Receive operation on port p_taskPort succeeded, message from 7: @TASK.ET_TASK_ControlIncomingMessage : EV_TASK_INIT (0) id 1
+2018/Apr/22 14:46:33.332910 PORTEVENT GPIO_ReceiveValueTask.ttcn:27(function:f_GPIO_ReceiveValueTask_Task) Message with id 1 was extracted from the queue of p_taskPort.
+2018/Apr/22 14:46:33.332961 PARALLEL GPIO_ReceiveValueTask.ttcn:28(function:f_GPIO_ReceiveValueTask_Task) Connecting ports 8:device and 4:controller.
+2018/Apr/22 14:46:33.333759 PORTEVENT GPIO_ReceiveValueTask.ttcn:28(function:f_GPIO_ReceiveValueTask_Task) Port device has established the connection with 4:controller using transport type UNIX.
+2018/Apr/22 14:46:33.334289 PARALLEL GPIO_ReceiveValueTask.ttcn:28(function:f_GPIO_ReceiveValueTask_Task) Connect operation on 8:device and 4:controller finished.
+2018/Apr/22 14:46:33.334417 PORTEVENT GPIO_ReceiveValueTask.ttcn:29(function:f_GPIO_ReceiveValueTask_Task) Sent on device to 4 @GPIOPinPort.GPIO_PIN_DIRECTION : IN (0)
+2018/Apr/22 14:46:33.334696 USER TEST_Functions.ttcn:15(function:f_TEST_Subject_setverdict) "Task initialised!"
+2018/Apr/22 14:46:33.334898 VERDICTOP TEST_Functions.ttcn:16(function:f_TEST_Subject_setverdict) setverdict(pass): none -> pass reason: ""Task initialised!"", new component reason: ""Task initialised!""
+2018/Apr/22 14:46:33.335028 PORTEVENT GPIO_ReceiveValueTask.ttcn:31(function:f_GPIO_ReceiveValueTask_Task) Sent on p_taskPort to 7 @TASK.ET_TASK_ControlOutcomingMessage : EV_TASK_INITIALISED (0)
+2018/Apr/22 14:46:33.336441 PORTEVENT GPIO_ReceiveValueTask.ttcn:35(function:f_GPIO_ReceiveValueTask_Task) Message enqueued on p_taskPort from 7 @TASK.ET_TASK_ControlIncomingMessage : EV_TASK_START (1) id 2
+2018/Apr/22 14:46:33.336536 MATCHING GPIO_ReceiveValueTask.ttcn:36(function:f_GPIO_ReceiveValueTask_Task) Matching on port p_taskPort succeeded: EV_TASK_START (1) with EV_TASK_START (1) matched
+2018/Apr/22 14:46:33.336595 PORTEVENT GPIO_ReceiveValueTask.ttcn:36(function:f_GPIO_ReceiveValueTask_Task) Receive operation on port p_taskPort succeeded, message from 7: @TASK.ET_TASK_ControlIncomingMessage : EV_TASK_START (1) id 2
+2018/Apr/22 14:46:33.336649 PORTEVENT GPIO_ReceiveValueTask.ttcn:36(function:f_GPIO_ReceiveValueTask_Task) Message with id 2 was extracted from the queue of p_taskPort.
+2018/Apr/22 14:46:34.653711 PORTEVENT GPIO_Functions.ttcn:49(function:f_GPIO_Controller_receiveValue) Message enqueued on device from 4 @GPIOPinPort.GPIO_PIN_VALUE : HIGH (1) id 1
+2018/Apr/22 14:46:34.653835 MATCHING GPIO_Functions.ttcn:50(function:f_GPIO_Controller_receiveValue) Matching on port device succeeded: HIGH (1) with ? matched
+2018/Apr/22 14:46:34.654201 PORTEVENT GPIO_Functions.ttcn:50(function:f_GPIO_Controller_receiveValue) Receive operation on port device succeeded, message from 4: @GPIOPinPort.GPIO_PIN_VALUE : HIGH (1) id 1
+2018/Apr/22 14:46:34.654269 PORTEVENT GPIO_Functions.ttcn:50(function:f_GPIO_Controller_receiveValue) Message with id 1 was extracted from the queue of device.
+2018/Apr/22 14:46:34.654327 USER TEST_Functions.ttcn:15(function:f_TEST_Subject_setverdict) "Value received!"
+2018/Apr/22 14:46:34.654411 VERDICTOP TEST_Functions.ttcn:16(function:f_TEST_Subject_setverdict) setverdict(pass): pass -> pass reason: ""Value received!"", component reason not changed
+2018/Apr/22 14:46:34.654477 PARALLEL GPIO_ReceiveValueTask.ttcn:40(function:f_GPIO_ReceiveValueTask_Task) Disconnecting ports 8:device and 4:controller.
+2018/Apr/22 14:46:34.655071 PORTEVENT GPIO_ReceiveValueTask.ttcn:40(function:f_GPIO_ReceiveValueTask_Task) Terminating the connection of port device to 4:controller. No more messages can be sent through this connection.
+2018/Apr/22 14:46:34.655485 PORTEVENT GPIO_ReceiveValueTask.ttcn:40(function:f_GPIO_ReceiveValueTask_Task) Message enqueued on device from 4 @GPIOPinPort.GPIO_PIN_VALUE : LOW (0) id 2
+2018/Apr/22 14:46:34.656007 PORTEVENT GPIO_ReceiveValueTask.ttcn:40(function:f_GPIO_ReceiveValueTask_Task) Port device was disconnected from 4:controller.
+2018/Apr/22 14:46:34.656481 PARALLEL GPIO_ReceiveValueTask.ttcn:40(function:f_GPIO_ReceiveValueTask_Task) Disconnect operation on 8:device and 4:controller finished.
+2018/Apr/22 14:46:34.656569 USER TEST_Functions.ttcn:15(function:f_TEST_Subject_setverdict) "Task: Received expected value!"
+2018/Apr/22 14:46:34.656651 VERDICTOP TEST_Functions.ttcn:16(function:f_TEST_Subject_setverdict) setverdict(pass): pass -> pass reason: ""Task: Received expected value!"", component reason not changed
+2018/Apr/22 14:46:34.656721 PORTEVENT GPIO_ReceiveValueTask.ttcn:43(function:f_GPIO_ReceiveValueTask_Task) Sent on p_taskPort to 7 @TASK.ET_TASK_ControlOutcomingMessage : EV_TASK_FINISH (1)
+2018/Apr/22 14:46:34.656797 PARALLEL - Function f_GPIO_ReceiveValueTask_Task finished. PTC terminates.
+2018/Apr/22 14:46:34.656843 PARALLEL - Terminating component type GPIO_ReceiveValueTask.CT_GPIO_ReceiveValueTask.
+2018/Apr/22 14:46:34.656886 PORTEVENT - Message with id 2 was extracted from the queue of device.
+2018/Apr/22 14:46:34.656968 PORTEVENT - Port device was stopped.
+2018/Apr/22 14:46:34.657198 PORTEVENT - Removing unterminated connection between port p_taskPort and 7:p_task.
+2018/Apr/22 14:46:34.657333 PORTEVENT - Port p_taskPort was stopped.
+2018/Apr/22 14:46:34.657379 PORTEVENT - Port watcher was stopped.
+2018/Apr/22 14:46:34.657416 PARALLEL - Component type GPIO_ReceiveValueTask.CT_GPIO_ReceiveValueTask was shut down inside testcase test.
+2018/Apr/22 14:46:34.657505 VERDICTOP - Final verdict of PTC: pass reason: ""Task initialised!""
+2018/Apr/22 14:46:34.660117 EXECUTOR - Disconnected from MC.
+2018/Apr/22 14:46:34.660185 EXECUTOR - TTCN-3 Parallel Test Component finished.

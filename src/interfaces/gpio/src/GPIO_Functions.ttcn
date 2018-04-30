@@ -14,6 +14,9 @@ module GPIO_Functions {
 	return GPIO_PIN_VALUE {
 	  	var GPIO_PIN_VALUE receivedValue;
 	  	alt {
+	  	  	[] controller.receive(GPIO_PIN_DIRECTION:?) {
+	  	  	  repeat;
+	  	  	} 
 	  	  	[] controller.receive(GPIO_PIN_VALUE:?) -> value receivedValue {
 	  	 		f_TEST_API_Subject_setverdict(pass, "Value received!");
 	  	 		return receivedValue;

@@ -24,6 +24,7 @@ module GPIO_SendValueTask {
 		alt {
 			[] p_taskPort.receive(EV_TASK_INIT) {
 			  	connect(self:device, targetDevice:controller);
+			  	device.send(GPIO_PIN_DIRECTION:OUT);
 			  	f_TEST_API_Subject_setverdict(pass, "Task initialised!");
 			  	p_taskPort.send(EV_TASK_INITIALISED);
 			}

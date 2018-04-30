@@ -1,0 +1,13 @@
+## README
+
+# BUILD
+sudo docker build . --build-arg ARCH=`arch` -t project_`arch`
+
+# RUN
+sudo docker run project_`arch`
+
+# TODO
+- Makefile from .tpd
+- build time make (because we may want to run many HC (Host Controller service))
+- external CMD (may you don't want to run test when container starting)
+- generate COMPOSING-FILE from a .cfg file (because we want to config only one place)

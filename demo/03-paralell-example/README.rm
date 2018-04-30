@@ -1,7 +1,0 @@
-## README
-Run Titan with 2 HCs over docker
-
-# BUILD and RUN
-sudo docker-compose up
-
-It builds and starts services in the local node.

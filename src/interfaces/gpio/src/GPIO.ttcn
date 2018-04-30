@@ -2,4 +2,5 @@ module GPIO {
 	public import from GPIO_TaskBuilder all;
 	public import from GPIO_Functions all;
 	public import from GPIO_Definitions all;	
+	public import from GPIOPinPort all;
 }
