@@ -89,6 +89,7 @@ module SEQUENCE_EXECUTOR {
   	  			[] p_task.receive(EV_TASK_STOPPED) {
   	  			}
   	  			[] p_task.receive(EV_TASK_ERROR) {
+  	  			   action("ERROR")
   	  			}
   	  			[] p_task.check(receive(ET_TASK_ControlOutcomingMessage:?)) {
   	  		  	}

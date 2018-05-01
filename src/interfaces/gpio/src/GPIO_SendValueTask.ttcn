@@ -7,7 +7,9 @@ module GPIO_SendValueTask {
 	import from INTERFACE_STORE all;
 	
 	type component
-	CT_GPIO_SendValueTask extends CT_GPIO_Controller, CT_TASK_Task { }
+	CT_GPIO_SendValueTask extends CT_GPIO_Controller, CT_TASK_Task { 
+		var boolean stopped := false;
+	}
 	
 	template RT_TASK_BUILDER_TaskBuilderMission
 	t_GPIO_ReceiveValueTask_Acceped := {
@@ -19,8 +21,21 @@ module GPIO_SendValueTask {
 	template RT_TASK_BUILDER_TaskBuilderMission
 	t_GPIO_SendValueTask_ParameterError := {TaskName := "send", Parameters := ?, CreatedTask := omit};
 	
+	altstep as_GPIO_SendValueTask_Stop (CT_GPIO_Device targetDevice)
+	runs on CT_GPIO_SendValueTask {
+	  [] p_taskPort.receive(EV_TASK_STOP) {
+		  	  	server.send({Type:=DISCONNECT, Client:=self});
+			  	server.receive({Type:=FINISH, Server:=targetDevice}) from targetDevice;
+			  	disconnect(self:server, targetDevice:client);
+			  	
+			  	stopped := true;
+			  	p_taskPort.send(EV_TASK_STOPPED);
+	  }
+	}
+	
 	function f_GPIO_SendValueTask_Task (CT_GPIO_Device targetDevice, GPIO_PIN_VALUE sendValue)
 	runs on CT_GPIO_SendValueTask {
+	    activate(as_GPIO_SendValueTask_Stop(targetDevice));
 		alt {
 			[] p_taskPort.receive(EV_TASK_INIT) {
 			  	
@@ -38,12 +53,10 @@ module GPIO_SendValueTask {
 		  	[] p_taskPort.receive(EV_TASK_START) {
 		  	  	
 		  	  	f_GPIO_Controller_sendValue(sendValue);
-		  	  	
-		  	  	server.send({Type:=DISCONNECT, Client:=self});
-			  	server.receive({Type:=FINISH, Server:=targetDevice}) from targetDevice;
 			  	
 		  	  	f_TEST_API_Subject_setverdict(pass, "Task: Value sended!");
 		  	  	p_taskPort.send(EV_TASK_FINISH);
+    		  	timer t; t.start(3.0); t.timeout;
 		  	}
 		}
 	}
