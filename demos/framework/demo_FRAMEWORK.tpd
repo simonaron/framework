@@ -9,16 +9,13 @@
 -->
   <ProjectName>demo_FRAMEWORK</ProjectName>
   <ReferencedProjects>
-    <ReferencedProject name="module_TEST_EXECUTOR" projectLocationURI="../../src/modules/test_executor/module_TEST_EXECUTOR.tpd"/>
+    <ReferencedProject name="module_TEST_EXECUTOR" projectLocationURI="../../src/modules/test_executor/module_TEST_EXECUTOR.tpd" tpdName="module_TEST_EXECUTOR.tpd"/>
   </ReferencedProjects>
   <Folders>
-    <FolderResource projectRelativePath="src" relativeURI="src"/>
+    <FolderResource projectRelativePath="demo" relativeURI="../../../../eclipse-workspace/demo_FRAMEWORK/demo"/>
+    <FolderResource projectRelativePath="src" relativeURI="../../../../eclipse-workspace/demo_FRAMEWORK/src"/>
     <FolderResource projectRelativePath="test" relativeURI="test"/>
   </Folders>
-  <Files>
-    <FileResource projectRelativePath="test/FRAMEWORK_Test.cfg" relativeURI="test/FRAMEWORK_Test.cfg"/>
-    <FileResource projectRelativePath="test/FRAMEWORK_Test.ttcn" relativeURI="test/FRAMEWORK_Test.ttcn"/>
-  </Files>
   <ActiveConfiguration>Default</ActiveConfiguration>
   <Configurations>
     <Configuration name="Default">

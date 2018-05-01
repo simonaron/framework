@@ -9,21 +9,19 @@
 -->
   <ProjectName>module_SEQUENCE_EXECUTOR</ProjectName>
   <ReferencedProjects>
-    <ReferencedProject name="interface_GPIO" projectLocationURI="../../interfaces/gpio/interface_GPIO.tpd"/>
-    <ReferencedProject name="lib_TASK" projectLocationURI="../../libs/task/lib_TASK.tpd"/>
-    <ReferencedProject name="module_INTERFACE_STORE" projectLocationURI="../interface_store/module_INTERFACE_STORE.tpd"/>
-    <ReferencedProject name="module_LANGUAGE" projectLocationURI="../language/module_LANGUAGE.tpd"/>
-    <ReferencedProject name="module_TASK_BUILDER" projectLocationURI="../task_builder/module_TASK_BUILDER.tpd"/>
+    <ReferencedProject name="interface_GPIO" projectLocationURI="../../interfaces/gpio/interface_GPIO.tpd" tpdName="interface_GPIO.tpd"/>
+    <ReferencedProject name="lib_TASK" projectLocationURI="../../libs/task/lib_TASK.tpd" tpdName="lib_TASK.tpd"/>
+    <ReferencedProject name="module_INTERFACE_STORE" projectLocationURI="../interface_store/module_INTERFACE_STORE.tpd" tpdName="module_INTERFACE_STORE.tpd"/>
+    <ReferencedProject name="module_LANGUAGE" projectLocationURI="../language/module_LANGUAGE.tpd" tpdName="module_LANGUAGE.tpd"/>
+    <ReferencedProject name="module_TASK_BUILDER" projectLocationURI="../task_builder/module_TASK_BUILDER.tpd" tpdName="module_TASK_BUILDER.tpd"/>
   </ReferencedProjects>
   <Folders>
-    <FolderResource projectRelativePath="src" relativeURI="src"/>
+    <FolderResource projectRelativePath="src" relativeURI="../../../../../eclipse-workspace/module_SEQUENCE_EXECUTOR/src"/>
     <FolderResource projectRelativePath="test" relativeURI="test"/>
   </Folders>
   <Files>
     <FileResource projectRelativePath="module_SEQUENCE_EXECUTOR.tpd" relativeURI="module_SEQUENCE_EXECUTOR.tpd"/>
     <FileResource projectRelativePath="src/SEQUENCE_EXECUTOR.ttcn" relativeURI="src/SEQUENCE_EXECUTOR.ttcn"/>
-    <FileResource projectRelativePath="test/SEQUENCE_EXECUTOR_Test.cfg" relativeURI="test/SEQUENCE_EXECUTOR_Test.cfg"/>
-    <FileResource projectRelativePath="test/SEQUENCE_EXECUTOR_Test.ttcn" relativeURI="test/SEQUENCE_EXECUTOR_Test.ttcn"/>
   </Files>
   <ActiveConfiguration>Default</ActiveConfiguration>
   <Configurations>

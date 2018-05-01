@@ -54,7 +54,6 @@ module SEQUENCE_EXECUTOR {
 	  	  	
 	  	  	// TODO delay, timeout
 	  	  	timer t_delay, t_timeout;
-	  	  	t_delay.start(v_delay);
 	  	  	t_timeout.start(v_timeout);
 	  	  	
 	  	  	// create task
@@ -64,12 +63,17 @@ module SEQUENCE_EXECUTOR {
 	  	  	
 	  	  	// init task
 	  	  	p_task.send(EV_TASK_INIT);
-  	  		p_task.receive(EV_TASK_INITIALISED);
   	  		// start task when delay ended
   	  		alt {
+  	  		    [] p_task.receive(EV_TASK_INITIALISED) {
+  	  		      t_delay.start(v_delay);
+  	  		      repeat;
+  	  		    }
   	  			[] p_task.receive(EV_TASK_FINISH) {
   	  			  	action("  Verdict: PASS");
+  	  			  	p_task.send(EV_TASK_STOP);
   	  				f_TEST_API_Subject_setverdict(pass, "SEQUENCE_EXECUTOR: Step successfully finished!");
+  	  				repeat;
   	  			}
   	  			[] t_delay.timeout {
   	  			  	f_TEST_API_Subject_setverdict(pass, "SEQUENCE_EXECUTOR: Delay timeout!");
@@ -78,8 +82,16 @@ module SEQUENCE_EXECUTOR {
   	  			}
   	  			[] t_timeout.timeout {
   	  			  	action("  Verdict: FAIL - Action timeout occured!");
+  	  			  	p_task.send(EV_TASK_STOP);
   	  				f_TEST_API_Subject_setverdict(fail, "SEQUENCE_EXECUTOR: Step timeout!");
+  	  				repeat;
   	  			}
+  	  			[] p_task.receive(EV_TASK_STOPPED) {
+  	  			}
+  	  			[] p_task.receive(EV_TASK_ERROR) {
+  	  			}
+  	  			[] p_task.check(receive(ET_TASK_ControlOutcomingMessage:?)) {
+  	  		  	}
   	  		}
   	  		disconnect(self:p_task, mission.CreatedTask:p_taskPort);
 	  	  	action("+ ---------------------------------------------------------------------------------------------");

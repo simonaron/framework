@@ -9,7 +9,9 @@ module GPIO_ReceiveValueTask {
 	import from INTERFACE_STORE all;
 	
 	type component
-	CT_GPIO_ReceiveValueTask extends CT_GPIO_Controller, CT_TASK_Task { }
+	CT_GPIO_ReceiveValueTask extends CT_GPIO_Controller, CT_TASK_Task { 
+		var boolean stopped := false;
+	}
 	
 	template RT_TASK_BUILDER_TaskBuilderMission
 	t_GPIO_ReceiveValueTask_Acceped := {
@@ -21,11 +23,28 @@ module GPIO_ReceiveValueTask {
 	template RT_TASK_BUILDER_TaskBuilderMission
 	t_GPIO_ReceiveValueTask_ParameterError := {TaskName := "receive", Parameters := ?, CreatedTask := omit};
 	
+	altstep as_GPIO_ReceiveValueTask_Stop (CT_GPIO_Device sourceDevice)
+	runs on CT_GPIO_ReceiveValueTask {
+	  [] p_taskPort.receive(EV_TASK_STOP) {
+		  	  	server.send({Type:=DISCONNECT, Client:=self});
+			  	server.receive({Type:=FINISH, Server:=sourceDevice}) from sourceDevice;
+			  	disconnect(self:server, sourceDevice:client);
+			  	
+			  	stopped := true;
+			  	p_taskPort.send(EV_TASK_STOPPED);
+	  }
+	}
+	
 	function f_GPIO_ReceiveValueTask_Task (CT_GPIO_Device sourceDevice, GPIO_PIN_VALUE expectedValue)
 	runs on CT_GPIO_ReceiveValueTask {
+	  	activate(as_GPIO_ReceiveValueTask_Stop(sourceDevice));
 		alt {
 			[] p_taskPort.receive(EV_TASK_INIT) {
-			  	connect(self:device, sourceDevice:controller);
+			  	// connect controller to device
+			  	connect(self:server, sourceDevice:client);
+			  	server.send({Type:=CONNECT, Client:=self});
+			  	server.receive({Type:=FINISH, Server:=sourceDevice}) from sourceDevice;
+			  	
 			  	device.send(GPIO_PIN_DIRECTION:IN);
 			  	f_TEST_API_Subject_setverdict(pass, "Task initialised!");
 			  	p_taskPort.send(EV_TASK_INITIALISED);
@@ -34,17 +53,19 @@ module GPIO_ReceiveValueTask {
 		
 		alt {
 		  	[] p_taskPort.receive(EV_TASK_START) {
-		  	  	
+		  	  	// TODO get current status?
 		  	  	var GPIO_PIN_VALUE receivedValue := f_GPIO_Controller_receiveValue();
-		  	  	
-		  	  	disconnect(self:device, sourceDevice:controller);
-		  	  	if (receivedValue == expectedValue) {
-		  	  		f_TEST_API_Subject_setverdict(pass, "Task: Received expected value!");
-		  	  		p_taskPort.send(EV_TASK_FINISH);
-		  	  	} else {
-		  	  		f_TEST_API_Subject_setverdict(fail, "Task: Unexpected received value!");
-		  	  		p_taskPort.send(EV_TASK_ERROR);
-		  	  	}
+			  	
+			  	if (not stopped) {
+    		  	  	if (receivedValue == expectedValue) {
+    		  	  		f_TEST_API_Subject_setverdict(pass, "Task: Received expected value!");
+    		  	  		p_taskPort.send(EV_TASK_FINISH);
+    		  	  		timer t; t.start(3.0); t.timeout;
+    		  	  	} else {
+    		  	  		f_TEST_API_Subject_setverdict(fail, "Task: Unexpected received value!");
+    		  	  		p_taskPort.send(EV_TASK_ERROR);
+    		  	  	}
+			  	}
 		  	}
 		}
 	}

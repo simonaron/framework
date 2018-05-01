@@ -18,16 +18,51 @@ module GPIO_Definitions {
 	  	out GPIO_PIN_DIRECTION, GPIO_PIN_VALUE, GPIO_PIN_STATUS;
 	} with { extension "internal" }
 	
+	// for connection
+	type enumerated ET_GPIO_RequestType {
+	 	CONNECT,
+	 	DISCONNECT 
+	}
+	
+	type enumerated ET_GPIO_ResponseType {
+	 	FINISH,
+	 	ERROR 
+	}
+	
+	type record RT_GPIO_ConnectionRequest {
+		ET_GPIO_RequestType Type,
+		CT_GPIO_Controller Client
+	}
+	
+	type record RT_GPIO_ConnectionResponse {
+		ET_GPIO_ResponseType Type,
+		CT_GPIO_Device Server
+	}
+	
+	type port
+	PT_GPIO_Client message {
+		in RT_GPIO_ConnectionResponse;
+		out RT_GPIO_ConnectionRequest;
+	} with { extension "internal" }
+	
+	type port
+	PT_GPIO_Server message {
+		out RT_GPIO_ConnectionResponse;
+		in  RT_GPIO_ConnectionRequest;
+	} with { extension "internal" }
+	
 	
 	// COMPONENTS
 	type component
 	CT_GPIO_Device extends CT_TEST_API_Subject
 	{
 		port PT_GPIO_Device controller;
+		port PT_GPIO_Server client;
 	}
 	type component
 	CT_GPIO_Controller extends CT_TEST_API_Subject
 	{
 		port PT_GPIO_Controller device;
+		port PT_GPIO_Client server;
 	}
 }

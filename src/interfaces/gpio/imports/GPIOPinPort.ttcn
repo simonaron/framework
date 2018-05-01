@@ -27,7 +27,6 @@
 //
 
 module GPIOPinPort {
-	
 	type enumerated GPIO_PIN_DIRECTION {
 	  IN,	//"in"
 	  OUT	//"out"

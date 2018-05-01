@@ -23,7 +23,11 @@ module GPIO_SendValueTask {
 	runs on CT_GPIO_SendValueTask {
 		alt {
 			[] p_taskPort.receive(EV_TASK_INIT) {
-			  	connect(self:device, targetDevice:controller);
+			  	
+			  	connect(self:server, targetDevice:client);
+				server.send({Type:=CONNECT, Client:=self});
+			  	server.receive({Type:=FINISH, Server:=targetDevice}) from targetDevice;
+
 			  	device.send(GPIO_PIN_DIRECTION:OUT);
 			  	f_TEST_API_Subject_setverdict(pass, "Task initialised!");
 			  	p_taskPort.send(EV_TASK_INITIALISED);
@@ -34,6 +38,10 @@ module GPIO_SendValueTask {
 		  	[] p_taskPort.receive(EV_TASK_START) {
 		  	  	
 		  	  	f_GPIO_Controller_sendValue(sendValue);
+		  	  	
+		  	  	server.send({Type:=DISCONNECT, Client:=self});
+			  	server.receive({Type:=FINISH, Server:=targetDevice}) from targetDevice;
+			  	
 		  	  	f_TEST_API_Subject_setverdict(pass, "Task: Value sended!");
 		  	  	p_taskPort.send(EV_TASK_FINISH);
 		  	}

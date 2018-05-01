@@ -3,7 +3,8 @@ module TASK { // TODO it's a module
 	ET_TASK_ControlOutcomingMessage {
 		EV_TASK_INITIALISED,
 		EV_TASK_FINISH,
-		EV_TASK_ERROR
+		EV_TASK_ERROR,
+		EV_TASK_STOPPED
 	}
 	
 	type enumerated

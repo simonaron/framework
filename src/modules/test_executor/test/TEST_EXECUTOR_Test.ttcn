@@ -1,5 +1,119 @@
 module TEST_EXECUTOR_Test {
-	control {
+	import from TASK all;
+	import from GPIO all;
+	import from GPIO {import all};
+	import from INTERFACE_STORE all;
+	import from SEQUENCE_EXECUTOR all;
+	
+	type component CT_GPIO_Proxy extends CT_GPIO_Device, GPIO_Base, CT_TASK_Task {
+	}
+	
+	function f_GPIO_InProxy(integer index)
+	runs on CT_GPIO_Proxy {
+	  map(self:gpio[index], system:gpio[index]);
+	  timer t; t.start(0.1); t.timeout;
+	  gpio[index].send(GPIO_PIN_DIRECTION:IN);
+	  t.start(0.1); t.timeout;
 	  
+	  // connected controller
+	  var CT_GPIO_Controller v_controller := null;
+	  var RT_GPIO_ConnectionRequest v_connectionRequest;
+	  
+	  var GPIO_PIN_VALUE v_value; 
+	  alt {
+	    [] client.receive(RT_GPIO_ConnectionRequest:{Type := CONNECT, Client:=?}) -> value v_connectionRequest {
+	    	// TODO error if already has connection
+	    	if(v_controller != null) {
+	    	}
+	    	v_controller := v_connectionRequest.Client;
+	    	connect(self:controller, v_controller:device);
+	    	client.send({Type:=FINISH, Server:=self});
+	    	repeat;
+	    }
+	    [] client.receive(RT_GPIO_ConnectionRequest:{Type := DISCONNECT, Client:=?}) -> value v_connectionRequest {
+	    	disconnect(self:controller, v_controller:device);
+	    	v_controller := null;
+	    	client.send({Type:=FINISH, Server:=self});
+	    	repeat;
+	    }
+	  	[] gpio[index].receive(GPIO_PIN_VALUE:?) -> value v_value {
+	  	  	if(v_controller != null) {
+	  			controller.send(v_value);
+	  	  	}
+	  		repeat;
+	  	}
+	  	[] p_taskPort.receive(EV_TASK_STOP) {
+      	}
+	  }
+	}
+	
+	type component MTC extends CT_INTERFACE_STORE_InterfaceStoreClient { //extends GPIO_Base {
+		port PT_TASK_TaskExecutorPort p_task;
+	}
+	
+	testcase test() runs on MTC system MTC {
+	  
+	  var CT_GPIO_Proxy device1 := CT_GPIO_Proxy.create alive;
+	  var CT_GPIO_Proxy device2 := CT_GPIO_Proxy.create alive;
+	  
+  	  var CT_GPIO_TaskBuilder builder := CT_GPIO_TaskBuilder.create alive;
+  	  var CT_INTERFACE_STORE_InterfaceStore store := CT_INTERFACE_STORE_InterfaceStore.create alive;
+  	  var CT_SEQUENCE_EXECUTOR_SequenceExecutor executor := CT_SEQUENCE_EXECUTOR_SequenceExecutor.create alive;
+  	  
+  	  // init store
+  	  store.start(f_INTERFACE_STORE_InterfaceStore());
+  	  
+  	  // upload interface
+  	  connect(self:p_interfaceStore, store:p_interfaceStoreClient);
+  	  //p_interfaceStore.send({Name:= "ENABLE", Device:={ UV_GPIO := device1 }, Controller:=omit});
+  	  p_interfaceStore.send({Name:= "IN", Device:={ UV_GPIO := device2 }, Controller:=omit});
+  	  
+  	  
+  	  builder.start(f_GPIO_TaskBuilder(store));
+  	 
+  	 
+	 // device1.start(f_GPIO_OutProxy(4));
+	  device2.start(f_GPIO_InProxy(5));
+	  //connect(device1:p_taskPort, self:p_task);
+	  connect(device2:p_taskPort, self:p_task);
+	  //p_task.send(EV_TASK_INIT) to device1;
+	  //p_task.send(EV_TASK_INIT) to device2;
+	  //p_task.receive(EV_TASK_INITIALISED);
+	  //p_task.receive(EV_TASK_INITIALISED);
+	  
+	  //p_task.send(EV_TASK_START) to device1;
+	  //p_task.send(EV_TASK_START) to device2;
+	  
+	  timer t; t.start(3.0); t.timeout;
+  	 executor.start(f_SEQUENCE_EXECUTOR_SequenceExecutor(
+  	 	builder,
+  	 	{
+  	 	  	{InterfaceAction := {"IN", "receive", {"HIGH"}, 0.0, 10.0}},
+  	 	  	{InterfaceAction := {"IN", "receive", {"LOW"}, 0.0, 10.0}},
+  	 	  	{InterfaceAction := {"IN", "receive", {"HIGH"}, 0.0, 10.0}},
+  	 	  	{InterfaceAction := {"IN", "receive", {"LOW"}, 0.0, 10.0}}
+  	 		//{InterfaceAction := {"ENABLE", "send", {"LOW"}, 0.0, omit}},
+  	 		//{InterfaceAction := {"ENABLE", "send", {"HIGH"}, 2.0, omit}},
+  	 		//{InterfaceAction := {"ENABLE", "send", {"LOW"}, 2.0, omit}},
+  	 		//{InterfaceAction := {"ENABLE", "send", {"HIGH"}, 2.0, omit}},
+  	 		//{InterfaceAction := {"ENABLE", "send", {"LOW"}, 2.0, omit}},
+  	 		//{InterfaceAction := {"ENABLE", "send", {"HIGH"}, 2.0, omit}}
+  	 		
+  	 		//{InterfaceAction := {"IN", "receive", {"HIGH"}, 0.0, omit}},
+  	 		
+  	 		//{InterfaceAction := {"GPIO OUT", "send", {"LOW"}, 0.1, omit}},
+  	 		
+  	 		//{InterfaceAction := {"IN", "receive", {"LOW"}, 0.0, omit}}
+  	 		
+  	 	}
+  	 )); 
+  	 
+  	 executor.done;
+  	  //p_task.send(EV_TASK_STOP) to device1;
+	  p_task.send(EV_TASK_STOP) to device2;
+  	 
+	}
+	control {
+	  execute(test())
 	}
 }
